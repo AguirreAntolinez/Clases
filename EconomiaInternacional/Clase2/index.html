@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 2: Modelos de Intercambio Clásicos</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('class-1-html-assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('class-1-html-assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(42px,6vw,92px); line-height:.94; max-width:850px; }
+    h2 { font-size:clamp(31px,4.2vw,66px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:15vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(21px,2vw,34px); margin:30px 0 60px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(16px,1.4vw,23px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1150px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(22px,4vh,48px); max-width:900px; }
+    .subtitle { font-size:clamp(17px,1.55vw,24px); color:#527092; margin-top:13px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .card { background:rgba(255,255,255,.7); padding:clamp(20px,2.5vw,40px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; cursor:pointer; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(22px,2.2vw,34px); }
+    .card p { color:#496a89; font-size:clamp(15px,1.3vw,21px); margin-top:8px; }
+    .card .highlight { color:#00a9bc; font-weight:700; }
+    .fpp-container { position:relative; width:100%; aspect-ratio:1.2; max-height:60vh; }
+    .fpp-container svg { width:100%; height:100%; overflow:visible; }
+    .fpp-container text { font-family:Aptos,Arial,sans-serif; fill:var(--ink); font-size:16px; }
+    .fpp-axis { stroke:#284a70; stroke-width:2; }
+    .fpp-curve { fill:none; stroke:var(--cyan); stroke-width:5; }
+    .fpp-point { fill:var(--blue); stroke:#fff; stroke-width:2; cursor:pointer; transition:r .2s; }
+    .fpp-point:hover,.fpp-point:focus { r:9; }
+    .fpp-label { font-weight:600; }
+    .fpp-slope { stroke:#e0724c; stroke-width:3; stroke-dasharray:6 6; }
+    .info-box { background:rgba(255,255,255,.75); padding:clamp(18px,2.5vw,36px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(20px,2.2vw,34px); margin-bottom:8px; }
+    .info-box p { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.4; }
+    .interactive-row { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:20px; }
+    .pill-btn { background:rgba(255,255,255,.8); border:2px solid var(--cyan); border-radius:40px; padding:12px 28px; font-weight:700; color:var(--blue); font-size:clamp(16px,1.3vw,22px); cursor:pointer; transition:all .2s; }
+    .pill-btn:hover,.pill-btn:focus-visible { background:var(--cyan); color:#fff; outline:none; }
+    .pill-btn.active { background:var(--cyan); color:#fff; }
+    .message-area { margin-top:24px; padding:16px 20px; background:rgba(255,255,255,.8); border-radius:8px; min-height:60px; font-size:clamp(17px,1.4vw,23px); color:var(--ink); border-left:5px solid var(--blue); transition:all .3s; }
+    .comparative-table { width:100%; border-collapse:collapse; font-size:clamp(16px,1.3vw,21px); background:rgba(255,255,255,.7); border-radius:12px; overflow:hidden; }
+    .comparative-table th { background:var(--blue); color:#fff; padding:14px 12px; text-align:center; font-weight:700; }
+    .comparative-table td { padding:14px 12px; text-align:center; border-bottom:1px solid #dde4ec; }
+    .comparative-table tr:last-child td { border-bottom:0; }
+    .comparative-table .highlight-cell { background:rgba(21,205,218,.2); font-weight:700; color:var(--blue); }
+    .choice-balance { position:relative; min-height:300px; width:min(100%,500px); margin:0 auto; color:var(--blue); }
+    .choice-title { text-align:center; color:#315d84; font:700 clamp(18px,1.8vw,28px) 'Aptos Display',Aptos,sans-serif; }
+    .balance-holder { position:relative; height:260px; }
+    .balance-beam-2 { position:absolute; z-index:2; top:130px; left:8%; width:84%; height:9px; background:var(--blue); transform-origin:50% 50%; transition:transform .65s cubic-bezier(.2,.8,.2,1); }
+    .balance-beam-2::before,.balance-beam-2::after { content:''; position:absolute; top:-9px; width:9px; height:27px; background:var(--blue); }
+    .balance-beam-2::before { left:0; }
+    .balance-beam-2::after { right:0; }
+    .balance-pivot-2 { position:absolute; z-index:1; top:138px; left:50%; width:0; height:0; border-left:38px solid transparent; border-right:38px solid transparent; border-bottom:0; border-top:72px solid var(--blue); transform:translateX(-50%); }
+    .balance-base-2 { position:absolute; top:210px; left:calc(50% - 92px); width:184px; height:10px; background:var(--blue); }
+    .scale-option-2 { position:absolute; top:0; z-index:3; width:34%; border:0; background:transparent; color:var(--blue); cursor:pointer; text-align:center; transition:transform .65s cubic-bezier(.2,.8,.2,1), color .2s; }
+    .scale-option-2:hover,.scale-option-2:focus-visible { color:#008fa1; outline:none; }
+    .scale-option-2 img { width:clamp(70px,8vw,110px); height:clamp(70px,8vw,110px); object-fit:contain; filter:invert(20%) sepia(72%) saturate(1183%) hue-rotate(198deg) brightness(72%); }
+    .scale-option-2 span { display:block; margin-top:6px; font:700 clamp(18px,1.7vw,27px) 'Aptos Display',Aptos,sans-serif; }
+    .left-opt { left:0; }
+    .right-opt { right:0; }
+    .balance-selected-left .balance-beam-2 { transform:rotate(-8deg); }
+    .balance-selected-left .left-opt { transform:translateY(38px); }
+    .balance-selected-left .right-opt { transform:translateY(-38px); }
+    .balance-selected-right .balance-beam-2 { transform:rotate(8deg); }
+    .balance-selected-right .right-opt { transform:translateY(38px); }
+    .balance-selected-right .left-opt { transform:translateY(-38px); }
+    .balance-caption-2 { position:absolute; bottom:0; left:0; right:0; text-align:center; color:#285783; font-size:clamp(15px,1.3vw,20px); line-height:1.3; }
+    .balance-caption-2 strong { display:block; color:#00a9bc; font-family:'Aptos Display',Aptos,sans-serif; margin-bottom:4px; }
+    .end-slide { align-items:center; }
+    .end-slide .content { justify-content:center; padding-top:7vh; }
+    .end-title { font-size:clamp(45px,7vw,100px); color:var(--blue); max-width:890px; }
+    .end-title span { color:#00a9bc; }
+    .end-copy { max-width:900px; font-size:clamp(23px,2.4vw,39px); line-height:1.2; color:#345c82; margin-top:clamp(28px,5vh,70px); }
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls, body[data-slide="4"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:20%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+    @media (max-width:720px) { body { overflow:auto; } .deck { min-height:700px; } .slide { padding:42px 20px 78px; } .two-col { grid-template-columns:1fr; gap:30px; } .card-grid { grid-template-columns:1fr; } .comparative-table { font-size:14px; } .comparative-table th, .comparative-table td { padding:10px 6px; } .fpp-container { max-height:40vh; } .overview-list { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 2: Modelos de Intercambio Clásicos">
+    <!-- Diapositiva 1: Portada -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 2:</span><span class="accent">Modelos de</span><span>Intercambio Clásicos</span></h1>
+        <p class="course">Economía Internacional</p>
+        <p class="professor">Profesor Mg. William Alexander Aguirre Antolínez</p>
+      </div>
+    </section>
+
+    <!-- Diapositiva 2: Modelo de David Ricardo / Ventaja Comparativa -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Modelo de David Ricardo</h2>
+          <p class="subtitle">Ventaja comparativa</p>
+        </div>
+        <div class="two-col">
+          <div>
+            <table class="comparative-table" aria-label="Capacidades de producción">
+              <thead><tr><th>País</th><th>PCs</th><th>Ramos de flores</th></tr></thead>
+              <tbody>
+                <tr><td>🇺🇸 EEUU</td><td>120</td><td>150</td></tr>
+                <tr><td>🇨🇴 Colombia</td><td>20</td><td>120</td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:16px; font-size:clamp(17px,1.4vw,23px); color:#285783; text-align:center;"><strong>¿Cuál es mejor?</strong></p>
+            <div class="interactive-row">
+              <button class="pill-btn" data-compare="usa">EEUU</button>
+              <button class="pill-btn" data-compare="col">Colombia</button>
+              <button class="pill-btn" data-compare="both">Ambos países</button>
+            </div>
+            <div class="message-area" id="comparative-message">Haz clic en un botón para ver la ventaja comparativa.</div>
+          </div>
+          <div class="info-box">
+            <h3>Ventaja Comparativa</h3>
+            <p>Cada país debe especializarse en el bien donde tiene el <strong>menor costo de oportunidad</strong>. Esto genera ganancias del comercio.</p>
+            <p style="margin-top:12px; font-size:clamp(15px,1.2vw,19px); color:#496a89;">💡 <strong>Pista:</strong> Calcula el costo de oportunidad de producir PCs en términos de flores, y viceversa.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diapositiva 3: Frontera de Posibilidades de Producción -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Frontera de Posibilidades de Producción</h2>
+          <p class="subtitle">Cantidad máxima de bienes que una economía puede producir</p>
+        </div>
+        <div class="two-col">
+          <div class="fpp-container">
+            <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
+              <!-- ejes -->
+              <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
+              <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
+              <text x="430" y="375" font-size="14">PCs</text>
+              <text x="20" y="45" font-size="14">Flores</text>
+              <!-- Curva FPP (cóncava) -->
+              <path class="fpp-curve" d="M60 340 Q 130 280, 200 220 Q 280 140, 380 80 Q 430 50, 460 40" />
+              <!-- Puntos A y B -->
+              <circle class="fpp-point" cx="200" cy="220" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
+              <text x="190" y="210" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
+              <circle class="fpp-point" cx="340" cy="110" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
+              <text x="330" y="100" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
+              <!-- indicador de pendiente -->
+              <line class="fpp-slope" x1="200" y1="220" x2="340" y2="110" />
+              <text x="260" y="175" fill="#e0724c" font-size="14" font-weight="600">Pendiente = Costo de oportunidad</text>
+              <!-- etiquetas -->
+              <text x="70" y="355" font-size="13" fill="#527092">Todos los recursos produciendo B</text>
+              <text x="360" y="395" font-size="13" fill="#527092">Todos los recursos produciendo A</text>
+            </svg>
+          </div>
+          <div>
+            <div class="info-box">
+              <h3>Costo de Oportunidad</h3>
+              <p id="fpp-message">Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.</p>
+              <div style="margin-top:16px;">
+                <button class="pill-btn" id="fpp-reset" style="font-size:clamp(14px,1.1vw,18px);">Reiniciar</button>
+              </div>
+            </div>
+            <p style="margin-top:18px; color:#496a89; font-size:clamp(15px,1.2vw,19px);">
+              <strong>Forma funcional:</strong> La pendiente de la FPP representa el costo de oportunidad de producir una unidad más del bien en el eje x (PCs) en términos del bien en el eje y (flores).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diapositiva 4: Precios Relativos y Otro Enfoque -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Precios Relativos y Otro Enfoque</h2>
+          <p class="subtitle">Entendiendo las relaciones de intercambio</p>
+        </div>
+        <div class="two-col">
+          <div>
+            <div class="info-box">
+              <h3>Precios Relativos</h3>
+              <p style="font-size:clamp(18px,1.6vw,26px);">
+                Precio relativo de los PCs en términos de flores = <br>
+                <span style="background:rgba(21,205,218,.2); padding:4px 12px; border-radius:6px; display:inline-block; margin-top:8px;">
+                  <span style="font-weight:700;">P<sub>PC</sub> / P<sub>Flores</sub></span>
+                </span>
+              </p>
+              <p style="margin-top:16px;">En el modelo de Ricardo, el precio relativo determina el patrón de comercio.</p>
+            </div>
+            <div style="margin-top:20px;">
+              <button class="pill-btn" id="show-relative-usa">Precio relativo EEUU</button>
+              <button class="pill-btn" id="show-relative-col">Precio relativo Colombia</button>
+            </div>
+            <div class="message-area" id="relative-message">Haz clic en un botón para ver el precio relativo.</div>
+          </div>
+          <div class="info-box">
+            <h3>Otro enfoque</h3>
+            <p>En lugar de centrarse en los costos, podemos pensar en la <strong>ventaja comparativa</strong> como la capacidad de producir un bien a un <em>costo de oportunidad</em> más bajo que otros países.</p>
+            <p style="margin-top:12px;">Esta es la base de las ganancias del comercio internacional.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diapositiva 5: Ventaja Competitiva -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Ventaja Competitiva</h2>
+          <p class="subtitle">Sé el único y sé diferente</p>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1;">
+          <div>
+            <div class="choice-balance" id="competitive-balance">
+              <p class="choice-title">Elige tu estrategia</p>
+              <div class="balance-holder">
+                <div class="balance-beam-2"></div>
+                <div class="balance-pivot-2"></div>
+                <div class="balance-base-2"></div>
+                <button class="scale-option-2 left-opt" data-choice="unique">
+                  <img src="class-1-html-assets/choice.svg" alt="Icono de único" />
+                  <span>Único</span>
+                </button>
+                <button class="scale-option-2 right-opt" data-choice="different">
+                  <img src="class-1-html-assets/opportunity.svg" alt="Icono de diferente" />
+                  <span>Diferente</span>
+                </button>
+              </div>
+              <p class="balance-caption-2">
+                <strong>Ventaja competitiva</strong>
+                <span class="balance-message">No es posible comparar algo único.</span>
+              </p>
+            </div>
+          </div>
+          <div class="info-box">
+            <h3>Sé el único y sé diferente</h3>
+            <p>La ventaja competitiva proviene de ser <strong>único</strong> (ofrecer algo que nadie más tiene) o de ser <strong>diferente</strong> (ofrecer un valor distintivo).</p>
+            <p style="margin-top:12px;">En el comercio internacional, los países pueden obtener una ventaja competitiva especializándose en lo que los hace únicos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 5</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; Modelo de David Ricardo</button>
+      <button data-go="2">03 &nbsp; Frontera de Posibilidades de Producción</button>
+      <button data-go="3">04 &nbsp; Precios Relativos y Otro Enfoque</button>
+      <button data-go="4">05 &nbsp; Ventaja Competitiva</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      // ---------- Navegación ----------
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      // ---------- Panel de vista general ----------
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      // ---------- Diapositiva 2: Ventaja comparativa ----------
+      const compMsg = document.getElementById('comparative-message');
+      const compBtns = document.querySelectorAll('[data-compare]');
+
+      const oppCost = (pcs, flowers) => {
+        const costPCinFlowers = flowers / pcs;   // flores por PC
+        const costFlowersInPC = pcs / flowers;   // PCs por flor
+        return { costPCinFlowers, costFlowersInPC };
+      };
+
+      const usa = oppCost(120, 150);
+      const col = oppCost(20, 120);
+
+      compBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          compBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const val = btn.dataset.compare;
+          let msg = '';
+          if (val === 'usa') {
+            msg = `🇺🇸 EEUU: Para producir 1 PC, renuncia a ${usa.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${usa.costFlowersInPC.toFixed(2)} PCs.`;
+          } else if (val === 'col') {
+            msg = `🇨🇴 Colombia: Para producir 1 PC, renuncia a ${col.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${col.costFlowersInPC.toFixed(2)} PCs.`;
+          } else if (val === 'both') {
+            msg = `EEUU tiene ventaja comparativa en PCs (${usa.costPCinFlowers.toFixed(2)} flores/PC vs ${col.costPCinFlowers.toFixed(2)}). Colombia tiene ventaja comparativa en flores (${col.costFlowersInPC.toFixed(2)} PCs/flor vs ${usa.costFlowersInPC.toFixed(2)}).`;
+          }
+          compMsg.textContent = msg;
+        });
+      });
+
+      // ---------- Diapositiva 3: Interacción FPP ----------
+      const fppMsg = document.getElementById('fpp-message');
+      const fppPoints = document.querySelectorAll('.fpp-point');
+      const fppReset = document.getElementById('fpp-reset');
+
+      fppPoints.forEach(pt => {
+        pt.addEventListener('click', () => {
+          const point = pt.dataset.point;
+          if (point === 'A') {
+            fppMsg.innerHTML = 'Punto <strong>A</strong>: Produciendo más flores (200) y menos PCs (220). El costo de oportunidad de moverse de B a A es <strong>110 flores</strong> por 140 PCs (≈ 0.79 flores por PC).';
+          } else if (point === 'B') {
+            fppMsg.innerHTML = 'Punto <strong>B</strong>: Produciendo más PCs (340) y menos flores (110). El costo de oportunidad de moverse de A a B es <strong>140 PCs</strong> por 110 flores (≈ 1.27 PCs por flor).';
+          }
+        });
+        // Soporte para teclado
+        pt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pt.click(); } });
+      });
+
+      fppReset.addEventListener('click', () => {
+        fppMsg.innerHTML = 'Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.';
+      });
+
+      // ---------- Diapositiva 4: Precios relativos ----------
+      const relMsg = document.getElementById('relative-message');
+      document.getElementById('show-relative-usa').addEventListener('click', () => {
+        relMsg.innerHTML = `EEUU: Precio relativo de los PCs en términos de flores = 120 / 150 = <strong>0.80</strong> flores por PC.`;
+      });
+      document.getElementById('show-relative-col').addEventListener('click', () => {
+        relMsg.innerHTML = `Colombia: Precio relativo de los PCs en términos de flores = 20 / 120 = <strong>0.167</strong> flores por PC.`;
+      });
+
+      // ---------- Diapositiva 5: Ventaja competitiva (balanza) ----------
+      const balanceContainer = document.getElementById('competitive-balance');
+      const balanceMsg = balanceContainer.querySelector('.balance-message');
+      const choiceBtns = balanceContainer.querySelectorAll('[data-choice]');
+
+      choiceBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const choice = btn.dataset.choice;
+          balanceContainer.classList.remove('balance-selected-left', 'balance-selected-right');
+          if (choice === 'unique') {
+            balanceContainer.classList.add('balance-selected-left');
+            balanceMsg.textContent = 'Ser único significa que no hay sustituto — no se puede comparar directamente.';
+          } else if (choice === 'different') {
+            balanceContainer.classList.add('balance-selected-right');
+            balanceMsg.textContent = 'Ser diferente agrega valor, pero aún se puede comparar en otras dimensiones.';
+          }
+        });
+      });
+
+      // Inicializar el progreso
+      show(0);
+    })();
+  </script>
+</body>
+</html>
