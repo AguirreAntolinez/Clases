@@ -80,11 +80,6 @@
     .balance-selected-right .left-opt { transform:translateY(-38px); }
     .balance-caption-2 { position:absolute; bottom:0; left:0; right:0; text-align:center; color:#285783; font-size:clamp(15px,1.3vw,20px); line-height:1.3; }
     .balance-caption-2 strong { display:block; color:#00a9bc; font-family:'Aptos Display',Aptos,sans-serif; margin-bottom:4px; }
-    .end-slide { align-items:center; }
-    .end-slide .content { justify-content:center; padding-top:7vh; }
-    .end-title { font-size:clamp(45px,7vw,100px); color:var(--blue); max-width:890px; }
-    .end-title span { color:#00a9bc; }
-    .end-copy { max-width:900px; font-size:clamp(23px,2.4vw,39px); line-height:1.2; color:#345c82; margin-top:clamp(28px,5vh,70px); }
     .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
     body[data-slide="3"] .controls,
     body[data-slide="4"] .controls,
@@ -104,7 +99,7 @@
     .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
     .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
 
-    /* ---------- Ecuaciones (Forma funcional y precios relativos) ---------- */
+    /* ---------- Ecuaciones ---------- */
     .equation-block {
       background: rgba(255,255,255,.75);
       border-left: 6px solid var(--cyan);
@@ -236,7 +231,7 @@
 <body>
   <main class="deck" aria-label="Clase 2: Modelos de Intercambio Clásicos">
 
-    <!-- ===================== Diapositiva 1: Portada ===================== -->
+    <!-- ========== Diapositiva 1: Portada ========== -->
     <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
       <div class="cover-content">
         <h1><span>Clase 2:</span><span class="accent">Modelos de</span><span>Intercambio Clásicos</span></h1>
@@ -245,7 +240,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 2: Modelo de David Ricardo ===================== -->
+    <!-- ========== Diapositiva 2: Modelo de David Ricardo ========== -->
     <section class="slide" data-slide="2" aria-label="Diapositiva 2">
       <div class="content">
         <div class="slide-title">
@@ -278,7 +273,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 3: Frontera de Posibilidades de Producción ===================== -->
+    <!-- ========== Diapositiva 3: Frontera de Posibilidades de Producción ========== -->
     <section class="slide" data-slide="3" aria-label="Diapositiva 3">
       <div class="content">
         <div class="slide-title">
@@ -288,24 +283,15 @@
         <div class="two-col">
           <div class="fpp-container">
             <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
-              <!-- Ejes -->
               <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
               <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
               <text x="430" y="375" font-size="14">PCs</text>
               <text x="20" y="30" font-size="14">Flores</text>
-
-              <!-- Curva FPP cóncava al origen -->
               <path class="fpp-curve" d="M60 80 Q 100 90, 140 130 Q 200 210, 280 280 Q 360 330, 460 340" />
-
-              <!-- Punto A: muchas flores, pocos PCs -->
               <circle class="fpp-point" cx="140" cy="130" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
               <text x="125" y="120" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
-
-              <!-- Punto B: muchos PCs, pocas flores -->
               <circle class="fpp-point" cx="320" cy="300" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
               <text x="305" y="290" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
-
-              <!-- Línea de pendiente entre A y B -->
               <line class="fpp-slope" x1="140" y1="130" x2="320" y2="300" />
               <text x="150" y="230" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
             </svg>
@@ -326,7 +312,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 4: Forma Funcional ===================== -->
+    <!-- ========== Diapositiva 4: Forma Funcional ========== -->
     <section class="slide" data-slide="4" aria-label="Diapositiva 4">
       <div class="content">
         <div class="slide-title">
@@ -356,7 +342,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 5: Precios Relativos (derivación) ===================== -->
+    <!-- ========== Diapositiva 5: Precios Relativos (derivación) ========== -->
     <section class="slide" data-slide="5" aria-label="Diapositiva 5">
       <div class="content">
         <div class="slide-title">
@@ -404,7 +390,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 6: Precios Relativos y Otro Enfoque ===================== -->
+    <!-- ========== Diapositiva 6: Precios Relativos y Otro Enfoque ========== -->
     <section class="slide" data-slide="6" aria-label="Diapositiva 6">
       <div class="content">
         <div class="slide-title">
@@ -438,7 +424,7 @@
       </div>
     </section>
 
-    <!-- ===================== Diapositiva 7: Ventaja Competitiva ===================== -->
+    <!-- ========== Diapositiva 7: Ventaja Competitiva ========== -->
     <section class="slide" data-slide="7" aria-label="Diapositiva 7">
       <div class="content">
         <div class="slide-title">
@@ -469,4 +455,153 @@
             </div>
           </div>
           <div class="info-box">
-            <h3>Sé el único y sé diferente</
+            <h3>Sé el único y sé diferente</h3>
+            <p>La ventaja competitiva proviene de ser <strong>único</strong> (ofrecer algo que nadie más tiene) o de ser <strong>diferente</strong> (ofrecer un valor distintivo).</p>
+            <p style="margin-top:12px;">En el comercio internacional, los países pueden obtener una ventaja competitiva especializándose en lo que los hace únicos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 7</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; Modelo de David Ricardo</button>
+      <button data-go="2">03 &nbsp; Frontera de Posibilidades de Producción</button>
+      <button data-go="3">04 &nbsp; Forma Funcional</button>
+      <button data-go="4">05 &nbsp; Precios Relativos</button>
+      <button data-go="5">06 &nbsp; Precios Relativos y Otro Enfoque</button>
+      <button data-go="6">07 &nbsp; Ventaja Competitiva</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      // ---------- Navegación ----------
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      // ---------- Panel de vista general ----------
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      // ---------- Diapositiva 2: Ventaja comparativa ----------
+      const compMsg = document.getElementById('comparative-message');
+      const compBtns = document.querySelectorAll('[data-compare]');
+
+      const oppCost = (pcs, flowers) => {
+        const costPCinFlowers = flowers / pcs;
+        const costFlowersInPC = pcs / flowers;
+        return { costPCinFlowers, costFlowersInPC };
+      };
+
+      const usa = oppCost(120, 150);
+      const col = oppCost(20, 120);
+
+      compBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          compBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const val = btn.dataset.compare;
+          let msg = '';
+          if (val === 'usa') {
+            msg = `🇺🇸 EEUU: Para producir 1 PC, renuncia a ${usa.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${usa.costFlowersInPC.toFixed(2)} PCs.`;
+          } else if (val === 'col') {
+            msg = `🇨🇴 Colombia: Para producir 1 PC, renuncia a ${col.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${col.costFlowersInPC.toFixed(2)} PCs.`;
+          } else if (val === 'both') {
+            msg = `EEUU tiene ventaja comparativa en PCs (${usa.costPCinFlowers.toFixed(2)} flores/PC vs ${col.costPCinFlowers.toFixed(2)}). Colombia tiene ventaja comparativa en flores (${col.costFlowersInPC.toFixed(2)} PCs/flor vs ${usa.costFlowersInPC.toFixed(2)}).`;
+          }
+          compMsg.textContent = msg;
+        });
+      });
+
+      // ---------- Diapositiva 3: Interacción FPP ----------
+      const fppMsg = document.getElementById('fpp-message');
+      const fppPoints = document.querySelectorAll('.fpp-point');
+      const fppReset = document.getElementById('fpp-reset');
+
+      fppPoints.forEach(pt => {
+        pt.addEventListener('click', () => {
+          const point = pt.dataset.point;
+          if (point === 'A') {
+            fppMsg.innerHTML = 'Punto <strong>A</strong>: Se producen muchas flores y pocos PCs. Al moverte hacia B, cada PC adicional cuesta cada vez más flores.';
+          } else if (point === 'B') {
+            fppMsg.innerHTML = 'Punto <strong>B</strong>: Se producen muchos PCs y pocas flores. Al moverte hacia A, cada ramo adicional cuesta cada vez más PCs.';
+          }
+        });
+        pt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pt.click(); } });
+      });
+
+      fppReset.addEventListener('click', () => {
+        fppMsg.innerHTML = 'Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.';
+      });
+
+      // ---------- Diapositiva 6: Precios relativos ----------
+      const relMsg = document.getElementById('relative-message');
+      document.getElementById('show-relative-usa').addEventListener('click', () => {
+        relMsg.innerHTML = `EEUU: Precio relativo de los PCs en términos de flores = 120 / 150 = <strong>0.80</strong> flores por PC.`;
+      });
+      document.getElementById('show-relative-col').addEventListener('click', () => {
+        relMsg.innerHTML = `Colombia: Precio relativo de los PCs en términos de flores = 20 / 120 = <strong>0.167</strong> flores por PC.`;
+      });
+
+      // ---------- Diapositiva 7: Ventaja competitiva ----------
+      const balanceContainer = document.getElementById('competitive-balance');
+      const balanceMsg = balanceContainer.querySelector('.balance-message');
+      const choiceBtns = balanceContainer.querySelectorAll('[data-choice]');
+
+      choiceBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const choice = btn.dataset.choice;
+          balanceContainer.classList.remove('balance-selected-left', 'balance-selected-right');
+          if (choice === 'unique') {
+            balanceContainer.classList.add('balance-selected-left');
+            balanceMsg.textContent = 'Ser único significa que no hay sustituto — no se puede comparar directamente.';
+          } else if (choice === 'different') {
+            balanceContainer.classList.add('balance-selected-right');
+            balanceMsg.textContent = 'Ser diferente agrega valor, pero aún se puede comparar en otras dimensiones.';
+          }
+        });
+      });
+
+      // Inicializar
+      show(0);
+    })();
+  </script>
+</body>
+</html>
