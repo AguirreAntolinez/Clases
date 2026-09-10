@@ -157,27 +157,33 @@
         <div class="two-col">
           <div class="fpp-container">
             <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
-              <!-- ejes -->
+              <!-- Ejes -->
               <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
               <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
               <text x="430" y="375" font-size="14">PCs</text>
               <text x="20" y="45" font-size="14">Flores</text>
-              <!-- Curva FPP (cóncava) -->
-              <path class="fpp-curve" d="M60 340 Q 130 280, 200 220 Q 280 140, 380 80 Q 430 50, 460 40" />
-              <!-- Puntos A y B -->
-              <circle class="fpp-point" cx="200" cy="220" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
-              <text x="190" y="210" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
-              <circle class="fpp-point" cx="340" cy="110" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
-              <text x="330" y="100" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
-              <!-- indicador de pendiente -->
-              <line class="fpp-slope" x1="200" y1="220" x2="340" y2="110" />
-              <text x="260" y="175" fill="#e0724c" font-size="14" font-weight="600">Pendiente = Costo de oportunidad</text>
-              <!-- etiquetas -->
-              <text x="70" y="355" font-size="13" fill="#527092">Todos los recursos produciendo B</text>
-              <text x="360" y="395" font-size="13" fill="#527092">Todos los recursos produciendo A</text>
+
+              <!-- Curva FPP con pendiente NEGATIVA (cóncava al origen) -->
+              <!-- Empieza arriba en el eje Y (flores) y termina a la derecha en el eje X (PCs) -->
+              <path class="fpp-curve" d="M60 60 Q 120 70, 180 120 Q 260 190, 340 270 Q 400 320, 460 340" />
+
+              <!-- Punto A: más flores, menos PCs -->
+              <circle class="fpp-point" cx="180" cy="120" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
+              <text x="170" y="110" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
+
+              <!-- Punto B: más PCs, menos flores -->
+              <circle class="fpp-point" cx="340" cy="270" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
+              <text x="330" y="260" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
+
+              <!-- Línea de pendiente entre A y B -->
+              <line class="fpp-slope" x1="180" y1="120" x2="340" y2="270" />
+              <text x="230" y="180" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
+
+              <!-- Etiquetas -->
+              <text x="70" y="355" font-size="13" fill="#527092">Todos los recursos produciendo B (PCs)</text>
+              <text x="330" y="60" font-size="13" fill="#527092">Todos los recursos produciendo A (Flores)</text>
             </svg>
-          </div>
-          <div>
+          </div>          <div>
             <div class="info-box">
               <h3>Costo de Oportunidad</h3>
               <p id="fpp-message">Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.</p>
