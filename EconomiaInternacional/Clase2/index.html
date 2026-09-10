@@ -410,11 +410,8 @@
               <p style="margin-top:16px;">En el modelo de Ricardo, el precio relativo determina el patrón de comercio.</p>
             </div>
             <div style="margin-top:20px;">
-              <button class="pill-btn" id="show-relative-usa">Precio relativo EEUU</button>
-              <button class="pill-btn" id="show-relative-col">Precio relativo Colombia</button>
+              </div>
             </div>
-            <div class="message-area" id="relative-message">Haz clic en un botón para ver el precio relativo.</div>
-          </div>
           <div class="info-box">
             <h3>Otro enfoque</h3>
             <p>En lugar de centrarse en los costos, podemos pensar en la <strong>ventaja comparativa</strong> como la capacidad de producir un bien a un <em>costo de oportunidad</em> más bajo que otros países.</p>
@@ -424,44 +421,7 @@
       </div>
     </section>
 
-    <!-- ========== Diapositiva 7: Ventaja Competitiva ========== -->
-    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
-      <div class="content">
-        <div class="slide-title">
-          <h2>Ventaja Competitiva</h2>
-          <p class="subtitle">Sé el único y sé diferente</p>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1;">
-          <div>
-            <div class="choice-balance" id="competitive-balance">
-              <p class="choice-title">Elige tu estrategia</p>
-              <div class="balance-holder">
-                <div class="balance-beam-2"></div>
-                <div class="balance-pivot-2"></div>
-                <div class="balance-base-2"></div>
-                <button class="scale-option-2 left-opt" data-choice="unique">
-                  <img src="./assets/choice.svg" alt="Icono de único" />
-                  <span>Único</span>
-                </button>
-                <button class="scale-option-2 right-opt" data-choice="different">
-                  <img src="./assets/opportunity.svg" alt="Icono de diferente" />
-                  <span>Diferente</span>
-                </button>
-              </div>
-              <p class="balance-caption-2">
-                <strong>Ventaja competitiva</strong>
-                <span class="balance-message">No es posible comparar algo único.</span>
-              </p>
-            </div>
-          </div>
-          <div class="info-box">
-            <h3>Sé el único y sé diferente</h3>
-            <p>La ventaja competitiva proviene de ser <strong>único</strong> (ofrecer algo que nadie más tiene) o de ser <strong>diferente</strong> (ofrecer un valor distintivo).</p>
-            <p style="margin-top:12px;">En el comercio internacional, los países pueden obtener una ventaja competitiva especializándose en lo que los hace únicos.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    
 
   </main>
 
@@ -571,15 +531,7 @@
         fppMsg.innerHTML = 'Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.';
       });
 
-      // ---------- Diapositiva 6: Precios relativos ----------
-      const relMsg = document.getElementById('relative-message');
-      document.getElementById('show-relative-usa').addEventListener('click', () => {
-        relMsg.innerHTML = `EEUU: Precio relativo de los PCs en términos de flores = 120 / 150 = <strong>0.80</strong> flores por PC.`;
-      });
-      document.getElementById('show-relative-col').addEventListener('click', () => {
-        relMsg.innerHTML = `Colombia: Precio relativo de los PCs en términos de flores = 20 / 120 = <strong>0.167</strong> flores por PC.`;
-      });
-
+      
       // ---------- Diapositiva 7: Ventaja competitiva ----------
       const balanceContainer = document.getElementById('competitive-balance');
       const balanceMsg = balanceContainer.querySelector('.balance-message');
