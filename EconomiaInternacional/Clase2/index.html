@@ -11,9 +11,9 @@
     body { overflow:hidden; }
     button { font:inherit; }
     .deck { height:100vh; min-height:600px; position:relative; }
-    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('class-1-html-assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
     .slide.active { display:flex; animation:enter .42s ease both; }
-    .slide.cover { background:#061383 url('class-1-html-assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
     @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
     h1,h2,h3,p { margin:0; }
     h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
@@ -86,12 +86,15 @@
     .end-title span { color:#00a9bc; }
     .end-copy { max-width:900px; font-size:clamp(23px,2.4vw,39px); line-height:1.2; color:#345c82; margin-top:clamp(28px,5vh,70px); }
     .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
-    body[data-slide="3"] .controls, body[data-slide="4"] .controls { top:12px; bottom:auto; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls { top:12px; bottom:auto; }
     .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
     .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
     .counter { min-width:50px; text-align:center; font-size:15px; }
     .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
-    .progress b { display:block; height:100%; width:20%; background:var(--cyan); transition:width .3s ease; }
+    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
     .tooltip { position:relative; }
     .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
     .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
@@ -100,12 +103,140 @@
     .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
     .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
     .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
-    @media (max-width:720px) { body { overflow:auto; } .deck { min-height:700px; } .slide { padding:42px 20px 78px; } .two-col { grid-template-columns:1fr; gap:30px; } .card-grid { grid-template-columns:1fr; } .comparative-table { font-size:14px; } .comparative-table th, .comparative-table td { padding:10px 6px; } .fpp-container { max-height:40vh; } .overview-list { grid-template-columns:1fr; } }
+
+    /* ---------- Ecuaciones (Forma funcional y precios relativos) ---------- */
+    .equation-block {
+      background: rgba(255,255,255,.75);
+      border-left: 6px solid var(--cyan);
+      border-radius: 12px;
+      padding: clamp(20px,2.5vw,40px);
+      margin: 0 auto;
+      max-width: 950px;
+      width: 100%;
+    }
+    .equation-main {
+      font-size: clamp(24px,2.6vw,42px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(22px,3vh,42px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+    }
+    .equation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(10px,1.5vh,18px);
+      font-size: clamp(16px,1.5vw,22px);
+      color: #355c82;
+    }
+    .equation-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      line-height: 1.4;
+    }
+    .equation-list .term {
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-weight: 600;
+      min-width: 3.5em;
+    }
+    .equation-list .desc { color: #496a89; }
+
+    .equation-result {
+      margin-top: clamp(22px,3vh,38px);
+      padding-top: clamp(18px,2.4vh,30px);
+      border-top: 2px dashed #cbd9e4;
+      font-size: clamp(17px,1.6vw,25px);
+      color: #285783;
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+    }
+    .equation-result .label {
+      display: block;
+      color: #00a9bc;
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 0.85em;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      font-size: 0.95em;
+      margin: 0 4px;
+    }
+    .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 4px 2px; }
+    .frac .den { padding: 2px 4px 0; }
+
+    .prices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(20px,4vw,60px);
+      margin-bottom: clamp(22px,3.5vh,42px);
+      text-align: center;
+      font-size: clamp(17px,1.6vw,24px);
+      color: #285783;
+    }
+    .prices-grid .price-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .condition-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(14px,2vw,28px);
+      align-items: center;
+      margin-top: clamp(18px,2.6vh,30px);
+      font-size: clamp(16px,1.5vw,23px);
+      color: #285783;
+    }
+    .condition-row .condition {
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-weight: 600;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .condition-row .conclusion { color: #496a89; }
+
+    @media (max-width:720px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 20px 78px; }
+      .two-col { grid-template-columns:1fr; gap:30px; }
+      .card-grid { grid-template-columns:1fr; }
+      .comparative-table { font-size:14px; }
+      .comparative-table th, .comparative-table td { padding:10px 6px; }
+      .fpp-container { max-height:40vh; }
+      .overview-list { grid-template-columns:1fr; }
+      .prices-grid { grid-template-columns:1fr; }
+      .condition-row { grid-template-columns:1fr; gap:8px; }
+    }
   </style>
 </head>
 <body>
   <main class="deck" aria-label="Clase 2: Modelos de Intercambio Clásicos">
-    <!-- Diapositiva 1: Portada -->
+
+    <!-- ===================== Diapositiva 1: Portada ===================== -->
     <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
       <div class="cover-content">
         <h1><span>Clase 2:</span><span class="accent">Modelos de</span><span>Intercambio Clásicos</span></h1>
@@ -114,7 +245,7 @@
       </div>
     </section>
 
-    <!-- Diapositiva 2: Modelo de David Ricardo / Ventaja Comparativa -->
+    <!-- ===================== Diapositiva 2: Modelo de David Ricardo ===================== -->
     <section class="slide" data-slide="2" aria-label="Diapositiva 2">
       <div class="content">
         <div class="slide-title">
@@ -147,7 +278,7 @@
       </div>
     </section>
 
-    <!-- Diapositiva 3: Frontera de Posibilidades de Producción -->
+    <!-- ===================== Diapositiva 3: Frontera de Posibilidades de Producción ===================== -->
     <section class="slide" data-slide="3" aria-label="Diapositiva 3">
       <div class="content">
         <div class="slide-title">
@@ -156,31 +287,30 @@
         </div>
         <div class="two-col">
           <div class="fpp-container">
-              <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
-                <!-- Ejes -->
-                <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
-                <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
-                <text x="430" y="375" font-size="14">PCs</text>
-                <text x="20" y="30" font-size="14">Flores</text>
+            <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
+              <!-- Ejes -->
+              <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
+              <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
+              <text x="430" y="375" font-size="14">PCs</text>
+              <text x="20" y="30" font-size="14">Flores</text>
 
-                <!-- Curva FPP cóncava al origen (pendiente negativa decreciente) -->
-                <!-- Empieza alto en el eje Y (muchas flores) y termina a la derecha en el eje X (muchos PCs) -->
-                <path class="fpp-curve" d="M60 80 Q 100 90, 140 130 Q 200 210, 280 280 Q 360 330, 460 340" />
+              <!-- Curva FPP cóncava al origen -->
+              <path class="fpp-curve" d="M60 80 Q 100 90, 140 130 Q 200 210, 280 280 Q 360 330, 460 340" />
 
-                <!-- Punto A: muchas flores, pocos PCs (arriba-izquierda) -->
-                <circle class="fpp-point" cx="140" cy="130" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
-                <text x="125" y="120" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
+              <!-- Punto A: muchas flores, pocos PCs -->
+              <circle class="fpp-point" cx="140" cy="130" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
+              <text x="125" y="120" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
 
-                <!-- Punto B: muchos PCs, pocas flores (abajo-derecha) -->
-                <circle class="fpp-point" cx="320" cy="300" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
-                <text x="305" y="290" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
+              <!-- Punto B: muchos PCs, pocas flores -->
+              <circle class="fpp-point" cx="320" cy="300" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
+              <text x="305" y="290" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
 
-                <!-- Línea de pendiente entre A y B (costo de oportunidad) -->
-                <line class="fpp-slope" x1="140" y1="130" x2="320" y2="300" />
-                <text x="150" y="230" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
-
-                </svg>
-            </div>         <div>
+              <!-- Línea de pendiente entre A y B -->
+              <line class="fpp-slope" x1="140" y1="130" x2="320" y2="300" />
+              <text x="150" y="230" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
+            </svg>
+          </div>
+          <div>
             <div class="info-box">
               <h3>Costo de Oportunidad</h3>
               <p id="fpp-message">Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.</p>
@@ -196,8 +326,86 @@
       </div>
     </section>
 
-    <!-- Diapositiva 4: Precios Relativos y Otro Enfoque -->
+    <!-- ===================== Diapositiva 4: Forma Funcional ===================== -->
     <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Forma Funcional</h2>
+          <p class="subtitle">Restricción de recursos de la economía</p>
+        </div>
+
+        <div class="equation-block">
+          <div class="equation-main">
+            a<sub>LA</sub> Q<sub>A</sub> + a<sub>LB</sub> Q<sub>B</sub> &le; L
+          </div>
+
+          <ul class="equation-list">
+            <li><span class="term">a<sub>LA</sub></span><span class="desc">Trabajo necesario para producir 1 unidad de A</span></li>
+            <li><span class="term">a<sub>LB</sub></span><span class="desc">Trabajo necesario para producir 1 unidad de B</span></li>
+            <li><span class="term">Q<sub>A</sub></span><span class="desc">Cantidad producida de A</span></li>
+            <li><span class="term">Q<sub>B</sub></span><span class="desc">Cantidad producida de B</span></li>
+            <li><span class="term">L</span><span class="desc">Trabajo total en la economía</span></li>
+          </ul>
+
+          <div class="equation-result">
+            <span class="label">Costo de Oportunidad</span>
+            <span class="frac"><span class="num">a<sub>LA</sub></span><span class="den">a<sub>LB</sub></span></span>
+            : Costo de oportunidad de A en términos de B
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Diapositiva 5: Precios Relativos (derivación) ===================== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Precios Relativos</h2>
+          <p class="subtitle">Derivación a partir de los salarios por sector</p>
+        </div>
+
+        <div class="equation-block">
+          <div class="prices-grid">
+            <div class="price-item">P<sub>A</sub>: Precio de A</div>
+            <div class="price-item">P<sub>B</sub>: Precio de B</div>
+          </div>
+
+          <div class="prices-grid">
+            <div class="price-item">
+              <span class="frac"><span class="num">P<sub>A</sub></span><span class="den">a<sub>LA</sub></span></span>
+              : Salario de producir A
+            </div>
+            <div class="price-item">
+              <span class="frac"><span class="num">P<sub>B</sub></span><span class="den">a<sub>LB</sub></span></span>
+              : Salario de producir B
+            </div>
+          </div>
+
+          <div class="condition-row">
+            <span class="condition">
+              Si
+              <span class="frac"><span class="num">P<sub>A</sub></span><span class="den">a<sub>LA</sub></span></span>
+              &gt;
+              <span class="frac"><span class="num">P<sub>B</sub></span><span class="den">a<sub>LB</sub></span></span>
+            </span>
+            <span class="conclusion">prefieres producir A</span>
+          </div>
+
+          <div class="condition-row">
+            <span class="condition">
+              Si
+              <span class="frac"><span class="num">P<sub>A</sub></span><span class="den">P<sub>B</sub></span></span>
+              &gt;
+              <span class="frac"><span class="num">a<sub>LA</sub></span><span class="den">a<sub>LB</sub></span></span>
+            </span>
+            <span class="conclusion">prefieres producir A</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Diapositiva 6: Precios Relativos y Otro Enfoque ===================== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
       <div class="content">
         <div class="slide-title">
           <h2>Precios Relativos y Otro Enfoque</h2>
@@ -230,8 +438,8 @@
       </div>
     </section>
 
-    <!-- Diapositiva 5: Ventaja Competitiva -->
-    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+    <!-- ===================== Diapositiva 7: Ventaja Competitiva ===================== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
       <div class="content">
         <div class="slide-title">
           <h2>Ventaja Competitiva</h2>
@@ -246,11 +454,11 @@
                 <div class="balance-pivot-2"></div>
                 <div class="balance-base-2"></div>
                 <button class="scale-option-2 left-opt" data-choice="unique">
-                  <img src="class-1-html-assets/choice.svg" alt="Icono de único" />
+                  <img src="./assets/choice.svg" alt="Icono de único" />
                   <span>Único</span>
                 </button>
                 <button class="scale-option-2 right-opt" data-choice="different">
-                  <img src="class-1-html-assets/opportunity.svg" alt="Icono de diferente" />
+                  <img src="./assets/opportunity.svg" alt="Icono de diferente" />
                   <span>Diferente</span>
                 </button>
               </div>
@@ -261,151 +469,4 @@
             </div>
           </div>
           <div class="info-box">
-            <h3>Sé el único y sé diferente</h3>
-            <p>La ventaja competitiva proviene de ser <strong>único</strong> (ofrecer algo que nadie más tiene) o de ser <strong>diferente</strong> (ofrecer un valor distintivo).</p>
-            <p style="margin-top:12px;">En el comercio internacional, los países pueden obtener una ventaja competitiva especializándose en lo que los hace únicos.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <nav class="controls" aria-label="Controles de presentación">
-    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
-    <span class="counter"><span id="current">1</span> / 5</span>
-    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
-    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
-  </nav>
-
-  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
-    <div class="overview-list">
-      <button data-go="0">01 &nbsp; Portada</button>
-      <button data-go="1">02 &nbsp; Modelo de David Ricardo</button>
-      <button data-go="2">03 &nbsp; Frontera de Posibilidades de Producción</button>
-      <button data-go="3">04 &nbsp; Precios Relativos y Otro Enfoque</button>
-      <button data-go="4">05 &nbsp; Ventaja Competitiva</button>
-    </div>
-  </section>
-
-  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
-
-  <script>
-    (function() {
-      // ---------- Navegación ----------
-      const slides = [...document.querySelectorAll('.slide')];
-      let index = 0;
-      document.body.dataset.slide = '1';
-
-      const show = (next) => {
-        index = (next + slides.length) % slides.length;
-        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-        document.body.dataset.slide = index + 1;
-        document.getElementById('current').textContent = index + 1;
-        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
-      };
-
-      document.getElementById('previous').addEventListener('click', () => show(index - 1));
-      document.getElementById('next').addEventListener('click', () => show(index + 1));
-
-      document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
-        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
-        if (e.key === 'Home') { e.preventDefault(); show(0); }
-        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
-      });
-
-      // ---------- Panel de vista general ----------
-      const overviewPanel = document.getElementById('overview-panel');
-      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
-      overviewPanel.addEventListener('click', e => {
-        const dest = e.target.closest('[data-go]');
-        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
-        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
-      });
-
-      // ---------- Diapositiva 2: Ventaja comparativa ----------
-      const compMsg = document.getElementById('comparative-message');
-      const compBtns = document.querySelectorAll('[data-compare]');
-
-      const oppCost = (pcs, flowers) => {
-        const costPCinFlowers = flowers / pcs;   // flores por PC
-        const costFlowersInPC = pcs / flowers;   // PCs por flor
-        return { costPCinFlowers, costFlowersInPC };
-      };
-
-      const usa = oppCost(120, 150);
-      const col = oppCost(20, 120);
-
-      compBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          compBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const val = btn.dataset.compare;
-          let msg = '';
-          if (val === 'usa') {
-            msg = `🇺🇸 EEUU: Para producir 1 PC, renuncia a ${usa.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${usa.costFlowersInPC.toFixed(2)} PCs.`;
-          } else if (val === 'col') {
-            msg = `🇨🇴 Colombia: Para producir 1 PC, renuncia a ${col.costPCinFlowers.toFixed(2)} flores. Para producir 1 ramo, renuncia a ${col.costFlowersInPC.toFixed(2)} PCs.`;
-          } else if (val === 'both') {
-            msg = `EEUU tiene ventaja comparativa en PCs (${usa.costPCinFlowers.toFixed(2)} flores/PC vs ${col.costPCinFlowers.toFixed(2)}). Colombia tiene ventaja comparativa en flores (${col.costFlowersInPC.toFixed(2)} PCs/flor vs ${usa.costFlowersInPC.toFixed(2)}).`;
-          }
-          compMsg.textContent = msg;
-        });
-      });
-
-      // ---------- Diapositiva 3: Interacción FPP ----------
-      const fppMsg = document.getElementById('fpp-message');
-      const fppPoints = document.querySelectorAll('.fpp-point');
-      const fppReset = document.getElementById('fpp-reset');
-
-      fppPoints.forEach(pt => {
-        pt.addEventListener('click', () => {
-          const point = pt.dataset.point;
-          if (point === 'A') {
-            fppMsg.innerHTML = 'Punto <strong>A</strong>: Produciendo más flores (200) y menos PCs (220). El costo de oportunidad de moverse de B a A es <strong>110 flores</strong> por 140 PCs (≈ 0.79 flores por PC).';
-          } else if (point === 'B') {
-            fppMsg.innerHTML = 'Punto <strong>B</strong>: Produciendo más PCs (340) y menos flores (110). El costo de oportunidad de moverse de A a B es <strong>140 PCs</strong> por 110 flores (≈ 1.27 PCs por flor).';
-          }
-        });
-        // Soporte para teclado
-        pt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pt.click(); } });
-      });
-
-      fppReset.addEventListener('click', () => {
-        fppMsg.innerHTML = 'Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.';
-      });
-
-      // ---------- Diapositiva 4: Precios relativos ----------
-      const relMsg = document.getElementById('relative-message');
-      document.getElementById('show-relative-usa').addEventListener('click', () => {
-        relMsg.innerHTML = `EEUU: Precio relativo de los PCs en términos de flores = 120 / 150 = <strong>0.80</strong> flores por PC.`;
-      });
-      document.getElementById('show-relative-col').addEventListener('click', () => {
-        relMsg.innerHTML = `Colombia: Precio relativo de los PCs en términos de flores = 20 / 120 = <strong>0.167</strong> flores por PC.`;
-      });
-
-      // ---------- Diapositiva 5: Ventaja competitiva (balanza) ----------
-      const balanceContainer = document.getElementById('competitive-balance');
-      const balanceMsg = balanceContainer.querySelector('.balance-message');
-      const choiceBtns = balanceContainer.querySelectorAll('[data-choice]');
-
-      choiceBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const choice = btn.dataset.choice;
-          balanceContainer.classList.remove('balance-selected-left', 'balance-selected-right');
-          if (choice === 'unique') {
-            balanceContainer.classList.add('balance-selected-left');
-            balanceMsg.textContent = 'Ser único significa que no hay sustituto — no se puede comparar directamente.';
-          } else if (choice === 'different') {
-            balanceContainer.classList.add('balance-selected-right');
-            balanceMsg.textContent = 'Ser diferente agrega valor, pero aún se puede comparar en otras dimensiones.';
-          }
-        });
-      });
-
-      // Inicializar el progreso
-      show(0);
-    })();
-  </script>
-</body>
-</html>
+            <h3>Sé el único y sé diferente</
