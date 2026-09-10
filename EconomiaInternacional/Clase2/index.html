@@ -156,34 +156,34 @@
         </div>
         <div class="two-col">
           <div class="fpp-container">
-            <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
-              <!-- Ejes -->
-              <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
-              <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
-              <text x="430" y="375" font-size="14">PCs</text>
-              <text x="20" y="45" font-size="14">Flores</text>
+              <svg viewBox="0 0 500 400" aria-label="Frontera de Posibilidades de Producción">
+                <!-- Ejes -->
+                <line class="fpp-axis" x1="60" y1="340" x2="460" y2="340" />
+                <line class="fpp-axis" x1="60" y1="340" x2="60" y2="40" />
+                <text x="430" y="375" font-size="14">PCs</text>
+                <text x="20" y="45" font-size="14">Flores</text>
 
-              <!-- Curva FPP con pendiente NEGATIVA (cóncava al origen) -->
-              <!-- Empieza arriba en el eje Y (flores) y termina a la derecha en el eje X (PCs) -->
-              <path class="fpp-curve" d="M60 60 Q 120 70, 180 120 Q 260 190, 340 270 Q 400 320, 460 340" />
+                <!-- Curva FPP cóncava al origen (pendiente negativa decreciente) -->
+                <!-- Empieza alto en el eje Y (muchas flores) y termina a la derecha en el eje X (muchos PCs) -->
+                <path class="fpp-curve" d="M60 80 Q 100 90, 140 130 Q 200 210, 280 280 Q 360 330, 460 340" />
 
-              <!-- Punto A: más flores, menos PCs -->
-              <circle class="fpp-point" cx="180" cy="120" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
-              <text x="170" y="110" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
+                <!-- Punto A: muchas flores, pocos PCs (arriba-izquierda) -->
+                <circle class="fpp-point" cx="140" cy="130" r="7" data-point="A" tabindex="0" role="button" aria-label="Punto A" />
+                <text x="125" y="120" class="fpp-label" fill="var(--blue)" font-size="16">A</text>
 
-              <!-- Punto B: más PCs, menos flores -->
-              <circle class="fpp-point" cx="340" cy="270" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
-              <text x="330" y="260" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
+                <!-- Punto B: muchos PCs, pocas flores (abajo-derecha) -->
+                <circle class="fpp-point" cx="320" cy="300" r="7" data-point="B" tabindex="0" role="button" aria-label="Punto B" />
+                <text x="305" y="290" class="fpp-label" fill="var(--blue)" font-size="16">B</text>
 
-              <!-- Línea de pendiente entre A y B -->
-              <line class="fpp-slope" x1="180" y1="120" x2="340" y2="270" />
-              <text x="230" y="180" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
+                <!-- Línea de pendiente entre A y B (costo de oportunidad) -->
+                <line class="fpp-slope" x1="140" y1="130" x2="320" y2="300" />
+                <text x="150" y="230" fill="#e0724c" font-size="13" font-weight="600">Pendiente = Costo de oportunidad</text>
 
-              <!-- Etiquetas -->
-              <text x="70" y="355" font-size="13" fill="#527092">Todos los recursos produciendo B (PCs)</text>
-              <text x="330" y="60" font-size="13" fill="#527092">Todos los recursos produciendo A (Flores)</text>
-            </svg>
-          </div>          <div>
+                <!-- Etiquetas de referencia -->
+                <text x="70" y="360" font-size="12" fill="#527092">Todos los recursos produciendo B (PCs)</text>
+                <text x="200" y="55" font-size="12" fill="#527092">Todos los recursos produciendo A (Flores)</text>
+              </svg>
+            </div>         <div>
             <div class="info-box">
               <h3>Costo de Oportunidad</h3>
               <p id="fpp-message">Haz clic en el punto <strong>A</strong> o <strong>B</strong> en el gráfico para ver la disyuntiva.</p>
