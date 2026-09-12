@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 3: Modelo Heckscher-Ohlin</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(42px,6vw,92px); line-height:.94; max-width:850px; }
+    h2 { font-size:clamp(31px,4.2vw,66px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:15vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(21px,2vw,34px); margin:30px 0 60px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(16px,1.4vw,23px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1150px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(22px,4vh,48px); max-width:900px; }
+    .subtitle { font-size:clamp(17px,1.55vw,24px); color:#527092; margin-top:13px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+    .card { background:rgba(255,255,255,.7); padding:clamp(20px,2.5vw,40px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(22px,2.2vw,34px); }
+    .card p { color:#496a89; font-size:clamp(15px,1.3vw,21px); margin-top:8px; }
+    .info-box { background:rgba(255,255,255,.75); padding:clamp(18px,2.5vw,36px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(20px,2.2vw,34px); margin-bottom:8px; }
+    .info-box p { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.4; }
+    .info-box ul { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.5; padding-left:22px; margin-top:10px; }
+    .info-box ul li { margin-bottom:8px; }
+    .image-pair { display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,4vw,60px); align-items:center; flex:1; }
+    .image-pair figure { margin:0; text-align:center; }
+    .image-pair img { width:100%; max-height:50vh; object-fit:cover; border-radius:14px; box-shadow:0 12px 32px rgba(6,19,131,.18); }
+    .image-pair figcaption { margin-top:16px; font-size:clamp(18px,1.8vw,26px); font-weight:700; color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; }
+    .image-pair .caption-sub { display:block; margin-top:6px; font-size:clamp(14px,1.2vw,19px); color:#496a89; font-weight:400; }
+
+    /* ---------- Ecuaciones ---------- */
+    .equation-block {
+      background: rgba(255,255,255,.75);
+      border-left: 6px solid var(--cyan);
+      border-radius: 12px;
+      padding: clamp(20px,2.5vw,40px);
+      margin: 0 auto;
+      max-width: 950px;
+      width: 100%;
+    }
+    .equation-main {
+      font-size: clamp(22px,2.4vw,38px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(20px,3vh,38px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .equation-sub {
+      font-size: clamp(18px,1.8vw,28px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(16px,2.4vh,28px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .equation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(10px,1.5vh,18px);
+      font-size: clamp(16px,1.5vw,22px);
+      color: #355c82;
+    }
+    .equation-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      line-height: 1.4;
+    }
+    .equation-list .term {
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-weight: 600;
+      min-width: 4em;
+    }
+    .equation-list .desc { color: #496a89; }
+
+    .two-equations {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(20px,3vw,44px);
+      margin-top: clamp(18px,2.4vh,30px);
+    }
+    .two-equations .eq-item {
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-size: clamp(18px,1.8vw,26px);
+      line-height: 1.5;
+      padding: clamp(14px,2vh,22px) clamp(10px,1.4vw,18px);
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+    }
+    .two-equations .eq-label {
+      display: block;
+      font-family: 'Aptos Display',Aptos,sans-serif;
+      font-style: normal;
+      color: #00a9bc;
+      font-weight: 700;
+      font-size: 0.75em;
+      margin-bottom: 10px;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      font-size: 0.95em;
+      margin: 0 4px;
+    }
+    .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 4px 2px; }
+    .frac .den { padding: 2px 4px 0; }
+
+    .intensity-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(14px,2.4vw,36px);
+      margin: clamp(18px,2.6vh,32px) 0;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-size: clamp(18px,1.9vw,28px);
+    }
+    .intensity-row .and { color: #7790b1; font-style: normal; font-weight: 400; }
+
+    /* ---------- SVG containers ---------- */
+    .diagram-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.35;
+      max-height: 62vh;
+      margin: 0 auto;
+    }
+    .diagram-container svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .diagram-container text {
+      font-family: Aptos, Arial, sans-serif;
+      fill: var(--ink);
+      font-size: 15px;
+    }
+    .diagram-axis { stroke: #284a70; stroke-width: 2; }
+    .diagram-curve { fill: none; stroke: var(--cyan); stroke-width: 5; }
+    .diagram-curve-light { fill: none; stroke: #9adfe5; stroke-width: 4; }
+    .diagram-line { fill: none; stroke: #284a70; stroke-width: 2.5; }
+    .diagram-line-accent { fill: none; stroke: var(--blue); stroke-width: 3; }
+    .diagram-point { fill: var(--blue); stroke: #fff; stroke-width: 2; }
+    .diagram-label { font-weight: 600; }
+    .diagram-label-accent { fill: var(--blue); font-weight: 700; }
+    .diagram-guide { stroke: #91a5ba; stroke-width: 1.6; stroke-dasharray: 6 6; }
+    .diagram-fill { fill: rgba(21,205,218,.25); stroke: none; }
+
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls,
+    body[data-slide="7"] .controls,
+    body[data-slide="8"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:12.5%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+    @media (max-width:720px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 20px 78px; }
+      .two-col { grid-template-columns:1fr; gap:30px; }
+      .image-pair { grid-template-columns:1fr; }
+      .card-grid { grid-template-columns:1fr; }
+      .two-equations { grid-template-columns:1fr; }
+      .overview-list { grid-template-columns:1fr; }
+      .diagram-container { max-height:45vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 3: Modelo Heckscher-Ohlin">
+
+    <!-- ========== Diapositiva 1: Portada ========== -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 3:</span><span class="accent">Modelo</span><span>Heckscher-Ohlin</span></h1>
+        <p class="course">Economía Internacional</p>
+        <p class="professor">Profesor Mg. William Alexander Aguirre Antolínez</p>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 2: Café vs MacBook ========== -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>¿Por qué comercian los países?</h2>
+          <p class="subtitle">Dos ejemplos que ilustran la teoría de proporciones factoriales</p>
+        </div>
+        <div class="image-pair">
+          <figure>
+            <img src="./assets/coffee.png" alt="Sacos de café colombiano">
+            <figcaption>
+              Café colombiano
+              <span class="caption-sub">Trabajo intensivo, tierra abundante</span>
+            </figcaption>
+          </figure>
+          <figure>
+            <img src="./assets/macbook.png" alt="Computadores portátiles MacBook">
+            <figcaption>
+              MacBook (EEUU)
+              <span class="caption-sub">Capital intensivo, tecnología abundante</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 3: Factor proportion theory ========== -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Teoría de proporciones factoriales</h2>
+          <p class="subtitle">Factor proportion theory</p>
+        </div>
+        <div class="card-grid" style="flex:1; align-content:center;">
+          <article class="card" style="cursor:default;">
+            <h3>Más de un factor</h3>
+            <p>Una economía no produce solo con trabajo. También utiliza <strong>capital</strong>, <strong>tierra</strong> y otros factores.</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Depende de las proporciones</h3>
+            <p>El comercio entre países depende de la <strong>proporción de factores</strong> disponibles en cada uno.</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Especialización natural</h3>
+            <p>Un país exporta los bienes que usan <strong>intensivamente el factor que es abundante</strong> en su economía.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 4: Two-factor model ========== -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Modelo de dos factores</h2>
+          <p class="subtitle">Trabajo y capital como factores de producción</p>
+        </div>
+
+        <div class="equation-block">
+          <ul class="equation-list">
+            <li><span class="term">a<sub>LA</sub></span><span class="desc">Trabajo utilizado para producir 1 unidad de A</span></li>
+            <li><span class="term">a<sub>LB</sub></span><span class="desc">Trabajo utilizado para producir 1 unidad de B</span></li>
+            <li><span class="term">a<sub>KA</sub></span><span class="desc">Capital utilizado para producir 1 unidad de A</span></li>
+            <li><span class="term">a<sub>KB</sub></span><span class="desc">Capital utilizado para producir 1 unidad de B</span></li>
+            <li><span class="term">L</span><span class="desc">Oferta de trabajo en la economía</span></li>
+            <li><span class="term">K</span><span class="desc">Oferta de capital en la economía</span></li>
+          </ul>
+
+          <div class="intensity-row">
+            <span class="frac"><span class="num">a<sub>LA</sub></span><span class="den">a<sub>KA</sub></span></span>
+            &le;
+            <span class="frac"><span class="num">a<sub>LB</sub></span><span class="den">a<sub>KB</sub></span></span>
+            <span class="and">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="frac"><span class="num">a<sub>LA</sub></span><span class="den">a<sub>LB</sub></span></span>
+            &le;
+            <span class="frac"><span class="num">a<sub>KA</sub></span><span class="den">a<sub>KB</sub></span></span>
+
+            <ul class="equation-list">
+            <li><span class="desc">A es intensivo en Capital y B es intensivo en Trabajo</span></li>
+            </ul>
+
+          </div>
+
+          <div class="equation-block">
+          
+          <div class="equation-main" style="margin-top:clamp(20px,3vh,38px);">
+            Máx V = Q<sub>A</sub> · P<sub>A</sub> + Q<sub>B</sub> · P<sub>B</sub>
+          </div>
+
+          <div class="two-equations">
+            <div class="eq-item">
+              <span class="eq-label">Restricción de trabajo</span>
+              Q<sub>A</sub> · a<sub>LA</sub> + Q<sub>B</sub> · a<sub>LB</sub> &le; L
+            </div>
+            <div class="eq-item">
+              <span class="eq-label">Restricción de capital</span>
+              Q<sub>A</sub> · a<sub>KA</sub> + Q<sub>B</sub> · a<sub>KB</sub> &le; K
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 5: FPP con dos restricciones ========== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Frontera de Posibilidades de Producción</h2>
+          <p class="subtitle">Dos visiones según la sustituibilidad de factores</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,50px); align-items:center; flex:1;">
+
+          <!-- ---------- Gráfico A: Restricciones y FPP en ángulo ---------- -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <svg viewBox="0 0 560 420" aria-label="Restricciones de factores y FPP en ángulo" style="width:100%; height:auto; max-height:52vh;">
+              <!-- Ejes -->
+              <line class="diagram-axis" x1="60" y1="340" x2="490" y2="340" />
+              <line class="diagram-axis" x1="60" y1="340" x2="60" y2="40" />
+
+              <!-- Etiquetas de los ejes -->
+              <text x="20" y="25" class="diagram-label" font-size="15">Q<tspan baseline-shift="sub" font-size="12">Alimentos</tspan></text>
+              <text x="505" y="338" class="diagram-label" font-size="15">Q<tspan baseline-shift="sub" font-size="12">Tela</tspan></text>
+
+              <!-- Restricción de TRABAJO (recta empinada, oscura) -->
+              <line class="diagram-line-accent" x1="60" y1="60" x2="250" y2="340" />
+
+              <!-- Restricción de TIERRA (recta plana, clara) -->
+              <line class="diagram-curve-light" x1="60" y1="140" x2="440" y2="340" />
+
+              <!-- FPP como envolvente en ángulo -->
+              <polyline points="60,60 145,185 440,340"
+                        fill="none" stroke="#00b9ca" stroke-width="5" stroke-linejoin="round" />
+
+              <!-- Etiqueta de la restricción de trabajo (pegada a la línea oscura) -->
+              <text x="115" y="105" fill="#061383" font-size="14" font-weight="600">Restricción de trabajo</text>
+
+              <!-- Etiqueta de la restricción de tierra (debajo de la línea clara) -->
+              <text x="400" y="300" fill="#6eb9c2" font-size="14" font-weight="600">Restricción de tierra</text>
+
+              <!-- Bloque de anotación de la FPP (arriba-derecha, zona libre) -->
+              <text x="400" y="50" fill="#132c50" font-size="13" font-weight="600" text-anchor="middle">Frontera de posibilidades de producción</text>
+              <text x="400" y="68" fill="#132c50" font-size="13" font-weight="600" text-anchor="middle">Pendiente = costo de oportunidad</text>
+              <text x="400" y="86" fill="#132c50" font-size="13" font-weight="600" text-anchor="middle">de la tela en términos de alimentos</text>
+
+              <!-- Dos guías cortas que convergen al vértice de la FPP -->
+              <line x1="450" y1="95" x2="160" y2="192" stroke="#132c50" stroke-width="1.2" />
+
+              <!-- Interceptos eje Y -->
+              <text x="52" y="62" font-size="14" fill="#061383" font-style="italic" text-anchor="end">L/a<tspan baseline-shift="sub" font-size="10">LA</tspan></text>
+              <text x="52" y="144" font-size="14" fill="#527092" font-style="italic" text-anchor="end">T/a<tspan baseline-shift="sub" font-size="10">TA</tspan></text>
+
+              <!-- Interceptos eje X -->
+              <text x="250" y="375" font-size="14" fill="#061383" font-style="italic" text-anchor="middle">L/a<tspan baseline-shift="sub" font-size="10">LT</tspan></text>
+              <text x="440" y="375" font-size="14" fill="#527092" font-style="italic" text-anchor="middle">T/a<tspan baseline-shift="sub" font-size="10">TT</tspan></text>
+            </svg>
+          </div>
+
+          <!-- ---------- Gráfico B: FPP suave (con sustituibilidad) ---------- -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <svg viewBox="0 0 500 400" aria-label="FPP suave con sustituibilidad de factores" style="width:100%; height:auto; max-height:52vh;">
+              <!-- Ejes -->
+              <line class="diagram-axis" x1="60" y1="340" x2="470" y2="340" />
+              <line class="diagram-axis" x1="60" y1="340" x2="60" y2="40" />
+
+              <!-- Etiquetas de los ejes -->
+              <text x="18" y="48" class="diagram-label" font-size="14">Cantidad de alimentos, Q<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+              <text x="465" y="378" class="diagram-label" font-size="14" text-anchor="end">Cantidad de tela, Q<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+
+              <!-- FPP: curva cóncava al origen. Empieza casi horizontal y termina casi vertical. -->
+              <path class="diagram-curve"
+                    d="M 60 90
+                      C 150 92, 280 130, 370 210
+                      C 415 250, 435 300, 440 340"
+                    fill="none" />
+
+              <!-- Etiqueta PP -->
+              <text x="355" y="270" fill="#132c50" font-size="17" font-weight="700" font-style="italic">PP</text>
+            </svg>
+          </div>
+
+        </div>
+
+        <div class="info-box" style="margin-top:clamp(16px,2.4vh,28px);">
+          <p><strong style="color:var(--blue);">Izquierda:</strong> con coeficientes fijos de factores, la FPP tiene un <strong>vértice</strong> (envolvente de las dos restricciones lineales).</p>
+          <p style="margin-top:6px;"><strong style="color:var(--blue);">Derecha:</strong> cuando los factores son <strong>sustituibles</strong>, la FPP se suaviza y se convierte en una <strong>curva cóncava al origen</strong>.</p>
+        </div>
+      </div>
+    </section>
+    <!-- ========== Diapositiva 6: Equilibrio ========== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Equilibrio</h2>
+          <p class="subtitle">Rectas isovalor y maximización del valor</p>
+        </div>
+        <div class="two-col">
+          <div class="diagram-container">
+            <svg viewBox="0 0 520 420" aria-label="Equilibrio con rectas isovalor" style="width:100%; height:auto; max-height:52vh;">
+            <!-- Ejes -->
+            <line class="diagram-axis" x1="70" y1="360" x2="490" y2="360" />
+            <line class="diagram-axis" x1="70" y1="360" x2="70" y2="40" />
+
+            <!-- Etiquetas de los ejes -->
+            <text x="18" y="48" class="diagram-label" font-size="14">Cantidad de alimentos, Q<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+            <text x="485" y="385" class="diagram-label" font-size="14" text-anchor="end">Cantidad de tela, Q<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+
+            <!-- FPP: arco de elipse, garantiza tangencia única con cualquier recta -->
+            <path class="diagram-curve"
+                  d="M 70 70 A 380 290 0 0 1 450 360"
+                  fill="none" />
+
+            <!-- Isovalor SUPERIOR (por arriba de la tangente, fuera del conjunto factible) -->
+            <line class="diagram-line" x1="291" y1="40" x2="470" y2="203" opacity="0.5" />
+
+            <!-- Isovalor INFERIOR (por debajo de la tangente, dentro del conjunto factible) -->
+            <line class="diagram-line" x1="137" y1="40" x2="470" y2="343" opacity="0.5" />
+
+            <!-- Isovalor TANGENTE a la FPP en Q (pendiente exacta = 0.9094) -->
+            <line class="diagram-line-accent" x1="215" y1="41" x2="470" y2="273" />
+
+            <!-- Etiqueta "Rectas isovalor" con dos guías cortas -->
+            <text x="355" y="70" fill="#132c50" font-size="14">Rectas isovalor</text>
+            <line x1="380" y1="78" x2="305" y2="118" stroke="#132c50" stroke-width="1.2" />
+            <line x1="380" y1="78" x2="375" y2="118" stroke="#132c50" stroke-width="1.2" />
+
+            <!-- Punto de tangencia Q (único punto donde la tangente toca la FPP) -->
+            <circle class="diagram-point" cx="361" cy="174" r="7" />
+            <text x="371" y="167" class="diagram-label-accent" font-size="17">Q</text>
+
+            <!-- Etiqueta PP -->
+            <text x="410" y="290" fill="#00a9bc" font-size="17" font-weight="700" font-style="italic">PP</text>
+
+            <!-- Etiqueta de pendiente -->
+            <text x="455" y="340" fill="#284a70" font-size="14" font-weight="600" text-anchor="end">Pendiente = −P<tspan baseline-shift="sub" font-size="10">T</tspan>/P<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+          </svg>
+          </div>
+          <div>
+            <div class="info-box">
+              <h3>Equilibrio de producción</h3>
+              <p>El productor busca <strong>maximizar el valor</strong> de su producción: V = P<sub>A</sub>·Q<sub>A</sub> + P<sub>T</sub>·Q<sub>T</sub>.</p>
+              <p style="margin-top:12px;">Las <strong>rectas isovalor</strong> tienen pendiente −P<sub>T</sub>/P<sub>A</sub>. Como la FPP es <strong>cóncava</strong>, la recta isovalor <strong>más alta posible</strong> toca la curva en un único punto Q.</p>
+            </div>
+            <p style="margin-top:18px; color:#496a89; font-size:clamp(15px,1.2vw,19px);">
+              En ese punto <strong>Q</strong> la economía produce la combinación de bienes que maximiza su valor dado el precio relativo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 7: Asignación de recursos ========== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Asignación de recursos</h2>
+          <p class="subtitle">Diagrama de caja: trabajo y tierra entre dos sectores</p>
+        </div>
+        <div class="two-col">
+          <div class="diagram-container">
+            <svg viewBox="0 0 560 480" aria-label="Asignación de recursos entre dos sectores" style="width:100%; height:auto; max-height:55vh;">
+            <!-- Caja -->
+            <rect x="110" y="80" width="340" height="300" fill="none" stroke="#284a70" stroke-width="2"/>
+
+            <!-- Etiquetas de esquinas -->
+            <text x="100" y="400" font-size="15" fill="#284a70" font-weight="700" font-style="italic" text-anchor="end">O<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+            <text x="460" y="72" font-size="15" fill="#284a70" font-weight="700" font-style="italic">O<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+
+            <!-- Línea T (oscura): sale de O_T y termina cerca del label T -->
+            <line x1="110" y1="380" x2="400" y2="159" stroke="#284a70" stroke-width="2.5"/>
+
+            <!-- Línea A (celeste): sale de O_A y termina cerca del label A -->
+            <line x1="450" y1="80" x2="240" y2="301" stroke="#00b9ca" stroke-width="3.5"/>
+
+            <!-- Punto 1 -->
+            <circle cx="320" cy="220" r="7" fill="#061383" stroke="#fff" stroke-width="2"/>
+            <text x="329" y="214" font-size="17" font-weight="700" fill="#061383">1</text>
+
+            <!-- Guías punteadas -->
+            <line x1="320" y1="220" x2="320" y2="380" stroke="#91a5ba" stroke-width="1.6" stroke-dasharray="6 6"/>
+            <line x1="320" y1="220" x2="320" y2="80" stroke="#91a5ba" stroke-width="1.6" stroke-dasharray="6 6"/>
+            <line x1="110" y1="220" x2="320" y2="220" stroke="#91a5ba" stroke-width="1.6" stroke-dasharray="6 6"/>
+            <line x1="320" y1="220" x2="450" y2="220" stroke="#91a5ba" stroke-width="1.6" stroke-dasharray="6 6"/>
+
+            <!-- Etiquetas en los bordes (punto de corte de las guías) -->
+            <text x="320" y="402" font-size="14" fill="#284a70" font-style="italic" text-anchor="middle">L<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+            <text x="320" y="70" font-size="14" fill="#284a70" font-style="italic" text-anchor="middle">L<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+            <text x="100" y="225" font-size="14" fill="#284a70" font-style="italic" text-anchor="end">T<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+            <text x="460" y="225" font-size="14" fill="#284a70" font-style="italic">T<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+
+            <!-- Etiquetas de las líneas T y A -->
+            <text x="412" y="155" fill="#284a70" font-size="16" font-weight="700" font-style="italic">T</text>
+            <text x="225" y="322" fill="#00b9ca" font-size="16" font-weight="700" font-style="italic">A</text>
+
+            <!-- Borde superior: flecha izquierda arriba, texto largo debajo -->
+            <text x="215" y="30" font-size="13" fill="#132c50" text-anchor="middle">← Aumenta</text>
+            <text x="280" y="52" font-size="13" fill="#132c50" font-weight="600" text-anchor="middle">Trabajo utilizado en la producción de alimentos</text>
+
+            <!-- Borde inferior: flecha derecha arriba, texto largo debajo -->
+            <text x="365" y="432" font-size="13" fill="#132c50" text-anchor="middle">Aumenta →</text>
+            <text x="280" y="456" font-size="13" fill="#132c50" font-weight="600" text-anchor="middle">Trabajo utilizado en la producción de tela</text>
+
+            <!-- Borde izquierdo (rotado -90): etiqueta larga al centro, "Aumenta" más afuera -->
+            <text x="60" y="230" font-size="13" fill="#132c50" font-weight="600" transform="rotate(-90 60 230)" text-anchor="middle">Tierra utilizada en la producción de tela</text>
+            <text x="35" y="190" font-size="13" fill="#132c50" transform="rotate(-90 35 190)" text-anchor="middle">Aumenta ↑</text>
+
+            <!-- Borde derecho (rotado +90): etiqueta larga al centro, "Aumenta" más afuera -->
+            <text x="520" y="230" font-size="13" fill="#132c50" font-weight="600" transform="rotate(90 520 230)" text-anchor="middle">Tierra utilizada en la producción de alimentos</text>
+            <text x="545" y="270" font-size="13" fill="#132c50" transform="rotate(90 545 270)" text-anchor="middle">Aumenta ↓</text>
+          </svg>
+          </div>
+          <div>
+            <div class="info-box">
+              <h3>Asignación óptima</h3>
+              <p>El diagrama de caja muestra cómo se reparten <strong>trabajo</strong> y <strong>tierra</strong> entre los dos sectores (tela y alimentos).</p>
+              <p style="margin-top:12px;">La línea <strong>A</strong> (alimentos) es más empinada porque ese sector es intensivo en tierra. La línea <strong>T</strong> (tela) es más plana. Se cruzan en el punto de equilibrio <strong>1</strong>.</p>
+            </div>
+            <p style="margin-top:18px; color:#496a89; font-size:clamp(15px,1.2vw,19px);">
+              La asignación depende de la <strong>intensidad factorial</strong> de cada bien y de la dotación de factores del país.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 8: Dos países ========== -->
+    <section class="slide" data-slide="8" aria-label="Diapositiva 8">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Dos países: restricción presupuestaria</h2>
+          <p class="subtitle">Comercio internacional y equilibrio</p>
+        </div>
+
+        <div class="equation-block" style="margin-bottom:clamp(20px,3vh,36px);">
+          <div class="equation-main">
+            P<sub>A</sub> · D<sub>A</sub> + P<sub>B</sub> · D<sub>B</sub> = P<sub>A</sub> · Q<sub>A</sub> + P<sub>B</sub> · Q<sub>B</sub>
+          </div>
+          <div class="equation-sub">
+            D<sub>A</sub> − Q<sub>A</sub> = (P<sub>B</sub> / P<sub>A</sub>) · (Q<sub>B</sub> − D<sub>B</sub>)
+          </div>
+          <p style="text-align:center; color:#496a89; font-size:clamp(15px,1.3vw,20px);">
+            D<sub>A</sub>: Demanda del bien A · D<sub>B</sub>: Demanda del bien B
+          </p>
+        </div>
+
+        <div class="two-col" style="flex:1; align-items:start;">
+
+          <!-- ========== (a) Nuestro país ========== -->
+          <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+            <svg viewBox="0 0 560 470" aria-label="Restricción presupuestaria del país nacional" style="width:100%; height:auto; max-height:55vh;">
+              <text x="280" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#061383">(a) Nuestro país</text>
+              <text x="155" y="72" text-anchor="end" font-size="13" fill="#132c50" font-weight="600">Cantidad de alimentos</text>
+
+              <!-- Ejes -->
+              <line x1="160" y1="80" x2="160" y2="380" stroke="#284a70" stroke-width="2"/>
+              <line x1="160" y1="380" x2="530" y2="380" stroke="#284a70" stroke-width="2"/>
+              <text x="535" y="400" text-anchor="start" font-size="13" fill="#132c50" font-weight="600">Cantidad de tela</text>
+
+              <!-- Restricción presupuestaria -->
+              <line x1="160" y1="100" x2="500" y2="380" stroke="#061383" stroke-width="2.5"/>
+
+              <!-- TRIÁNGULO INVERTIDO: punto en esquina superior-derecha, área celeste debajo-izquierda -->
+              <!-- Vértices: D_A^NP arriba-izq (240,166), Q_A^NP abajo-der (380,281), y (240,281) abajo-izq -->
+              <polygon points="240,166 380,281 240,281" fill="#15cdda" opacity="0.5"/>
+
+              <!-- Guías punteadas -->
+              <line x1="240" y1="166" x2="240" y2="380" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="380" y1="281" x2="380" y2="380" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="160" y1="166" x2="240" y2="166" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="160" y1="281" x2="380" y2="281" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+
+              <!-- Punto de consumo -->
+              <circle cx="240" cy="166" r="6" fill="#061383" stroke="#fff" stroke-width="2"/>
+
+              <!-- Etiquetas eje Y -->
+              <text x="150" y="171" text-anchor="end" font-size="14" fill="#061383" font-style="italic">D<tspan baseline-shift="sub" font-size="10">A</tspan><tspan baseline-shift="super" font-size="9">NP</tspan></text>
+              <text x="150" y="286" text-anchor="end" font-size="14" fill="#061383" font-style="italic">Q<tspan baseline-shift="sub" font-size="10">A</tspan><tspan baseline-shift="super" font-size="9">NP</tspan></text>
+
+              <!-- Bracket izquierdo -->
+              <path d="M 130,166 L 118,166 L 118,281 L 130,281" fill="none" stroke="#132c50" stroke-width="1.4"/>
+
+              <!-- Texto importaciones -->
+              <text x="105" y="205" text-anchor="end" font-size="12" fill="#132c50">
+                <tspan x="105" dy="0">Importa-</tspan>
+                <tspan x="105" dy="14">ciones de</tspan>
+                <tspan x="105" dy="14">alimentos</tspan>
+              </text>
+
+              <!-- Etiquetas eje X -->
+              <text x="240" y="404" text-anchor="middle" font-size="14" fill="#061383" font-style="italic">D<tspan baseline-shift="sub" font-size="10">T</tspan><tspan baseline-shift="super" font-size="9">NP</tspan></text>
+              <text x="380" y="404" text-anchor="middle" font-size="14" fill="#061383" font-style="italic">Q<tspan baseline-shift="sub" font-size="10">T</tspan><tspan baseline-shift="super" font-size="9">NP</tspan></text>
+
+              <!-- Bracket inferior -->
+              <path d="M 240,420 L 240,432 L 380,432 L 380,420" fill="none" stroke="#132c50" stroke-width="1.4"/>
+
+              <text x="310" y="458" text-anchor="middle" font-size="12" fill="#132c50">Exportaciones de tela</text>
+            </svg>
+          </div>
+
+          <!-- ========== (b) El extranjero ========== -->
+          <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+            <svg viewBox="0 0 560 470" aria-label="Restricción presupuestaria del extranjero" style="width:100%; height:auto; max-height:55vh;">
+              <text x="280" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#061383">(b) El extranjero</text>
+              <text x="155" y="72" text-anchor="end" font-size="13" fill="#132c50" font-weight="600">Cantidad de alimentos</text>
+
+              <!-- Ejes -->
+              <line x1="160" y1="80" x2="160" y2="380" stroke="#284a70" stroke-width="2"/>
+              <line x1="160" y1="380" x2="530" y2="380" stroke="#284a70" stroke-width="2"/>
+              <text x="535" y="400" text-anchor="start" font-size="13" fill="#132c50" font-weight="600">Cantidad de tela</text>
+
+              <!-- Restricción presupuestaria -->
+              <line x1="160" y1="100" x2="500" y2="380" stroke="#061383" stroke-width="2.5"/>
+
+              <!-- TRIÁNGULO INVERTIDO: punto en esquina inferior-izquierda, área celeste arriba-derecha -->
+              <!-- Vértices: Q_A^E arriba-izq (290,207), D_A^E abajo-der (420,314), y (420,207) arriba-der -->
+              <polygon points="290,207 290,314 420,314" fill="#15cdda" opacity="0.5"/>
+
+              <!-- Guías punteadas -->
+              <line x1="290" y1="207" x2="290" y2="380" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="420" y1="314" x2="420" y2="380" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="160" y1="207" x2="290" y2="207" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+              <line x1="160" y1="314" x2="420" y2="314" stroke="#91a5ba" stroke-width="1.4" stroke-dasharray="6 6"/>
+
+              <!-- Punto de consumo -->
+              <circle cx="420" cy="314" r="6" fill="#061383" stroke="#fff" stroke-width="2"/>
+
+              <!-- Etiquetas eje Y -->
+              <text x="150" y="212" text-anchor="end" font-size="14" fill="#061383" font-style="italic">Q<tspan baseline-shift="sub" font-size="10">A</tspan><tspan baseline-shift="super" font-size="9">E</tspan></text>
+              <text x="150" y="319" text-anchor="end" font-size="14" fill="#061383" font-style="italic">D<tspan baseline-shift="sub" font-size="10">A</tspan><tspan baseline-shift="super" font-size="9">E</tspan></text>
+
+              <!-- Bracket izquierdo -->
+              <path d="M 130,207 L 118,207 L 118,314 L 130,314" fill="none" stroke="#132c50" stroke-width="1.4"/>
+
+              <!-- Texto exportaciones -->
+              <text x="105" y="240" text-anchor="end" font-size="12" fill="#132c50">
+                <tspan x="105" dy="0">Exporta-</tspan>
+                <tspan x="105" dy="14">ciones de</tspan>
+                <tspan x="105" dy="14">alimentos</tspan>
+              </text>
+
+              <!-- Etiquetas eje X -->
+              <text x="290" y="404" text-anchor="middle" font-size="14" fill="#061383" font-style="italic">Q<tspan baseline-shift="sub" font-size="10">T</tspan><tspan baseline-shift="super" font-size="9">E</tspan></text>
+              <text x="420" y="404" text-anchor="middle" font-size="14" fill="#061383" font-style="italic">D<tspan baseline-shift="sub" font-size="10">T</tspan><tspan baseline-shift="super" font-size="9">E</tspan></text>
+
+              <!-- Bracket inferior -->
+              <path d="M 290,420 L 290,432 L 420,432 L 420,420" fill="none" stroke="#132c50" stroke-width="1.4"/>
+
+              <text x="355" y="458" text-anchor="middle" font-size="12" fill="#132c50">Importaciones de tela</text>
+            </svg>
+          </div>
+        </div>
+            </section>
+
+          </main>
+
+          <nav class="controls" aria-label="Controles de presentación">
+            <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+            <span class="counter"><span id="current">1</span> / 8</span>
+            <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+            <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+          </nav>
+
+          <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+            <div class="overview-list">
+              <button data-go="0">01 &nbsp; Portada</button>
+              <button data-go="1">02 &nbsp; ¿Por qué comercian los países?</button>
+              <button data-go="2">03 &nbsp; Teoría de proporciones factoriales</button>
+              <button data-go="3">04 &nbsp; Modelo de dos factores</button>
+              <button data-go="4">05 &nbsp; Frontera de Posibilidades de Producción</button>
+              <button data-go="5">06 &nbsp; Equilibrio</button>
+              <button data-go="6">07 &nbsp; Asignación de recursos</button>
+              <button data-go="7">08 &nbsp; Dos países: restricción presupuestaria</button>
+            </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
