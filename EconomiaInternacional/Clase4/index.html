@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 4: Instrumentos de Política Comercial</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(42px,6vw,92px); line-height:.94; max-width:850px; }
+    h2 { font-size:clamp(31px,4.2vw,66px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:15vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(21px,2vw,34px); margin:30px 0 60px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(16px,1.4vw,23px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1150px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(22px,4vh,48px); max-width:900px; }
+    .subtitle { font-size:clamp(17px,1.55vw,24px); color:#527092; margin-top:13px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+    .card { background:rgba(255,255,255,.7); padding:clamp(20px,2.5vw,40px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(22px,2.2vw,34px); }
+    .card p { color:#496a89; font-size:clamp(15px,1.3vw,21px); margin-top:8px; line-height:1.4; }
+    .card .example { display:block; margin-top:14px; color:#00a9bc; font-weight:600; font-size:0.85em; }
+    .info-box { background:rgba(255,255,255,.75); padding:clamp(18px,2.5vw,36px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(20px,2.2vw,34px); margin-bottom:8px; }
+    .info-box p { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.4; }
+
+    /* ---------- Ecuaciones ---------- */
+    .equation-block {
+      background: rgba(255,255,255,.75);
+      border-left: 6px solid var(--cyan);
+      border-radius: 12px;
+      padding: clamp(20px,2.5vw,40px);
+      margin: 0 auto;
+      max-width: 950px;
+      width: 100%;
+    }
+    .equation-main {
+      font-size: clamp(22px,2.4vw,38px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(20px,3vh,38px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .equation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(10px,1.5vh,18px);
+      font-size: clamp(16px,1.5vw,22px);
+      color: #355c82;
+    }
+    .equation-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      line-height: 1.4;
+    }
+    .equation-list .term {
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-weight: 600;
+      min-width: 4.5em;
+    }
+    .equation-list .desc { color: #496a89; }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      font-size: 0.95em;
+      margin: 0 6px;
+    }
+    .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 8px 4px; }
+    .frac .den { padding: 4px 8px 0; }
+
+    .calc-step {
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+      padding: clamp(14px,2vh,22px) clamp(16px,2vw,24px);
+      margin: clamp(10px,1.6vh,16px) 0;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-size: clamp(16px,1.6vw,24px);
+      line-height: 1.6;
+    }
+    .calc-step strong { color: #00a9bc; font-style: normal; }
+    .calc-result {
+      background: rgba(6,19,131,.08);
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      padding: clamp(16px,2.4vh,26px);
+      margin-top: clamp(16px,2.4vh,26px);
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-size: clamp(20px,2.2vw,32px);
+      font-weight: 700;
+    }
+
+    /* ---------- SVG containers ---------- */
+    .diagram-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.25;
+      max-height: 60vh;
+      margin: 0 auto;
+    }
+    .diagram-container svg { width:100%; height:100%; overflow:visible; }
+    .diagram-container text { font-family: Aptos, Arial, sans-serif; fill: var(--ink); font-size: 15px; }
+    .diagram-axis { stroke: #284a70; stroke-width: 2; }
+    .diagram-curve { fill: none; stroke: #00a9bc; stroke-width: 4.5; }
+    .diagram-curve-2 { fill: none; stroke: #e86552; stroke-width: 4.5; }
+    .diagram-line { fill: none; stroke: #284a70; stroke-width: 2; }
+    .diagram-line-accent { fill: none; stroke: var(--blue); stroke-width: 3; }
+    .diagram-point { fill: var(--blue); stroke: #fff; stroke-width: 2; }
+    .diagram-label { font-weight: 600; }
+    .diagram-label-accent { fill: var(--blue); font-weight: 700; }
+    .diagram-guide { stroke: #91a5ba; stroke-width: 1.6; stroke-dasharray: 6 6; }
+    .diagram-fill { fill: rgba(21,205,218,.25); stroke: none; }
+
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls,
+    body[data-slide="7"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+    @media (max-width:720px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 20px 78px; }
+      .two-col { grid-template-columns:1fr; gap:30px; }
+      .card-grid { grid-template-columns:1fr; }
+      .overview-list { grid-template-columns:1fr; }
+      .diagram-container { max-height:45vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 4: Instrumentos de Política Comercial">
+
+    <!-- ========== Diapositiva 1: Portada ========== -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 4:</span><span class="accent">Instrumentos</span><span>de Política Comercial</span></h1>
+        <p class="course">Economía Internacional</p>
+        <p class="professor">Profesor Mg. William Alexander Aguirre Antolínez</p>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 2: ¿Por qué interviene el gobierno? ========== -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>¿Por qué interviene el gobierno en la economía?</h2>
+          <p class="subtitle">La pregunta central de esta clase</p>
+        </div>
+        <div class="two-col">
+          <div class="info-box">
+            <h3>La paradoja</h3>
+            <p>Si los modelos económicos muestran que el <strong>libre comercio maximiza el bienestar mundial</strong>, ¿por qué los países imponen barreras al comercio?</p>
+            <p style="margin-top:14px;">En esta clase estudiaremos los <strong>instrumentos</strong> concretos que los gobiernos utilizan para intervenir en el comercio internacional, y los efectos que tienen sobre precios, cantidades y bienestar.</p>
+          </div>
+          <div class="info-box">
+            <h3>Posibles razones</h3>
+            <ul style="list-style:none; padding:0; margin:0; color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.6;">
+              <li style="margin-bottom:10px;">• Proteger industrias nacientes o estratégicas</li>
+              <li style="margin-bottom:10px;">• Preservar empleos en sectores vulnerables</li>
+              <li style="margin-bottom:10px;">• Recaudar ingresos fiscales</li>
+              <li style="margin-bottom:10px;">• Corregir fallos de mercado o externalidades</li>
+              <li>• Atender presiones políticas internas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 3: Instrumentos ========== -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Instrumentos</h2>
+          <p class="subtitle">Los principales mecanismos de intervención comercial</p>
+        </div>
+        <div class="card-grid" style="flex:1; align-content:center;">
+          <article class="card" style="cursor:default;">
+            <h3>Tarifa específica</h3>
+            <p>Es un impuesto de importación que asigna un <strong>monto fijo en dinero</strong> por unidad física del bien importado.</p>
+            <span class="example">Ejemplo: $2 por cada kilo importado</span>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Arancel ad valorem</h3>
+            <p>Se cobra como un <strong>porcentaje constante del valor monetario</strong> de una unidad del bien importado.</p>
+            <span class="example">Ejemplo: 10% sobre el valor declarado</span>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Subsidios a la importación</h3>
+            <p>Es un <strong>pago por unidad</strong> o como porcentaje del valor, otorgado por la importación de un bien.</p>
+            <span class="example">Ejemplo: $1 por unidad importada</span>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Arancel preferencial</h3>
+            <p>Son tasas arancelarias aplicadas a una importación <strong>según su origen geográfico</strong>.</p>
+            <span class="example">Ejemplo: 0% para países del TLC, 15% para el resto</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 4: ERP ========== -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Tasa de Protección Efectiva (ERP)</h2>
+          <p class="subtitle">Effective Rate of Protection</p>
+        </div>
+
+        <div class="equation-block">
+          <p style="text-align:center; color:#355c82; font-size:clamp(15px,1.4vw,21px); margin-bottom:clamp(20px,3vh,36px); line-height:1.5;">
+            La protección efectiva mide en qué porcentaje cambia el <strong>valor agregado</strong> de la industria nacional gracias a toda la estructura arancelaria (aranceles sobre el producto final vs. aranceles sobre los insumos importados).
+          </p>
+
+          <div class="equation-main">
+            ERP<sub>j</sub> =
+            <span class="frac">
+              <span class="num">t<sub>j</sub> − &sum;(a<sub>ij</sub> · t<sub>i</sub>)</span>
+              <span class="den">1 − &sum; a<sub>ij</sub></span>
+            </span>
+          </div>
+
+          <ul class="equation-list">
+            <li><span class="term">t<sub>j</sub></span><span class="desc">Tasa arancelaria sobre el bien <em>j</em> (producto final)</span></li>
+            <li><span class="term">t<sub>i</sub></span><span class="desc">Tasa arancelaria sobre el insumo <em>i</em></span></li>
+            <li><span class="term">a<sub>ij</sub></span><span class="desc">Valor en libre comercio del insumo <em>i</em> como porcentaje del valor en libre comercio del bien final <em>j</em></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 5: Ejemplo numérico ========== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Ejemplo: ERP de las flores</h2>
+          <p class="subtitle">Cálculo paso a paso</p>
+        </div>
+
+        <div class="equation-block">
+          <p style="color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.5; margin-bottom:clamp(16px,2.4vh,26px);">
+            Las flores son el bien final. A y B son insumos intermedios. Bajo libre comercio:
+          </p>
+
+          <div class="calc-step">
+            P<sub>F</sub> = $10.000 &nbsp;&nbsp;·&nbsp;&nbsp; P<sub>A</sub> = $500 &nbsp;&nbsp;·&nbsp;&nbsp; P<sub>B</sub> = $200
+          </div>
+
+          <div class="calc-step">
+            t<sub>F</sub> = <strong>10%</strong> &nbsp;&nbsp;·&nbsp;&nbsp; t<sub>A</sub> = <strong>5%</strong> &nbsp;&nbsp;·&nbsp;&nbsp; t<sub>B</sub> = <strong>8%</strong>
+          </div>
+
+          <div class="calc-step">
+            a<sub>AF</sub> = 500 / 10.000 = <strong>0.05</strong> &nbsp;&nbsp;·&nbsp;&nbsp; a<sub>BF</sub> = 200 / 10.000 = <strong>0.02</strong>
+          </div>
+
+          <div class="calc-step">
+            &sum; a<sub>iF</sub> = 0.05 + 0.02 = <strong>0.07</strong> &nbsp;&nbsp;→&nbsp;&nbsp; 1 − 0.07 = <strong>0.93</strong>
+          </div>
+
+          <div class="calc-step">
+            &sum;(a<sub>iF</sub> · t<sub>i</sub>) = (0.05 · 0.05) + (0.02 · 0.08) = 0.0025 + 0.0016 = <strong>0.0041</strong>
+          </div>
+
+          <div class="calc-result">
+            ERP = (0.10 − 0.0041) / 0.93 = 0.0959 / 0.93 ≈ <strong>10.31%</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 6: Ejercicio computadores ========== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Ejercicio: computadores en Colombia</h2>
+          <p class="subtitle">Efecto de un arancel de $5</p>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="equation-block">
+              <div class="equation-main" style="font-size:clamp(20px,2vw,30px);">
+                Q<sub>d</sub> = 200 − 2P
+              </div>
+              <div class="equation-main" style="font-size:clamp(20px,2vw,30px);">
+                Q<sub>s</sub> = 14 + 4P
+              </div>
+
+              <div style="border-top:2px dashed #cbd9e4; margin-top:clamp(18px,2.6vh,28px); padding-top:clamp(16px,2.4vh,26px); text-align:center;">
+                <p style="color:#496a89; font-size:clamp(14px,1.3vw,19px); margin-bottom:12px;">Equilibrio sin arancel:</p>
+                <div class="equation-main" style="font-size:clamp(22px,2.2vw,32px); margin-bottom:0;">
+                  P* = 31 &nbsp;&nbsp;·&nbsp;&nbsp; Q* = 138
+                </div>
+              </div>
+
+              <p style="text-align:center; margin-top:clamp(18px,2.6vh,28px); color:var(--blue); font-weight:700; font-size:clamp(17px,1.6vw,24px);">
+                ¿Qué pasa si se aplica un arancel de $5?
+              </p>
+            </div>
+          </div>
+
+          <div class="diagram-container">
+            <svg viewBox="0 0 520 440" aria-label="Oferta y demanda con equilibrio">
+              <!-- Ejes -->
+              <line class="diagram-axis" x1="70" y1="380" x2="490" y2="380" />
+              <line class="diagram-axis" x1="70" y1="380" x2="70" y2="40" />
+              <text x="450" y="408" class="diagram-label" font-size="14">Cantidad, Q</text>
+              <text x="20" y="48" class="diagram-label" font-size="14">Precio, P</text>
+
+              <!-- Curva de OFERTA (Qs = 14 + 4P) → P = (Q-14)/4 -->
+              <!-- A Q=14 → P=0, Q=254 → P=60 -->
+              <line class="diagram-curve" x1="92" y1="380" x2="476" y2="40" />
+
+              <!-- Curva de DEMANDA (Qd = 200 - 2P) → P = (200-Q)/2 -->
+              <!-- A Q=80 → P=60, Q=200 → P=0 -->
+              <line class="diagram-curve-2" x1="198" y1="40" x2="390" y2="380" />
+
+              <!-- Punto de equilibrio: P=31, Q=138 -->
+              <!-- x = 70 + (138/250)*420 = 70 + 231.8 = 302 -->
+              <!-- y = 380 - (31/60)*340 = 380 - 175.7 = 204 -->
+              <circle class="diagram-point" cx="290" cy="204" r="7" />
+              <text x="312" y="197" class="diagram-label-accent" font-size="17">E</text>
+
+              <!-- Guías punteadas -->
+              <line class="diagram-guide" x1="290" y1="204" x2="290" y2="380" />
+              <line class="diagram-guide" x1="70" y1="204" x2="290" y2="204" />
+
+              <!-- Etiquetas de equilibrio -->
+              <text x="302" y="404" font-size="14" fill="#284a70" text-anchor="middle" font-style="italic">Q* = 138</text>
+              <text x="58" y="209" font-size="14" fill="#284a70" text-anchor="end" font-style="italic">P* = 31</text>
+
+              <!-- Etiquetas de las curvas -->
+              <text x="470" y="60" fill="#00a9bc" font-size="17" font-weight="700" font-style="italic">O</text>
+              <text x="190" y="60" fill="#e86552" font-size="17" font-weight="700" font-style="italic">D</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 7: Otros instrumentos ========== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Otros instrumentos</h2>
+          <p class="subtitle">Más allá de los aranceles tradicionales</p>
+        </div>
+        <div class="card-grid" style="flex:1; align-content:center;">
+          <article class="card" style="cursor:default;">
+            <h3>Derechos de importación</h3>
+            <p>Import fees. <strong>Cargos adicionales</strong> que se aplican a las importaciones más allá del arancel estándar, como tasas administrativas, consulares o de inspección.</p>
+            <span class="example">Ejemplo: tasa por inspección fitosanitaria</span>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Restricción voluntaria de exportaciones</h3>
+            <p>Voluntary export restriction. El país <strong>exportador</strong> acepta limitar voluntariamente el volumen de sus exportaciones, generalmente bajo presión del país importador.</p>
+            <span class="example">Ejemplo: cuotas "voluntarias" de autos japoneses a EEUU en los 80</span>
+          </article>
+        </div>
+        <div class="info-box" style="margin-top:clamp(20px,3vh,36px);">
+          <h3>Reflexión final</h3>
+          <p>Cada instrumento tiene efectos distintos sobre <strong>precios domésticos</strong>, <strong>cantidades comerciadas</strong>, <strong>recaudación fiscal</strong> y <strong>bienestar</strong>. La elección entre ellos depende del objetivo de política y del contexto del país.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 7</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; ¿Por qué interviene el gobierno?</button>
+      <button data-go="2">03 &nbsp; Instrumentos</button>
+      <button data-go="3">04 &nbsp; Tasa de Protección Efectiva (ERP)</button>
+      <button data-go="4">05 &nbsp; Ejemplo: ERP de las flores</button>
+      <button data-go="5">06 &nbsp; Ejercicio: computadores en Colombia</button>
+      <button data-go="6">07 &nbsp; Otros instrumentos</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
