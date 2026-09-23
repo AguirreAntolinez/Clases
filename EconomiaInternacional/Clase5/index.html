@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 4: Instrumentos de Política Comercial</title>
+  <title>Clase 5: Economía Monetaria</title>
   <style>
     :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
     * { box-sizing:border-box; }
@@ -34,10 +34,12 @@
     .card:hover { transform:translateY(-6px); background:#fff; }
     .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(22px,2.2vw,34px); }
     .card p { color:#496a89; font-size:clamp(15px,1.3vw,21px); margin-top:8px; line-height:1.4; }
-    .card .example { display:block; margin-top:14px; color:#00a9bc; font-weight:600; font-size:0.85em; }
     .info-box { background:rgba(255,255,255,.75); padding:clamp(18px,2.5vw,36px); border-radius:12px; border-left:6px solid var(--cyan); }
     .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(20px,2.2vw,34px); margin-bottom:8px; }
-    .info-box p { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.4; }
+    .info-box p { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.5; }
+    .info-box ul { color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.6; padding-left:0; margin-top:10px; list-style:none; }
+    .info-box ul li { margin-bottom:10px; padding-left:20px; position:relative; }
+    .info-box ul li::before { content:'•'; color:var(--cyan); position:absolute; left:0; font-weight:700; font-size:1.3em; line-height:1; }
 
     /* ---------- Ecuaciones ---------- */
     .equation-block {
@@ -79,9 +81,10 @@
       font-style: italic;
       color: var(--blue);
       font-weight: 600;
-      min-width: 4.5em;
+      min-width: 6em;
     }
     .equation-list .desc { color: #496a89; }
+    .equation-list .sign { color: #00a9bc; font-weight: 700; }
 
     .frac {
       display: inline-flex;
@@ -96,64 +99,45 @@
     .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 8px 4px; }
     .frac .den { padding: 4px 8px 0; }
 
-    .calc-step {
+    .key-point {
       background: rgba(21,205,218,.12);
       border-radius: 10px;
       padding: clamp(14px,2vh,22px) clamp(16px,2vw,24px);
-      margin: clamp(10px,1.6vh,16px) 0;
-      font-family: 'Cambria Math','Times New Roman',serif;
-      font-style: italic;
-      color: var(--blue);
-      font-size: clamp(16px,1.6vw,24px);
-      line-height: 1.6;
+      margin: clamp(12px,1.8vh,20px) 0;
+      color: #285783;
+      font-size: clamp(15px,1.4vw,21px);
+      line-height: 1.5;
     }
-    .calc-step strong { color: #00a9bc; font-style: normal; }
-    .calc-result {
-      background: rgba(6,19,131,.08);
-      border: 2px solid var(--blue);
-      border-radius: 10px;
-      padding: clamp(16px,2.4vh,26px);
-      margin-top: clamp(16px,2.4vh,26px);
-      text-align: center;
-      font-family: 'Cambria Math','Times New Roman',serif;
-      font-style: italic;
-      color: var(--blue);
-      font-size: clamp(20px,2.2vw,32px);
-      font-weight: 700;
-    }
+    .key-point strong { color: var(--blue); }
 
     /* ---------- SVG containers ---------- */
     .diagram-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 1.25;
-      max-height: 60vh;
+      aspect-ratio: 1.35;
+      max-height: 62vh;
       margin: 0 auto;
     }
     .diagram-container svg { width:100%; height:100%; overflow:visible; }
     .diagram-container text { font-family: Aptos, Arial, sans-serif; fill: var(--ink); font-size: 15px; }
     .diagram-axis { stroke: #284a70; stroke-width: 2; }
-    .diagram-curve { fill: none; stroke: #00a9bc; stroke-width: 4.5; }
-    .diagram-curve-2 { fill: none; stroke: #e86552; stroke-width: 4.5; }
-    .diagram-line { fill: none; stroke: #284a70; stroke-width: 2; }
-    .diagram-line-accent { fill: none; stroke: var(--blue); stroke-width: 3; }
-    .diagram-point { fill: var(--blue); stroke: #fff; stroke-width: 2; }
+    .diagram-curve { fill: none; stroke: #6cc6e8; stroke-width: 4; }
+    .diagram-curve-2 { fill: none; stroke: #00a9bc; stroke-width: 4; }
+    .diagram-line { fill: none; stroke: #284a70; stroke-width: 2.5; }
+    .diagram-point { fill: #000; stroke: none; }
     .diagram-label { font-weight: 600; }
     .diagram-label-accent { fill: var(--blue); font-weight: 700; }
     .diagram-guide { stroke: #91a5ba; stroke-width: 1.6; stroke-dasharray: 6 6; }
-    .diagram-fill { fill: rgba(21,205,218,.25); stroke: none; }
 
     .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
     body[data-slide="3"] .controls,
     body[data-slide="4"] .controls,
-    body[data-slide="5"] .controls,
-    body[data-slide="6"] .controls,
-    body[data-slide="7"] .controls { top:12px; bottom:auto; }
+    body[data-slide="5"] .controls { top:12px; bottom:auto; }
     .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
     .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
     .counter { min-width:50px; text-align:center; font-size:15px; }
     .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
-    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
+    .progress b { display:block; height:100%; width:20%; background:var(--cyan); transition:width .3s ease; }
     .tooltip { position:relative; }
     .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
     .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
@@ -175,238 +159,251 @@
   </style>
 </head>
 <body>
-  <main class="deck" aria-label="Clase 4: Instrumentos de Política Comercial">
+  <main class="deck" aria-label="Clase 5: Economía Monetaria">
 
     <!-- ========== Diapositiva 1: Portada ========== -->
     <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
       <div class="cover-content">
-        <h1><span>Clase 4:</span><span class="accent">Instrumentos</span><span>de Política Comercial</span></h1>
+        <h1><span>Clase 5:</span><span class="accent">Economía</span><span>Monetaria</span></h1>
         <p class="course">Economía Internacional</p>
         <p class="professor">Profesor Mg. William Alexander Aguirre Antolínez</p>
       </div>
     </section>
 
-    <!-- ========== Diapositiva 2: ¿Por qué interviene el gobierno? ========== -->
+    <!-- ========== Diapositiva 2: Funciones del dinero ========== -->
     <section class="slide" data-slide="2" aria-label="Diapositiva 2">
       <div class="content">
         <div class="slide-title">
-          <h2>¿Por qué interviene el gobierno en la economía?</h2>
-          <p class="subtitle">La pregunta central de esta clase</p>
+          <h2>Funciones del dinero</h2>
+          <p class="subtitle">Tres funciones clave y dos conceptos fundamentales</p>
         </div>
-        <div class="two-col">
+
+        <div class="card-grid" style="margin-bottom:clamp(20px,3vh,36px);">
+          <article class="card" style="cursor:default;">
+            <h3>Medio de cambio</h3>
+            <p>Se usa para <strong>realizar transacciones</strong>. Elimina el trueque y facilita el intercambio.</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Unidad de cuenta</h3>
+            <p>Sirve para <strong>medir y expresar precios</strong>. Permite comparar valores de bienes y servicios.</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Depósito de valor</h3>
+            <p>Permite <strong>conservar riqueza en el tiempo</strong> sin perder poder adquisitivo (en términos reales).</p>
+          </article>
+        </div>
+
+        <div class="two-col" style="flex:0 1 auto;">
           <div class="info-box">
-            <h3>La paradoja</h3>
-            <p>Si los modelos económicos muestran que el <strong>libre comercio maximiza el bienestar mundial</strong>, ¿por qué los países imponen barreras al comercio?</p>
-            <p style="margin-top:14px;">En esta clase estudiaremos los <strong>instrumentos</strong> concretos que los gobiernos utilizan para intervenir en el comercio internacional, y los efectos que tienen sobre precios, cantidades y bienestar.</p>
+            <h3>Criterio de liquidez</h3>
+            <p>Es la <strong>facilidad y velocidad</strong> con la que un activo puede convertirse en un medio de pago <strong>sin perder su valor nominal</strong>.</p>
+            <p style="margin-top:12px; font-size:clamp(14px,1.3vw,19px); color:#496a89;">A mayor liquidez, más fácil es usar el activo para pagar.</p>
           </div>
           <div class="info-box">
-            <h3>Posibles razones</h3>
-            <ul style="list-style:none; padding:0; margin:0; color:#355c82; font-size:clamp(16px,1.4vw,22px); line-height:1.6;">
-              <li style="margin-bottom:10px;">• Proteger industrias nacientes o estratégicas</li>
-              <li style="margin-bottom:10px;">• Preservar empleos en sectores vulnerables</li>
-              <li style="margin-bottom:10px;">• Recaudar ingresos fiscales</li>
-              <li style="margin-bottom:10px;">• Corregir fallos de mercado o externalidades</li>
-              <li>• Atender presiones políticas internas</li>
-            </ul>
+            <h3>Ilusión nominal</h3>
+            <p>Las personas <strong>no demandan dinero por su cantidad nominal</strong>, sino por su <strong>poder adquisitivo</strong>: la cantidad de bienes y servicios que puede comprar.</p>
+            <p style="margin-top:12px; font-size:clamp(14px,1.3vw,19px); color:#496a89;">Lo que importa no son los pesos, sino lo que se puede comprar con ellos.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== Diapositiva 3: Instrumentos ========== -->
+    <!-- ========== Diapositiva 3: Oferta monetaria ========== -->
     <section class="slide" data-slide="3" aria-label="Diapositiva 3">
       <div class="content">
         <div class="slide-title">
-          <h2>Instrumentos</h2>
-          <p class="subtitle">Los principales mecanismos de intervención comercial</p>
+          <h2>Oferta monetaria (Ms)</h2>
+          <p class="subtitle">Cantidad de dinero disponible en la economía</p>
         </div>
-        <div class="card-grid" style="flex:1; align-content:center;">
-          <article class="card" style="cursor:default;">
-            <h3>Tarifa específica</h3>
-            <p>Es un impuesto de importación que asigna un <strong>monto fijo en dinero</strong> por unidad física del bien importado.</p>
-            <span class="example">Ejemplo: $2 por cada kilo importado</span>
+
+        <div class="equation-block" style="margin-bottom:clamp(18px,2.6vh,28px);">
+          <p style="text-align:center; color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.5;">
+            Ms se clasifica según el <strong>criterio de liquidez</strong>:
+          </p>
+        </div>
+
+        <div class="card-grid" style="margin-bottom:clamp(18px,2.6vh,28px);">
+          <article class="card" style="cursor:default; border-left-color:#00a9bc;">
+            <h3>M1</h3>
+            <p>El dinero <strong>más líquido</strong>: billetes y monedas en circulación, y depósitos en cuenta corriente.</p>
           </article>
-          <article class="card" style="cursor:default;">
-            <h3>Arancel ad valorem</h3>
-            <p>Se cobra como un <strong>porcentaje constante del valor monetario</strong> de una unidad del bien importado.</p>
-            <span class="example">Ejemplo: 10% sobre el valor declarado</span>
+          <article class="card" style="cursor:default; border-left-color:#6cc6e8;">
+            <h3>M2 y M3</h3>
+            <p>M1 <strong>más CDT</strong> y otros activos financieros menos líquidos pero aún convertibles en medios de pago.</p>
           </article>
-          <article class="card" style="cursor:default;">
-            <h3>Subsidios a la importación</h3>
-            <p>Es un <strong>pago por unidad</strong> o como porcentaje del valor, otorgado por la importación de un bien.</p>
-            <span class="example">Ejemplo: $1 por unidad importada</span>
-          </article>
-          <article class="card" style="cursor:default;">
-            <h3>Arancel preferencial</h3>
-            <p>Son tasas arancelarias aplicadas a una importación <strong>según su origen geográfico</strong>.</p>
-            <span class="example">Ejemplo: 0% para países del TLC, 15% para el resto</span>
-          </article>
+        </div>
+
+        <div class="two-col" style="flex:0 1 auto; gap:clamp(20px,3vw,40px);">
+          <div class="info-box">
+            <h3>Saldos reales</h3>
+            <p style="text-align:center; font-size:clamp(22px,2.2vw,32px); font-family:'Cambria Math','Times New Roman',serif; font-style:italic; color:var(--blue); margin-top:10px;">
+              <span class="frac"><span class="num">Ms</span><span class="den">P</span></span>
+            </p>
+            <p style="margin-top:10px;">Mide la oferta de dinero <strong>ajustada por el nivel de precios</strong> (es decir, en términos de poder adquisitivo).</p>
+          </div>
+          <div class="info-box">
+            <h3>Emisión</h3>
+            <p>Es la <strong>creación de nueva Ms</strong>. Puede ser:</p>
+            <ul>
+              <li><strong>Primaria</strong>: emisión directa del banco central</li>
+              <li><strong>Secundaria</strong>: expansión de los depósitos bancarios</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="equation-block" style="margin-top:clamp(18px,2.6vh,28px);">
+          <p style="color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.5; margin-bottom:14px;">
+            El <strong>multiplicador monetario</strong> (m) es el número de veces que la emisión secundaria multiplica la oferta inicial (primaria):
+          </p>
+          <div class="equation-main" style="margin-bottom:0;">
+            m =
+            <span class="frac">
+              <span class="num">1</span>
+              <span class="den">coeficiente de reserva</span>
+            </span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== Diapositiva 4: ERP ========== -->
+    <!-- ========== Diapositiva 4: Demanda real de dinero ========== -->
     <section class="slide" data-slide="4" aria-label="Diapositiva 4">
       <div class="content">
         <div class="slide-title">
-          <h2>Tasa de Protección Efectiva (ERP)</h2>
-          <p class="subtitle">Effective Rate of Protection</p>
+          <h2>Demanda real de dinero</h2>
+          <p class="subtitle">Real Money Demand</p>
         </div>
 
         <div class="equation-block">
-          <p style="text-align:center; color:#355c82; font-size:clamp(15px,1.4vw,21px); margin-bottom:clamp(20px,3vh,36px); line-height:1.5;">
-            La protección efectiva mide en qué porcentaje cambia el <strong>valor agregado</strong> de la industria nacional gracias a toda la estructura arancelaria (aranceles sobre el producto final vs. aranceles sobre los insumos importados).
-          </p>
-
           <div class="equation-main">
-            ERP<sub>j</sub> =
+            L(R, Y) =
             <span class="frac">
-              <span class="num">t<sub>j</sub> − &sum;(a<sub>ij</sub> · t<sub>i</sub>)</span>
-              <span class="den">1 − &sum; a<sub>ij</sub></span>
+              <span class="num">Md</span>
+              <span class="den">P</span>
             </span>
           </div>
 
           <ul class="equation-list">
-            <li><span class="term">t<sub>j</sub></span><span class="desc">Tasa arancelaria sobre el bien <em>j</em> (producto final)</span></li>
-            <li><span class="term">t<sub>i</sub></span><span class="desc">Tasa arancelaria sobre el insumo <em>i</em></span></li>
-            <li><span class="term">a<sub>ij</sub></span><span class="desc">Valor en libre comercio del insumo <em>i</em> como porcentaje del valor en libre comercio del bien final <em>j</em></span></li>
+            <li>
+              <span class="term">R</span>
+              <span class="desc">Tasa de interés &nbsp;<span class="sign">(−)</span></span>
+            </li>
+            <li>
+              <span class="term">Y</span>
+              <span class="desc">PIB real &nbsp;<span class="sign">(+)</span></span>
+            </li>
           </ul>
+
+          <div class="key-point" style="margin-top:clamp(20px,3vh,36px);">
+            <p><strong>Relación con R:</strong> cuando la tasa de interés sube, el costo de oportunidad de tener dinero sube → la gente demanda menos dinero.</p>
+            <p style="margin-top:8px;"><strong>Relación con Y:</strong> cuando el ingreso real sube, la gente hace más transacciones → demanda más dinero.</p>
+          </div>
+
+          <div style="margin-top:clamp(24px,3.6vh,40px); padding-top:clamp(20px,3vh,34px); border-top:2px dashed #cbd9e4; text-align:center;">
+            <p style="color:#496a89; font-size:clamp(15px,1.4vw,21px); margin-bottom:14px;">En equilibrio:</p>
+            <div class="equation-main" style="margin-bottom:0;">
+              L(R, Y) =
+              <span class="frac">
+                <span class="num">Md</span>
+                <span class="den">P</span>
+              </span>
+              =
+              <span class="frac">
+                <span class="num">Ms</span>
+                <span class="den">P</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== Diapositiva 5: Ejemplo numérico ========== -->
+    <!-- ========== Diapositiva 5: Equilibrio gráfico ========== -->
     <section class="slide" data-slide="5" aria-label="Diapositiva 5">
       <div class="content">
         <div class="slide-title">
-          <h2>Ejemplo: ERP de las flores</h2>
-          <p class="subtitle">Cálculo paso a paso</p>
-        </div>
-
-        <div class="equation-block">
-          <p style="color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.5; margin-bottom:clamp(16px,2.4vh,26px);">
-            Las flores son el bien final. A y B son insumos intermedios. Bajo libre comercio:
-          </p>
-
-          <div class="calc-step">
-            P<sub>F</sub> = $10.000 &nbsp;&nbsp;·&nbsp;&nbsp; P<sub>A</sub> = $500 &nbsp;&nbsp;·&nbsp;&nbsp; P<sub>B</sub> = $200
-          </div>
-
-          <div class="calc-step">
-            t<sub>F</sub> = <strong>10%</strong> &nbsp;&nbsp;·&nbsp;&nbsp; t<sub>A</sub> = <strong>5%</strong> &nbsp;&nbsp;·&nbsp;&nbsp; t<sub>B</sub> = <strong>8%</strong>
-          </div>
-
-          <div class="calc-step">
-            a<sub>AF</sub> = 500 / 10.000 = <strong>0.05</strong> &nbsp;&nbsp;·&nbsp;&nbsp; a<sub>BF</sub> = 200 / 10.000 = <strong>0.02</strong>
-          </div>
-
-          <div class="calc-step">
-            &sum; a<sub>iF</sub> = 0.05 + 0.02 = <strong>0.07</strong> &nbsp;&nbsp;→&nbsp;&nbsp; 1 − 0.07 = <strong>0.93</strong>
-          </div>
-
-          <div class="calc-step">
-            &sum;(a<sub>iF</sub> · t<sub>i</sub>) = (0.05 · 0.05) + (0.02 · 0.08) = 0.0025 + 0.0016 = <strong>0.0041</strong>
-          </div>
-
-          <div class="calc-result">
-            ERP = (0.10 − 0.0041) / 0.93 = 0.0959 / 0.93 ≈ <strong>10.31%</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== Diapositiva 6: Ejercicio computadores ========== -->
-    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
-      <div class="content">
-        <div class="slide-title">
-          <h2>Ejercicio: computadores en Colombia</h2>
-          <p class="subtitle">Efecto de un arancel de $5</p>
+          <h2>Equilibrio del mercado monetario</h2>
+          <p class="subtitle">Oferta real, demanda real y el tipo de interés</p>
         </div>
 
         <div class="two-col">
-          <div>
-            <div class="equation-block">
-              <div class="equation-main" style="font-size:clamp(20px,2vw,30px);">
-                Q<sub>d</sub> = 200 − 2P
-              </div>
-              <div class="equation-main" style="font-size:clamp(20px,2vw,30px);">
-                Q<sub>s</sub> = 14 + 4P
-              </div>
-
-              <div style="border-top:2px dashed #cbd9e4; margin-top:clamp(18px,2.6vh,28px); padding-top:clamp(16px,2.4vh,26px); text-align:center;">
-                <p style="color:#496a89; font-size:clamp(14px,1.3vw,19px); margin-bottom:12px;">Equilibrio sin arancel:</p>
-                <div class="equation-main" style="font-size:clamp(22px,2.2vw,32px); margin-bottom:0;">
-                  P* = 31 &nbsp;&nbsp;·&nbsp;&nbsp; Q* = 138
-                </div>
-              </div>
-
-              <p style="text-align:center; margin-top:clamp(18px,2.6vh,28px); color:var(--blue); font-weight:700; font-size:clamp(17px,1.6vw,24px);">
-                ¿Qué pasa si se aplica un arancel de $5?
-              </p>
-            </div>
-          </div>
-
           <div class="diagram-container">
-            <svg viewBox="0 0 520 440" aria-label="Oferta y demanda con equilibrio">
+            <svg viewBox="0 0 560 460" aria-label="Equilibrio del mercado monetario">
+              <!-- Títulos arriba -->
+              <text x="240" y="35" text-anchor="middle" font-size="14" fill="#132c50" font-weight="600">Oferta real de dinero</text>
+              <text x="430" y="245" text-anchor="middle" font-size="13" fill="#132c50" font-weight="600">Demanda de dinero</text>
+              <text x="430" y="262" text-anchor="middle" font-size="13" fill="#132c50" font-weight="600">agregada real, L(R, Y)</text>
+
               <!-- Ejes -->
-              <line class="diagram-axis" x1="70" y1="380" x2="490" y2="380" />
-              <line class="diagram-axis" x1="70" y1="380" x2="70" y2="40" />
-              <text x="450" y="408" class="diagram-label" font-size="14">Cantidad, Q</text>
-              <text x="20" y="48" class="diagram-label" font-size="14">Precio, P</text>
+              <line class="diagram-axis" x1="90" y1="400" x2="520" y2="400" />
+              <line class="diagram-axis" x1="90" y1="400" x2="90" y2="60" />
 
-              <!-- Curva de OFERTA (Qs = 14 + 4P) → P = (Q-14)/4 -->
-              <!-- A Q=14 → P=0, Q=254 → P=60 -->
-              <line class="diagram-curve" x1="92" y1="380" x2="476" y2="40" />
+              <!-- Etiqueta del eje Y -->
+              <text x="20" y="62" font-size="13" fill="#132c50" font-weight="600">Tipo de</text>
+              <text x="20" y="78" font-size="13" fill="#132c50" font-weight="600">interés, R</text>
 
-              <!-- Curva de DEMANDA (Qd = 200 - 2P) → P = (200-Q)/2 -->
-              <!-- A Q=80 → P=60, Q=200 → P=0 -->
-              <line class="diagram-curve-2" x1="198" y1="40" x2="390" y2="380" />
+              <!-- Etiqueta del eje X (abajo derecha) -->
+              <text x="520" y="432" font-size="13" fill="#132c50" font-weight="600" text-anchor="end">Tenencias de liquidez real</text>
 
-              <!-- Punto de equilibrio: P=31, Q=138 -->
-              <!-- x = 70 + (138/250)*420 = 70 + 231.8 = 302 -->
-              <!-- y = 380 - (31/60)*340 = 380 - 175.7 = 204 -->
-              <circle class="diagram-point" cx="302" cy="204" r="7" />
-              <text x="312" y="197" class="diagram-label-accent" font-size="17">E</text>
+              <!-- Curva de DEMANDA real de dinero (hiperbólica, cae hacia la derecha) -->
+              <path class="diagram-curve"
+                    d="M 160 70
+                       C 200 180, 280 260, 400 320
+                       C 440 335, 480 345, 520 352"
+                    fill="none" />
 
-              <!-- Guías punteadas -->
-              <line class="diagram-guide" x1="302" y1="204" x2="302" y2="380" />
-              <line class="diagram-guide" x1="70" y1="204" x2="302" y2="204" />
+              <!-- Línea VERTICAL de OFERTA real de dinero (Ms/P) -->
+              <line class="diagram-curve-2" x1="340" y1="60" x2="340" y2="400" />
 
-              <!-- Etiquetas de equilibrio -->
-              <text x="302" y="404" font-size="14" fill="#284a70" text-anchor="middle" font-style="italic">Q* = 138</text>
-              <text x="58" y="209" font-size="14" fill="#284a70" text-anchor="end" font-style="italic">P* = 31</text>
+              <!-- Etiqueta Ms/P (= Q¹) justo debajo del eje X -->
+              <text x="340" y="430" font-size="13" fill="#00a9bc" font-style="italic" text-anchor="middle">Ms/P (= Q¹)</text>
 
-              <!-- Etiquetas de las curvas -->
-              <text x="470" y="60" fill="#00a9bc" font-size="17" font-weight="700" font-style="italic">O</text>
-              <text x="200" y="60" fill="#e86552" font-size="17" font-weight="700" font-style="italic">D</text>
+              <!-- Punto 2: cruce de la demanda con una vertical imaginaria en Q² -->
+              <circle class="diagram-point" cx="180" cy="180" r="6" />
+              <text x="190" y="176" font-size="16" font-weight="700" fill="#000">2</text>
+
+              <!-- Punto 1: cruce de la oferta (vertical) con la demanda -->
+              <circle class="diagram-point" cx="340" cy="270" r="6" />
+              <text x="350" y="266" font-size="16" font-weight="700" fill="#000">1</text>
+
+              <!-- Punto 3: cruce de la demanda con la vertical imaginaria en Q³ -->
+              <circle class="diagram-point" cx="450" cy="331" r="6" />
+              <text x="440" y="325" font-size="16" font-weight="700" fill="#000">3</text>
+
+              <!-- Guías horizontales para R², R¹, R³ -->
+              <line class="diagram-guide" x1="90" y1="180" x2="180" y2="180" />
+              <line class="diagram-guide" x1="90" y1="270" x2="340" y2="270" />
+              <line class="diagram-guide" x1="90" y1="331" x2="450" y2="331" />
+
+              <!-- Etiquetas de R en el eje Y -->
+              <text x="80" y="185" font-size="14" fill="#132c50" font-style="italic" text-anchor="end">R²</text>
+              <text x="80" y="275" font-size="14" fill="#132c50" font-style="italic" text-anchor="end">R¹</text>
+              <text x="80" y="336" font-size="14" fill="#132c50" font-style="italic" text-anchor="end">R³</text>
+
+              <!-- Guías verticales para Q² y Q³ -->
+              <line class="diagram-guide" x1="180" y1="180" x2="180" y2="400" />
+              <line class="diagram-guide" x1="450" y1="331" x2="450" y2="400" />
+
+              <!-- Etiquetas de Q en el eje X -->
+              <text x="180" y="425" font-size="14" fill="#132c50" font-style="italic" text-anchor="middle">Q²</text>
+              <text x="450" y="425" font-size="14" fill="#132c50" font-style="italic" text-anchor="middle">Q³</text>
+
+              <!-- Línea de referencia desde la etiqueta "Demanda" hasta la curva -->
+              <line x1="430" y1="280" x2="410" y2="322" stroke="#132c50" stroke-width="1.2" />
             </svg>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== Diapositiva 7: Otros instrumentos ========== -->
-    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
-      <div class="content">
-        <div class="slide-title">
-          <h2>Otros instrumentos</h2>
-          <p class="subtitle">Más allá de los aranceles tradicionales</p>
-        </div>
-        <div class="card-grid" style="flex:1; align-content:center;">
-          <article class="card" style="cursor:default;">
-            <h3>Derechos de importación</h3>
-            <p>Import fees. <strong>Cargos adicionales</strong> que se aplican a las importaciones más allá del arancel estándar, como tasas administrativas, consulares o de inspección.</p>
-            <span class="example">Ejemplo: tasa por inspección fitosanitaria</span>
-          </article>
-          <article class="card" style="cursor:default;">
-            <h3>Restricción voluntaria de exportaciones</h3>
-            <p>Voluntary export restriction. El país <strong>exportador</strong> acepta limitar voluntariamente el volumen de sus exportaciones, generalmente bajo presión del país importador.</p>
-            <span class="example">Ejemplo: cuotas "voluntarias" de autos japoneses a EEUU en los 80</span>
-          </article>
-        </div>
-        <div class="info-box" style="margin-top:clamp(20px,3vh,36px);">
-          <h3>Reflexión final</h3>
-          <p>Cada instrumento tiene efectos distintos sobre <strong>precios domésticos</strong>, <strong>cantidades comerciadas</strong>, <strong>recaudación fiscal</strong> y <strong>bienestar</strong>. La elección entre ellos depende del objetivo de política y del contexto del país.</p>
+          <div>
+            <div class="info-box">
+              <h3>Lectura del gráfico</h3>
+              <p>La <strong>oferta real de dinero</strong> (Ms/P) es una línea vertical: está fijada por el banco central, no depende del tipo de interés.</p>
+              <p style="margin-top:12px;">La <strong>demanda real de dinero</strong> L(R, Y) es decreciente: a mayor tipo de interés, menor cantidad de dinero demandada.</p>
+            </div>
+            <div class="key-point" style="margin-top:20px;">
+              <p><strong>Punto 1</strong> — equilibrio: la demanda corta la oferta en R¹ y Q¹.</p>
+              <p style="margin-top:6px;"><strong>Punto 2</strong> — si R sube a R², la gente demanda menos dinero (Q²). Hay exceso de oferta.</p>
+              <p style="margin-top:6px;"><strong>Punto 3</strong> — si R baja a R³, la gente demanda más dinero (Q³). Hay exceso de demanda.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -415,7 +412,7 @@
 
   <nav class="controls" aria-label="Controles de presentación">
     <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
-    <span class="counter"><span id="current">1</span> / 7</span>
+    <span class="counter"><span id="current">1</span> / 5</span>
     <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
     <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
   </nav>
@@ -423,12 +420,10 @@
   <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
     <div class="overview-list">
       <button data-go="0">01 &nbsp; Portada</button>
-      <button data-go="1">02 &nbsp; ¿Por qué interviene el gobierno?</button>
-      <button data-go="2">03 &nbsp; Instrumentos</button>
-      <button data-go="3">04 &nbsp; Tasa de Protección Efectiva (ERP)</button>
-      <button data-go="4">05 &nbsp; Ejemplo: ERP de las flores</button>
-      <button data-go="5">06 &nbsp; Ejercicio: computadores en Colombia</button>
-      <button data-go="6">07 &nbsp; Otros instrumentos</button>
+      <button data-go="1">02 &nbsp; Funciones del dinero</button>
+      <button data-go="2">03 &nbsp; Oferta monetaria (Ms)</button>
+      <button data-go="3">04 &nbsp; Demanda real de dinero</button>
+      <button data-go="4">05 &nbsp; Equilibrio del mercado monetario</button>
     </div>
   </section>
 
