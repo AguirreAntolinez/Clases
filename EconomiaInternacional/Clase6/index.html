@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 7: Mercado Cambiario y Especulación</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(40px,6vw,105px) clamp(36px,8.5vw,150px) clamp(50px,8vh,95px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(42px,6vw,92px); line-height:.94; max-width:850px; }
+    h2 { font-size:clamp(31px,4.2vw,66px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:15vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(21px,2vw,34px); margin:30px 0 60px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(16px,1.4vw,23px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1150px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(22px,4vh,48px); max-width:900px; }
+    .subtitle { font-size:clamp(17px,1.55vw,24px); color:#527092; margin-top:13px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; flex:1; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+    .card { background:rgba(255,255,255,.7); padding:clamp(20px,2.5vw,40px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(20px,2vw,30px); line-height:1.15; }
+    .card p { color:#496a89; font-size:clamp(15px,1.3vw,21px); margin-top:10px; line-height:1.45; }
+    .card .example { display:block; margin-top:14px; color:#00a9bc; font-weight:600; font-size:0.85em; }
+    .info-box { background:rgba(255,255,255,.75); padding:clamp(18px,2.5vw,36px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(19px,2vw,30px); margin-bottom:10px; }
+    .info-box p { color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.5; }
+    .info-box ul { color:#355c82; font-size:clamp(15px,1.4vw,21px); line-height:1.6; padding-left:0; margin-top:10px; list-style:none; }
+    .info-box ul li { margin-bottom:10px; padding-left:20px; position:relative; }
+    .info-box ul li::before { content:'•'; color:var(--cyan); position:absolute; left:0; font-weight:700; font-size:1.3em; line-height:1; }
+
+    /* ---------- Ecuaciones ---------- */
+    .equation-block {
+      background: rgba(255,255,255,.75);
+      border-left: 6px solid var(--cyan);
+      border-radius: 12px;
+      padding: clamp(20px,2.5vw,40px);
+      margin: 0 auto;
+      max-width: 950px;
+      width: 100%;
+    }
+    .equation-main {
+      font-size: clamp(22px,2.4vw,38px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(20px,3vh,38px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .equation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(10px,1.5vh,18px);
+      font-size: clamp(15px,1.4vw,21px);
+      color: #355c82;
+    }
+    .equation-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      line-height: 1.4;
+    }
+    .equation-list .term {
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-weight: 600;
+      min-width: 6em;
+    }
+    .equation-list .desc { color: #496a89; }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      font-size: 0.95em;
+      margin: 0 6px;
+    }
+    .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 8px 4px; }
+    .frac .den { padding: 4px 8px 0; }
+
+    .key-point {
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+      padding: clamp(14px,2vh,22px) clamp(16px,2vw,24px);
+      margin: clamp(12px,1.8vh,20px) 0;
+      color: #285783;
+      font-size: clamp(15px,1.4vw,21px);
+      line-height: 1.5;
+    }
+    .key-point strong { color: var(--blue); }
+
+    .calc-step {
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+      padding: clamp(12px,1.8vh,18px) clamp(14px,1.8vw,22px);
+      margin: clamp(8px,1.4vh,14px) 0;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      color: var(--blue);
+      font-size: clamp(15px,1.4vw,21px);
+      line-height: 1.55;
+    }
+    .calc-step strong { color: #00a9bc; font-style: normal; }
+    .calc-result {
+      background: rgba(6,19,131,.08);
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      padding: clamp(14px,2.2vh,22px);
+      margin-top: clamp(14px,2.2vh,22px);
+      text-align: center;
+      font-family: 'Cambria Math','Times New Roman',serif;
+      font-style: italic;
+      color: var(--blue);
+      font-size: clamp(18px,1.9vw,28px);
+      font-weight: 700;
+    }
+
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls,
+    body[data-slide="7"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:70px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 16px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+    @media (max-width:720px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 20px 78px; }
+      .two-col { grid-template-columns:1fr; gap:30px; }
+      .card-grid { grid-template-columns:1fr; }
+      .overview-list { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 7: Mercado Cambiario y Especulación">
+
+    <!-- ========== Diapositiva 1: Portada ========== -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 7:</span><span class="accent">Mercado</span><span>Cambiario y Especulación</span></h1>
+        <p class="course">Economía Internacional — Eje Temático 3</p>
+        <p class="professor">Mg. William Alexander Aguirre Antolínez · Martes 6 de Octubre de 2026</p>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 2: ¿Qué es el tipo de cambio? ========== -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>¿Qué es el tipo de cambio?</h2>
+          <p class="subtitle">Tipo de cambio nominal y tipo de cambio real</p>
+        </div>
+
+        <div class="two-col" style="align-items:stretch;">
+          <div class="info-box">
+            <h3>Tipo de cambio nominal (E)</h3>
+            <p>Precio de la moneda de un país expresado en términos de la moneda de otro. Es el precio de un activo financiero básico.</p>
+            <span class="example" style="display:block; margin-top:14px; color:#00a9bc; font-weight:600; font-size:0.85em;">Ejemplo: 1 USD = 4.000 COP</span>
+          </div>
+          <div class="info-box">
+            <h3>Tipo de cambio real (q)</h3>
+            <p>Indicador amplio del precio relativo de una cesta de bienes y servicios del extranjero en términos de la cesta de gasto nacional.</p>
+          </div>
+        </div>
+
+        <div class="equation-block" style="margin-top:clamp(20px,3vh,36px);">
+          <div class="equation-main" style="margin-bottom:clamp(18px,2.6vh,28px);">
+            q =
+            <span class="frac">
+              <span class="num">E · P*</span>
+              <span class="den">P</span>
+            </span>
+          </div>
+
+          <ul class="equation-list">
+            <li><span class="term">E</span><span class="desc">Tipo de cambio nominal</span></li>
+            <li><span class="term">P*</span><span class="desc">Precios externos (del extranjero)</span></li>
+            <li><span class="term">P</span><span class="desc">Precios nacionales</span></li>
+          </ul>
+        </div>
+
+        <div class="key-point" style="margin-top:clamp(18px,2.6vh,28px);">
+          <p><strong>Depreciación real</strong> (aumento de q) → los bienes locales se abaratan frente a los extranjeros, elevando la <strong>competitividad comercial</strong>.</p>
+          <p style="margin-top:6px;"><strong>Apreciación real</strong> (caída de q) → refleja lo contrario.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 3: Cotizaciones y regla de efectos ========== -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Cotización y efectos cambiarios</h2>
+          <p class="subtitle">Cómo se cotiza el tipo de cambio y cómo afecta al comercio</p>
+        </div>
+
+        <div class="card-grid" style="margin-bottom:clamp(20px,3vh,36px);">
+          <article class="card" style="cursor:default;">
+            <h3>Cotización directa (americana)</h3>
+            <p>Precio de la moneda extranjera expresado en dólares estadounidenses.</p>
+            <span class="example">Ejemplo: USD 1.2821 por Euro</span>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Cotización indirecta (europea)</h3>
+            <p>Cantidad de unidades de moneda extranjera necesarias para comprar un dólar.</p>
+            <span class="example">Ejemplo: 106.15 Yenes por Dólar</span>
+          </article>
+        </div>
+
+        <div class="info-box">
+          <h3>Análisis científico neutro</h3>
+          <p>El análisis se hace en términos reales (q), no nominales, para evitar la ilusión monetaria. Lo relevante no es cuántas unidades de moneda se intercambian, sino cuánto poder de compra representan.</p>
+        </div>
+
+        <div class="key-point" style="margin-top:clamp(20px,3vh,36px);">
+          <h3 style="color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(18px,1.9vw,28px); margin-bottom:12px;">Regla de efectos cambiarios</h3>
+          <p><strong>Depreciación de la moneda nacional:</strong></p>
+          <p style="margin-top:4px;">→ Abarata las exportaciones para los extranjeros.</p>
+          <p>→ Encarece las importaciones para los residentes.</p>
+          <p style="margin-top:8px;"><strong>Apreciación de la moneda nacional:</strong> efecto contrario.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 4: Segmentos y actores ========== -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Segmentos y actores del mercado de divisas</h2>
+          <p class="subtitle">Spot, forwards, swaps, futuros y opciones</p>
+        </div>
+
+        <div class="card-grid" style="margin-bottom:clamp(20px,3vh,36px);">
+          <article class="card" style="cursor:default;">
+            <h3>Operaciones al contado (Spot)</h3>
+            <p><strong>Transacción inmediata:</strong> intercambio de depósitos bancarios prácticamente instantáneo.</p>
+            <p><strong>Fecha valor:</strong> el intercambio efectivo ocurre 2 días hábiles después del acuerdo.</p>
+            <p><strong>Mayor volumen:</strong> constituye el núcleo central de las transacciones diarias.</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Operaciones a plazo (Forwards y Swaps)</h3>
+            <p><strong>Forward:</strong> contrato OTC para intercambiar divisas en el futuro (30, 90, 180 días) a un tipo pactado hoy. Elimina el riesgo cambiario.</p>
+            <p><strong>Swap de divisas:</strong> venta al contado combinada con una recompra a plazo. Reduce costes de transacción para multinacionales.</p>
+          </article>
+        </div>
+
+        <div class="card-grid">
+          <article class="card" style="cursor:default;">
+            <h3>Contratos de futuros</h3>
+            <p>Similares a los forwards, pero negociados en <strong>bolsas organizadas</strong> (ej. CME). Cantidades y vencimientos estandarizados, con liquidación diaria (marking-to-market).</p>
+          </article>
+          <article class="card" style="cursor:default;">
+            <h3>Opciones cambiarias</h3>
+            <p>Otorgan el <strong>derecho, mas no la obligación</strong>, de comprar (Call) o vender (Put) divisas a un precio fijo. Aportan máxima flexibilidad de cobertura.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 5: Arbitraje ========== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Arbitraje y tasas cruzadas</h2>
+          <p class="subtitle">Consistencia de cotizaciones entre plazas</p>
+        </div>
+
+        <div class="two-col" style="align-items:start;">
+          <div>
+            <div class="info-box">
+              <h3>Arbitraje (2 plazas)</h3>
+              <p>Comprar moneda a precio barato y venderla inmediatamente más cara en otra plaza. Al no haber riesgo, las fuerzas del mercado eliminan los diferenciales de forma instantánea.</p>
+              <p style="margin-top:12px;"><strong>Tipos cruzados:</strong> tasa entre dos monedas calculada indirectamente a través de una tercera divisa vehicular (el dólar).</p>
+            </div>
+            <div class="info-box" style="margin-top:20px;">
+              <h3>Arbitraje triangular (3 plazas)</h3>
+              <p>Ocurre cuando hay una <strong>inconsistencia de cotización entre tres monedas</strong> diferentes. El arbitrajista explota esa inconsistencia con tres operaciones simultáneas.</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="calc-step">
+              <strong>Ejemplo demostrable:</strong> suponga USD/GBP = $1.40/€ y USD/CHF = $0.70/Sfr.
+            </div>
+            <div class="calc-step">
+              Tasa cruzada consistente: <strong>2.00 Sfr/€</strong> = ($1.40/€) / ($0.70/Sfr)
+            </div>
+            <div class="calc-step">
+              Si GBP/USD sube de golpe a <strong>$1.60/€</strong>, aparece una inconsistencia.
+            </div>
+            <div class="calc-step">
+              1. Tomas $1.40 → adquieres 2 Sfr.<br>
+              2. Usas 2 Sfr → compras £1 (tasa consistente).<br>
+              3. Vendes £1 → obtienes $1.60.
+            </div>
+            <div class="calc-result">
+              Ganancia libre de riesgo: <strong>$0.20</strong>
+            </div>
+            <div class="key-point" style="margin-top:16px;">
+              <p><strong>Convergencia:</strong> la compra masiva de Sfr eleva su precio y la venta masiva de GBP reduce el suyo, forzando de nuevo la consistencia cruzada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 6: Paridad de intereses ========== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
+      <div class="content">
+        <div class="slide-title">
+          <h2>El enfoque de activos y la paridad de intereses</h2>
+          <p class="subtitle">CIP y UIP</p>
+        </div>
+
+        <div class="two-col" style="align-items:start;">
+          <div>
+            <div class="info-box" style="border-left-color:#00a9bc;">
+              <h3>Paridad Cubierta (CIP)</h3>
+              <p>El inversionista elimina la incertidumbre cambiaria pactando un <strong>contrato a plazo (Forward)</strong> hoy para la repatriación del capital.</p>
+            </div>
+            <div class="equation-block" style="margin-top:16px;">
+              <div class="equation-main" style="margin-bottom:0; font-size:clamp(20px,2vw,32px);">
+                R = R* +
+                <span class="frac">
+                  <span class="num">F − E</span>
+                  <span class="den">E</span>
+                </span>
+              </div>
+              <ul class="equation-list" style="margin-top:clamp(18px,2.4vh,24px);">
+                <li><span class="term">R</span><span class="desc">Tasa de interés local</span></li>
+                <li><span class="term">R*</span><span class="desc">Tasa de interés externa</span></li>
+                <li><span class="term">F</span><span class="desc">Tipo de cambio forward</span></li>
+                <li><span class="term">E</span><span class="desc">Tipo de cambio spot actual</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-box" style="border-left-color:#6cc6e8;">
+              <h3>Paridad No Cubierta (UIP)</h3>
+              <p>El inversionista <strong>asume el riesgo cambiario</strong>. El tipo de cambio actual se determina por la paridad de las rentabilidades esperadas de activos financieros.</p>
+            </div>
+            <div class="equation-block" style="margin-top:16px;">
+              <div class="equation-main" style="margin-bottom:0; font-size:clamp(20px,2vw,32px);">
+                R = R* +
+                <span class="frac">
+                  <span class="num">E<sup>e</sup> − E</span>
+                  <span class="den">E</span>
+                </span>
+              </div>
+              <ul class="equation-list" style="margin-top:clamp(18px,2.4vh,24px);">
+                <li><span class="term">E<sup>e</sup></span><span class="desc">Tipo de cambio esperado a futuro</span></li>
+                <li><span class="term">E</span><span class="desc">Tipo de cambio spot actual</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="key-point" style="margin-top:clamp(20px,3vh,32px);">
+          <p><strong>Dinámica UIP:</strong> si R sube (política monetaria contractiva), hay exceso de demanda de activos locales → los agentes compran moneda nacional en el spot → la moneda nacional <strong>se aprecia hoy</strong> (E cae), de modo que la devaluación esperada futura sube y equilibra la ecuación.</p>
+          <p style="margin-top:10px;"><strong>Evidencia empírica:</strong> CIP se cumple casi perfectamente para depósitos del mismo centro financiero offshore. Las desviaciones reflejan regulaciones, controles de capital o riesgo político.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 7: Especulación ========== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Especulación cambiaria y su impacto</h2>
+          <p class="subtitle">Estabilizadora vs. desestabilizadora</p>
+        </div>
+
+        <div class="two-col" style="align-items:stretch;">
+          <div class="card" style="cursor:default; border-left-color:#00a9bc;">
+            <h3>Especulación estabilizadora</h3>
+            <p><strong>Dampening.</strong> Ocurre cuando los agentes asumen que la fluctuación del tipo de cambio es <strong>temporal</strong> frente al valor de equilibrio a largo plazo.</p>
+            <p style="margin-top:10px;"><strong>Comportamiento racional:</strong> si el tipo de cambio se deprecia en exceso (E sube mucho), los especuladores prevén un retorno a la normalidad y compran moneda local barata hoy.</p>
+            <p style="margin-top:10px;"><strong>Efecto de amortiguación:</strong> esta compra contrarresta la tendencia inicial, reduce la volatilidad y estabiliza el tipo de cambio de forma rentable.</p>
+          </div>
+
+          <div class="card" style="cursor:default; border-left-color:#e86552;">
+            <h3>Especulación desestabilizadora</h3>
+            <p><strong>Panic.</strong> Ocurre cuando los agentes proyectan de forma <strong>indefinida</strong> la tendencia actual, asumiendo que el movimiento inicial continuará de manera perpetua.</p>
+            <p style="margin-top:10px;"><strong>Venta por pánico (fuga):</strong> si el tipo de cambio se devalúa un poco, los especuladores asumen que seguirá cayendo y liquidan masivamente sus activos locales para fugar a activos extranjeros.</p>
+            <p style="margin-top:10px;"><strong>Círculos viciosos:</strong> exacerba la devaluación inicial, encarece las importaciones abruptamente y alimenta la espiral inflacionaria doméstica (overshooting extremo).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 7</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; ¿Qué es el tipo de cambio?</button>
+      <button data-go="2">03 &nbsp; Cotización y efectos cambiarios</button>
+      <button data-go="3">04 &nbsp; Segmentos y actores del mercado</button>
+      <button data-go="4">05 &nbsp; Arbitraje y tasas cruzadas</button>
+      <button data-go="5">06 &nbsp; Paridad de intereses (CIP y UIP)</button>
+      <button data-go="6">07 &nbsp; Especulación cambiaria</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
