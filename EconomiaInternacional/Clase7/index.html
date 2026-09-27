@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 7: Modelo Mundell-Fleming (IS-LM-BP)</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(35px,5vw,90px) clamp(30px,7vw,130px) clamp(45px,7vh,85px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(38px,5.4vw,82px); line-height:.94; max-width:920px; }
+    h2 { font-size:clamp(28px,3.8vw,58px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:12vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(19px,1.8vw,30px); margin:28px 0 48px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(15px,1.3vw,21px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1200px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(18px,3vh,36px); max-width:1000px; }
+    .subtitle { font-size:clamp(15px,1.4vw,22px); color:#527092; margin-top:10px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,60px); align-items:center; flex:1; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .card { background:rgba(255,255,255,.7); padding:clamp(16px,2vw,32px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(17px,1.7vw,26px); line-height:1.15; }
+    .card p { color:#496a89; font-size:clamp(14px,1.2vw,18px); margin-top:8px; line-height:1.45; }
+    .card .example { display:block; margin-top:12px; color:#00a9bc; font-weight:600; font-size:0.85em; }
+    .info-box { background:rgba(255,255,255,.75); padding:clamp(16px,2vw,30px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(17px,1.7vw,26px); margin-bottom:8px; }
+    .info-box p { color:#355c82; font-size:clamp(14px,1.2vw,18px); line-height:1.5; }
+    .info-box ul { color:#355c82; font-size:clamp(14px,1.2vw,18px); line-height:1.55; padding-left:0; margin-top:10px; list-style:none; }
+    .info-box ul li { margin-bottom:8px; padding-left:18px; position:relative; }
+    .info-box ul li::before { content:'•'; color:var(--cyan); position:absolute; left:0; font-weight:700; font-size:1.3em; line-height:1; }
+
+    .key-point {
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+      padding: clamp(12px,1.8vh,20px) clamp(14px,1.8vw,22px);
+      margin: clamp(10px,1.5vh,16px) 0;
+      color: #285783;
+      font-size: clamp(14px,1.25vw,18px);
+      line-height: 1.5;
+    }
+    .key-point strong { color: var(--blue); }
+
+    /* ---------- Ecuaciones ---------- */
+    .equation-block {
+      background: rgba(255,255,255,.75);
+      border-left: 6px solid var(--cyan);
+      border-radius: 12px;
+      padding: clamp(16px,2vw,32px);
+      margin: 0 auto;
+      max-width: 1000px;
+      width: 100%;
+    }
+    .equation-main {
+      font-size: clamp(18px,1.9vw,30px);
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: clamp(14px,2vh,28px);
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ---------- SVG containers ---------- */
+    .diagram-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1.25;
+      max-height: 55vh;
+      margin: 0 auto;
+    }
+    .diagram-container svg { width:100%; height:100%; overflow:visible; }
+    .diagram-container text { font-family: Aptos, Arial, sans-serif; fill: var(--ink); font-size: 13px; }
+    .axis { stroke: #284a70; stroke-width: 2; }
+    .curve-is { fill: none; stroke: #b71c1c; stroke-width: 3; }
+    .curve-lm { fill: none; stroke: #1976d2; stroke-width: 3; }
+    .curve-bp { fill: none; stroke: #2e7d32; stroke-width: 3; stroke-dasharray: 8 6; }
+    .curve-is-dashed { fill: none; stroke: #b71c1c; stroke-width: 2.5; stroke-dasharray: 8 6; opacity: 0.75; }
+    .curve-lm-dashed { fill: none; stroke: #1976d2; stroke-width: 2.5; stroke-dasharray: 8 6; opacity: 0.75; }
+    .curve-lm-dotted { fill: none; stroke: #7b1fa2; stroke-width: 3; stroke-dasharray: 2 6; }
+    .curve-is-dotted { fill: none; stroke: #7b1fa2; stroke-width: 3; stroke-dasharray: 2 6; }
+    .point { fill: #000; }
+    .label-accent { fill: var(--blue); font-weight: 700; }
+    .guide { stroke: #91a5ba; stroke-width: 1.4; stroke-dasharray: 4 4; }
+
+    /* ---------- Tabla matriz ---------- */
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(12px,1.05vw,16px);
+      background: rgba(255,255,255,.8);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(6,19,131,.08);
+    }
+    .matrix thead th {
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 10px;
+      font-weight: 700;
+      text-align: center;
+      font-size: clamp(12px,1.05vw,16px);
+      line-height: 1.3;
+    }
+    .matrix tbody td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #dde4ec;
+      text-align: center;
+      color: #285783;
+      line-height: 1.35;
+    }
+    .matrix tbody tr:last-child td { border-bottom: 0; }
+    .matrix .regimen { font-weight: 700; color: var(--blue); }
+    .matrix .good { color: #0d8043; font-weight: 700; }
+    .matrix .bad { color: #b71c1c; font-weight: 700; }
+    .matrix .mid { color: #b8860b; font-weight: 600; }
+    .matrix .active-row { background: rgba(21,205,218,.18); }
+
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls,
+    body[data-slide="7"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:65px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 15px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+    @media (max-width:800px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 18px 78px; }
+      .two-col { grid-template-columns:1fr; gap:24px; }
+      .card-grid { grid-template-columns:1fr; }
+      .overview-list { grid-template-columns:1fr; }
+      .diagram-container { max-height:42vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 7: Modelo Mundell-Fleming (IS-LM-BP)">
+
+    <!-- ========== Diapositiva 1: Portada ========== -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 7</span><span class="accent">Macroeconomía Abierta:</span><span>Mundell-Fleming</span></h1>
+        <p class="course">Modelo IS-LM-BP · Economía Internacional</p>
+        <p class="professor">Mg. William Alexander Aguirre Antolínez · ESUMER</p>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 2: Tres pilares ========== -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Los tres pilares del modelo</h2>
+          <p class="subtitle">Curvas IS, LM y BP en economía abierta</p>
+        </div>
+
+        <div class="two-col" style="align-items:start;">
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="info-box" style="border-left-color:#b71c1c;">
+              <h3 style="color:#b71c1c;">Curva IS — Mercado de Bienes</h3>
+              <p>Equilibrio donde <strong>Y = C + I + G + NX(Y, E)</strong>. Pendiente negativa: un menor <em>i</em> estimula la inversión y el producto.</p>
+            </div>
+            <div class="info-box" style="border-left-color:#1976d2;">
+              <h3 style="color:#1976d2;">Curva LM — Mercado Monetario</h3>
+              <p>Equilibrio de saldos reales <strong>Ms/P = L(i, Y)</strong>. Pendiente positiva: mayor renta eleva la demanda de dinero y la tasa <em>i</em>.</p>
+            </div>
+            <div class="info-box" style="border-left-color:#2e7d32;">
+              <h3 style="color:#2e7d32;">Curva BP — Balanza de Pagos</h3>
+              <p>Equilibrio en cuenta corriente y financiera: <strong>CC(Y, E) + CF(i − i*) = 0</strong>. Bajo movilidad perfecta es una línea horizontal en <em>i = i*</em>.</p>
+            </div>
+            <div class="key-point">
+              <p><strong>Equilibrio tripartito (E₀):</strong> ocurre donde las tres curvas se intersectan simultáneamente, determinando <em>Y</em> e <em>i = i*</em>.</p>
+            </div>
+          </div>
+
+          <div class="diagram-container">
+            <svg viewBox="0 0 600 470" aria-label="Equilibrio simultáneo IS-LM-BP">
+              <!-- Título arriba -->
+              <text x="300" y="20" text-anchor="middle" font-size="14" font-weight="700" fill="#061383">Equilibrio simultáneo IS-LM-BP</text>
+
+              <!-- Leyenda -->
+              <g transform="translate(360, 40)">
+                <rect x="0" y="0" width="230" height="76" fill="#fff" stroke="#cbd9e4" stroke-width="1" rx="4"/>
+                <line x1="10" y1="16" x2="42" y2="16" stroke="#b71c1c" stroke-width="3"/>
+                <text x="50" y="20" font-size="11" fill="#132c50">IS (Mercado de Bienes)</text>
+                <line x1="10" y1="38" x2="42" y2="38" stroke="#1976d2" stroke-width="3"/>
+                <text x="50" y="42" font-size="11" fill="#132c50">LM (Mercado Monetario)</text>
+                <line x1="10" y1="60" x2="42" y2="60" stroke="#2e7d32" stroke-width="3" stroke-dasharray="6 4"/>
+                <text x="50" y="64" font-size="11" fill="#132c50">BP (i = i*, Mov. Perfecta)</text>
+              </g>
+
+              <!-- Ejes -->
+              <line class="axis" x1="80" y1="410" x2="560" y2="410" />
+              <line class="axis" x1="80" y1="410" x2="80" y2="60" />
+
+              <!-- Marcas eje Y (i) -->
+              <text x="70" y="415" font-size="11" text-anchor="end">0</text>
+              <text x="70" y="363" font-size="11" text-anchor="end">20</text>
+              <text x="70" y="311" font-size="11" text-anchor="end">40</text>
+              <text x="70" y="259" font-size="11" text-anchor="end">60</text>
+              <text x="70" y="207" font-size="11" text-anchor="end">80</text>
+              <text x="70" y="155" font-size="11" text-anchor="end">100</text>
+              <text x="70" y="103" font-size="11" text-anchor="end">120</text>
+              <text x="70" y="61" font-size="11" text-anchor="end">140</text>
+
+              <!-- Marcas eje X (Y) -->
+              <text x="80" y="428" font-size="11" text-anchor="middle">0</text>
+              <text x="176" y="428" font-size="11" text-anchor="middle">20</text>
+              <text x="272" y="428" font-size="11" text-anchor="middle">40</text>
+              <text x="368" y="428" font-size="11" text-anchor="middle">60</text>
+              <text x="464" y="428" font-size="11" text-anchor="middle">80</text>
+              <text x="560" y="428" font-size="11" text-anchor="middle">100</text>
+
+              <!-- Etiquetas ejes -->
+              <text x="320" y="455" text-anchor="middle" font-size="13" font-weight="700" fill="#132c50">Ingreso / Renta Nacional (Y)</text>
+              <text x="20" y="240" text-anchor="middle" font-size="13" font-weight="700" fill="#132c50" transform="rotate(-90 20 240)">Tasa de Interés (i)</text>
+
+              <!-- Curva IS: de (10, 105) a (90, 15) -->
+              <line class="curve-is" x1="128" y1="150" x2="512" y2="360" />
+
+              <!-- Curva LM: de (10, 25) a (90, 105) -->
+              <line class="curve-lm" x1="128" y1="338" x2="512" y2="150" />
+
+              <!-- Curva BP horizontal en i = 45 (y = 295) -->
+              <line class="curve-bp" x1="128" y1="250" x2="512" y2="250" />
+
+              <!-- Punto de equilibrio: E0 en (Y=50, i=45) → (315, 295) -->
+              <circle class="point" cx="312" cy="250" r="7" />
+              <text x="322" y="288" font-size="14" font-weight="700" fill="#000">E₀</text>
+
+              <!-- Guías punteadas -->
+              <line class="guide" x1="312" y1="250" x2="312" y2="410" />
+              <line class="guide" x1="80" y1="250" x2="315" y2="250" />
+
+              <!-- Etiquetas de equilibrio -->
+              <text x="315" y="440" text-anchor="middle" font-size="12" font-style="italic" fill="#132c50">Y₀</text>
+              <text x="72" y="240" text-anchor="end" font-size="12" font-style="italic" fill="#132c50">i*</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 3: Movilidad de capitales ========== -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Movilidad de capitales y pendiente de BP</h2>
+          <p class="subtitle">Tres regímenes según el grado de apertura financiera</p>
+        </div>
+
+        <div class="card-grid" style="flex:1; align-content:center;">
+          <article class="card" style="cursor:default; border-left-color:#2e7d32;">
+            <h3 style="color:#2e7d32;">Movilidad perfecta (BP horizontal)</h3>
+            <p><strong>Sustitución perfecta</strong> entre activos nacionales y extranjeros. Cualquier desvío infinitesimal de <em>i</em> respecto a <em>i*</em> desata flujos masivos de capital.</p>
+            <p style="margin-top:8px;">La tasa doméstica está fijada por el mercado mundial: <strong>i = i*</strong>.</p>
+            <span class="example">Modelo estándar de M-F para pequeñas economías abiertas</span>
+          </article>
+          <article class="card" style="cursor:default; border-left-color:#b8860b;">
+            <h3 style="color:#b8860b;">Movilidad imperfecta (BP pendiente positiva)</h3>
+            <p>Existen <strong>prima de riesgo</strong>, controles parciales o costos de transacción. Para atraer capitales y financiar un déficit comercial (Y↑), se requiere elevar la tasa de interés (i↑).</p>
+            <span class="example">La pendiente depende del grado de apertura financiera</span>
+          </article>
+          <article class="card" style="cursor:default; border-left-color:#b71c1c;">
+            <h3 style="color:#b71c1c;">Inmovilidad perfecta (BP vertical)</h3>
+            <p><strong>Controles estrictos</strong> a la cuenta de capitales o autarquía financiera. La Balanza de Pagos depende únicamente del comercio de bienes.</p>
+            <p style="margin-top:8px;">El equilibrio externo solo se ajusta vía <em>Y</em> o <em>E</em>.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 4: Tipo de cambio fijo ========== -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Tipo de cambio fijo</h2>
+          <p class="subtitle">Ineficacia monetaria vs. máxima eficacia fiscal</p>
+        </div>
+
+        <div class="key-point" style="margin-bottom:14px;">
+          <p><strong>Regla de oro:</strong> el Banco Central renuncia al control de la oferta monetaria para mantener la paridad. La <strong>política monetaria es INEFICAZ</strong>; la <strong>política fiscal alcanza su MÁXIMA EFICACIA</strong>.</p>
+        </div>
+
+        <div class="two-col" style="flex:1;">
+          <!-- Gráfico A: Monetaria ineficaz -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <p style="font-size:clamp(12px,1.15vw,16px); font-weight:700; color:#b71c1c; text-align:center; margin-bottom:8px;">A. Pol. Monetaria: INEFICAZ (fuga de capitales → perder reservas)</p>
+            <svg viewBox="0 0 520 400" aria-label="Tipo de cambio fijo: política monetaria ineficaz" style="width:100%; height:auto; max-height:42vh;">
+              <!-- Ejes -->
+              <line class="axis" x1="70" y1="350" x2="490" y2="350" />
+              <line class="axis" x1="70" y1="350" x2="70" y2="40" />
+
+              <!-- Leyenda -->
+              <g transform="translate(250, 5)">
+                <rect x="0" y="0" width="200" height="76" fill="#fff" stroke="#cbd9e4" stroke-width="1" rx="4"/>
+                <line x1="10" y1="16" x2="42" y2="16" stroke="#b71c1c" stroke-width="3"/>
+                <text x="50" y="20" font-size="10" fill="#132c50">IS</text>
+                <line x1="10" y1="38" x2="42" y2="38" stroke="#1976d2" stroke-width="3"/>
+                <text x="50" y="42" font-size="10" fill="#132c50">LM₀ = LM₂ (final)</text>
+                <line x1="10" y1="60" x2="42" y2="60" stroke="#7b1fa2" stroke-width="3" stroke-dasharray="2 6"/>
+                <text x="50" y="64" font-size="10" fill="#132c50">LM₁ (temporal)</text>
+                <line x1="110" y1="60" x2="142" y2="60" stroke="#2e7d32" stroke-width="3" stroke-dasharray="6 4"/>
+                <text x="150" y="64" font-size="10" fill="#132c50">BP</text>
+              </g>
+
+              <!-- Curva IS -->
+              <line class="curve-is" x1="100" y1="100" x2="450" y2="320" />
+
+              <!-- Curva LM0 = LM2 (final) -->
+              <line class="curve-lm" x1="100" y1="300" x2="450" y2="90" />
+
+              <!-- Curva LM1 (temporal, desplazada a la derecha) -->
+              <line class="curve-lm-dotted" x1="180" y1="300" x2="450" y2="150" />
+
+              <!-- Curva BP horizontal i* = 45 -->
+              <line class="curve-bp" x1="100" y1="205" x2="450" y2="205" />
+
+              <!-- Punto de equilibrio -->
+              <circle class="point" cx="265" cy="205" r="5" />
+
+              <!-- Flecha mostrando el retorno -->
+              <path d="M 350,235 L 350,210 L 290,210" stroke="#7b1fa2" stroke-width="1.8" fill="none" marker-end="url(#arrow-purple)"/>
+              <defs>
+                <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#7b1fa2"/>
+                </marker>
+              </defs>
+
+              <!-- Etiquetas -->
+              <text x="465" y="325" font-size="11" fill="#b71c1c" font-weight="700">IS</text>
+              <text x="455" y="85" font-size="11" fill="#1976d2" font-weight="700">LM</text>
+              <text x="495" y="145" font-size="11" fill="#7b1fa2" font-weight="700">LM₁</text>
+              <text x="465" y="200" font-size="11" fill="#2e7d32" font-weight="700">BP</text>
+
+              <!-- Labels ejes -->
+              <text x="280" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50">Ingreso (Y)</text>
+              <text x="20" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50" transform="rotate(-90 20 200)">Tasa de Interés (i)</text>
+            </svg>
+          </div>
+
+          <!-- Gráfico B: Fiscal máxima eficacia -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <p style="font-size:clamp(12px,1.15vw,16px); font-weight:700; color:#0d8043; text-align:center; margin-bottom:8px;">B. Pol. Fiscal: MÁXIMA EFICACIA (aumento Y sin crowding out)</p>
+            <svg viewBox="0 0 520 400" aria-label="Tipo de cambio fijo: política fiscal máxima eficacia" style="width:100%; height:auto; max-height:42vh;">
+              <!-- Ejes -->
+              <line class="axis" x1="70" y1="350" x2="490" y2="350" />
+              <line class="axis" x1="70" y1="350" x2="70" y2="40" />
+
+              <!-- Leyenda -->
+              <g transform="translate(250, 10)">
+                <rect x="0" y="0" width="210" height="76" fill="#fff" stroke="#cbd9e4" stroke-width="1" rx="4"/>
+                <line x1="10" y1="16" x2="42" y2="16" stroke="#b71c1c" stroke-width="2.5" stroke-dasharray="6 4"/>
+                <text x="50" y="20" font-size="10" fill="#132c50">IS₀</text>
+                <line x1="10" y1="38" x2="42" y2="38" stroke="#b71c1c" stroke-width="3"/>
+                <text x="50" y="42" font-size="10" fill="#132c50">IS₁</text>
+                <line x1="10" y1="60" x2="42" y2="60" stroke="#1976d2" stroke-width="3"/>
+                <text x="50" y="64" font-size="10" fill="#132c50">LM₀, LM₁</text>
+                <line x1="110" y1="60" x2="142" y2="60" stroke="#2e7d32" stroke-width="3" stroke-dasharray="6 4"/>
+                <text x="150" y="64" font-size="10" fill="#132c50">BP</text>
+              </g>
+
+              <!-- IS0 (dashed) -->
+              <line class="curve-is-dashed" x1="100" y1="120" x2="420" y2="320" />
+              <!-- IS1 (solid, desplazada a la derecha) -->
+              <line class="curve-is" x1="150" y1="90" x2="470" y2="290" />
+              <!-- LM0 (dashed) -->
+              <line class="curve-lm-dashed" x1="100" y1="300" x2="430" y2="100" />
+              <!-- LM1 (solid) -->
+              <line class="curve-lm" x1="130" y1="300" x2="460" y2="100" />
+
+              <!-- BP horizontal -->
+              <line class="curve-bp" x1="100" y1="190" x2="450" y2="190" />
+
+              <!-- Punto final -->
+              <circle class="point" cx="315" cy="190" r="5" />
+
+              <!-- Etiquetas -->
+              <text x="425" y="335" font-size="11" fill="#b71c1c" font-weight="700">IS₀</text>
+              <text x="475" y="285" font-size="11" fill="#b71c1c" font-weight="700">IS₁</text>
+              <text x="440" y="95" font-size="11" fill="#1976d2" font-weight="700">LM₁</text>
+              <text x="405" y="110" font-size="11" fill="#1976d2" font-weight="700">LM₀</text>
+              <text x="465" y="200" font-size="11" fill="#2e7d32" font-weight="700">BP</text>
+
+              <text x="280" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50">Ingreso (Y)</text>
+              <text x="20" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50" transform="rotate(-90 20 200)">Tasa de Interés (i)</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 5: Tipo de cambio flexible ========== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Tipo de cambio flexible</h2>
+          <p class="subtitle">Máxima eficacia monetaria vs. ineficacia fiscal</p>
+        </div>
+
+        <div class="key-point" style="margin-bottom:14px;">
+          <p><strong>Regla de oro:</strong> el tipo de cambio absorbe los choques externos. La <strong>política monetaria es MÁXIMAMENTE EFICAZ</strong> (vía depreciación E↑ y exportaciones NX↑); la <strong>política fiscal es INEFICAZ</strong> por apreciación E↓ (crowding out internacional).</p>
+        </div>
+
+        <div class="two-col" style="flex:1;">
+          <!-- Gráfico A: Monetaria máxima eficacia -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <p style="font-size:clamp(12px,1.15vw,16px); font-weight:700; color:#0d8043; text-align:center; margin-bottom:8px;">A. Pol. Monetaria: MÁXIMA EFICACIA (E↑ estimula NX)</p>
+            <svg viewBox="0 0 520 400" aria-label="Tipo de cambio flexible: política monetaria máxima eficacia" style="width:100%; height:auto; max-height:42vh;">
+              <line class="axis" x1="70" y1="350" x2="490" y2="350" />
+              <line class="axis" x1="70" y1="350" x2="70" y2="40" />
+
+              <!-- Leyenda -->
+              <g transform="translate(270, 40)">
+                <rect x="0" y="0" width="210" height="76" fill="#fff" stroke="#cbd9e4" stroke-width="1" rx="4"/>
+                <line x1="10" y1="16" x2="42" y2="16" stroke="#b71c1c" stroke-width="2.5" stroke-dasharray="6 4"/>
+                <text x="50" y="20" font-size="10" fill="#132c50">IS₀</text>
+                <line x1="10" y1="38" x2="42" y2="38" stroke="#b71c1c" stroke-width="3"/>
+                <text x="50" y="42" font-size="10" fill="#132c50">IS₁ (por E↑, NX↑)</text>
+                <line x1="10" y1="60" x2="42" y2="60" stroke="#1976d2" stroke-width="3"/>
+                <text x="50" y="64" font-size="10" fill="#132c50">LM₀, LM₁</text>
+                <line x1="110" y1="60" x2="142" y2="60" stroke="#2e7d32" stroke-width="3" stroke-dasharray="6 4"/>
+                <text x="150" y="64" font-size="10" fill="#132c50">BP</text>
+              </g>
+
+              <!-- IS0 (dashed, izquierda) -->
+              <line class="curve-is-dashed" x1="100" y1="80" x2="440" y2="320" />
+              <!-- IS1 (solid, derecha - por depreciación) -->
+              <line class="curve-is" x1="130" y1="70" x2="470" y2="310" />
+              <!-- LM0 (dashed) -->
+              <line class="curve-lm-dashed" x1="100" y1="300" x2="430" y2="100" />
+              <!-- LM1 (solid, derecha - por expansión monetaria) -->
+              <line class="curve-lm" x1="140" y1="300" x2="470" y2="100" />
+
+              <!-- BP horizontal -->
+              <line class="curve-bp" x1="100" y1="205" x2="450" y2="205" />
+
+              <!-- Punto final -->
+              <circle class="point" cx="330" cy="205" r="5" />
+
+              <!-- Flecha desde E0 a E1 -->
+              <path d="M 280,220 Q 310,240 330,220" stroke="#b71c1c" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+              <defs>
+                <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#b71c1c"/>
+                </marker>
+              </defs>
+
+              <text x="445" y="335" font-size="11" fill="#b71c1c" font-weight="700">IS₀</text>
+              <text x="478" y="305" font-size="11" fill="#b71c1c" font-weight="700">IS₁</text>
+              <text x="440" y="95" font-size="11" fill="#1976d2" font-weight="700">LM₁</text>
+              <text x="405" y="110" font-size="11" fill="#1976d2" font-weight="700">LM₀</text>
+              <text x="465" y="200" font-size="11" fill="#2e7d32" font-weight="700">BP</text>
+
+              <text x="280" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50">Ingreso (Y)</text>
+              <text x="20" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50" transform="rotate(-90 20 200)">Tasa de Interés (i)</text>
+            </svg>
+          </div>
+
+          <!-- Gráfico B: Fiscal ineficaz -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <p style="font-size:clamp(12px,1.15vw,16px); font-weight:700; color:#b71c1c; text-align:center; margin-bottom:8px;">B. Pol. Fiscal: INEFICAZ (apreciación E↓ anula NX)</p>
+            <svg viewBox="0 0 520 400" aria-label="Tipo de cambio flexible: política fiscal ineficaz" style="width:100%; height:auto; max-height:42vh;">
+              <line class="axis" x1="70" y1="350" x2="490" y2="350" />
+              <line class="axis" x1="70" y1="350" x2="70" y2="40" />
+
+              <!-- Leyenda -->
+              <g transform="translate(270, 40)">
+                <rect x="0" y="0" width="210" height="76" fill="#fff" stroke="#cbd9e4" stroke-width="1" rx="4"/>
+                <line x1="10" y1="16" x2="42" y2="16" stroke="#b71c1c" stroke-width="3"/>
+                <text x="50" y="20" font-size="10" fill="#132c50">IS₀ = IS₂ (final)</text>
+                <line x1="10" y1="38" x2="42" y2="38" stroke="#7b1fa2" stroke-width="3" stroke-dasharray="2 6"/>
+                <text x="50" y="42" font-size="10" fill="#132c50">IS₁ (temporal)</text>
+                <line x1="10" y1="60" x2="42" y2="60" stroke="#1976d2" stroke-width="3"/>
+                <text x="50" y="64" font-size="10" fill="#132c50">LM</text>
+                <line x1="110" y1="60" x2="142" y2="60" stroke="#2e7d32" stroke-width="3" stroke-dasharray="6 4"/>
+                <text x="150" y="64" font-size="10" fill="#132c50">BP</text>
+              </g>
+
+              <!-- IS0 = IS2 (solid, final) -->
+              <line class="curve-is" x1="100" y1="90" x2="450" y2="320" />
+              <!-- IS1 (dashed, temporal - desplazada a la derecha) -->
+              <line class="curve-is-dotted" x1="150" y1="70" x2="490" y2="300" />
+              <!-- LM (solid) -->
+              <line class="curve-lm" x1="100" y1="300" x2="430" y2="90" />
+
+              <!-- BP horizontal -->
+              <line class="curve-bp" x1="100" y1="205" x2="450" y2="205" />
+
+              <!-- Punto de equilibrio final -->
+              <circle class="point" cx="280" cy="205" r="5" />
+
+              <!-- Flecha de regreso -->
+              <path d="M 390,235 L 390,215 L 290,215" stroke="#7b1fa2" stroke-width="1.8" fill="none" marker-end="url(#arrow-purple2)"/>
+              <defs>
+                <marker id="arrow-purple2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#7b1fa2"/>
+                </marker>
+              </defs>
+
+              <text x="455" y="325" font-size="11" fill="#b71c1c" font-weight="700">IS₀ = IS₂</text>
+              <text x="495" y="295" font-size="11" fill="#7b1fa2" font-weight="700">IS₁</text>
+              <text x="440" y="85" font-size="11" fill="#1976d2" font-weight="700">LM</text>
+              <text x="465" y="200" font-size="11" fill="#2e7d32" font-weight="700">BP</text>
+
+              <text x="280" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50">Ingreso (Y)</text>
+              <text x="20" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#132c50" transform="rotate(-90 20 200)">Tasa de Interés (i)</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 6: Trilema de Mundell ========== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
+      <div class="content">
+        <div class="slide-title">
+          <h2>El trilema macroeconómico de Mundell</h2>
+          <p class="subtitle">La "trinidad imposible" en macroeconomía</p>
+        </div>
+
+        <div class="two-col" style="align-items:center;">
+          <!-- Triángulo -->
+          <div class="diagram-container" style="max-height:58vh;">
+            <svg viewBox="0 0 600 520" aria-label="Trilema de Mundell">
+              <!-- Triángulo -->
+              <polygon points="300,90 80,430 520,430" fill="none" stroke="#061383" stroke-width="4" stroke-linejoin="round" />
+
+              <!-- Vértice superior: Estabilidad Cambiaria -->
+              <text x="300" y="55" text-anchor="middle" font-size="16" font-weight="700" fill="#061383">1. Estabilidad Cambiaria</text>
+              <text x="300" y="75" text-anchor="middle" font-size="13" fill="#527092">(Tipo de Cambio Fijo)</text>
+
+              <!-- Vértice inferior izquierdo -->
+              <text x="80" y="470" text-anchor="middle" font-size="15" font-weight="700" fill="#061383">2. Libre Movilidad</text>
+              <text x="80" y="490" text-anchor="middle" font-size="15" font-weight="700" fill="#061383">de Capitales</text>
+
+              <!-- Vértice inferior derecho -->
+              <text x="520" y="470" text-anchor="middle" font-size="15" font-weight="700" fill="#061383">3. Autonomía</text>
+              <text x="520" y="490" text-anchor="middle" font-size="15" font-weight="700" fill="#061383">Monetaria</text>
+
+              <!-- Opción A (lado izquierdo: fijo + capital) -->
+              <g transform="translate(120, 220)">
+                <rect x="0" y="0" width="170" height="62" rx="8" fill="#fff" stroke="#b71c1c" stroke-width="2"/>
+                <text x="85" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#b71c1c">Opción A</text>
+                <text x="85" y="42" text-anchor="middle" font-size="11" fill="#132c50">Junta Monetaria / Euro</text>
+                <text x="85" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#b71c1c">(1 + 2)</text>
+              </g>
+
+              <!-- Opción B (lado derecho: fijo + autonomía) -->
+              <g transform="translate(310, 220)">
+                <rect x="0" y="0" width="170" height="62" rx="8" fill="#fff" stroke="#b8860b" stroke-width="2"/>
+                <text x="85" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#b8860b">Opción B</text>
+                <text x="85" y="42" text-anchor="middle" font-size="11" fill="#132c50">Controles de Capital</text>
+                <text x="85" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#b8860b">(1 + 3)</text>
+              </g>
+
+              <!-- Opción C (base: capital + autonomía) -->
+              <g transform="translate(215, 350)">
+                <rect x="0" y="0" width="170" height="62" rx="8" fill="#fff" stroke="#0d8043" stroke-width="2"/>
+                <text x="85" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#0d8043">Opción C</text>
+                <text x="85" y="42" text-anchor="middle" font-size="11" fill="#132c50">Flotación Libre (Colombia)</text>
+                <text x="85" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#0d8043">(2 + 3)</text>
+              </g>
+            </svg>
+          </div>
+
+          <div>
+            <div class="info-box" style="border-left-color:#b71c1c;">
+              <h3 style="color:#b71c1c;">Principio de imposibilidad</h3>
+              <p>Un país <strong>NO puede mantener simultáneamente</strong>: tipo de cambio fijo, libre movilidad de capitales y autonomía de política monetaria.</p>
+            </div>
+
+            <div class="key-point" style="margin-top:14px;">
+              <p><strong style="color:#b71c1c;">Opción A</strong> — Dolarización/Euro: TC fijo + capitales. Renuncia al 100% a la política monetaria independiente.</p>
+              <p style="margin-top:6px;"><strong style="color:#b8860b;">Opción B</strong> — Controles de capital (China, Venezuela): TC fijo + autonomía. Impone restricciones severas al flujo de divisas.</p>
+              <p style="margin-top:6px;"><strong style="color:#0d8043;">Opción C</strong> — Flotación libre (Colombia, EE.UU., UE): capitales + autonomía. Abandona la fijación y permite flotación pura o sucia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 7: Síntesis ========== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Síntesis ejecutiva</h2>
+          <p class="subtitle">Matriz de eficacia de políticas y aplicación a Colombia</p>
+        </div>
+
+        <table class="matrix" style="margin-bottom:18px;">
+          <thead>
+            <tr>
+              <th>Régimen cambiario</th>
+              <th>Movilidad de capitales</th>
+              <th>Política Fiscal (ΔG)</th>
+              <th>Política Monetaria (ΔM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="regimen">Tipo de cambio fijo</td>
+              <td>Perfecta</td>
+              <td class="good">MÁXIMA EFICACIA (Y↑↑)</td>
+              <td class="bad">TOTALMENTE INEFICAZ (Y=0)</td>
+            </tr>
+            <tr>
+              <td class="regimen">Tipo de cambio fijo</td>
+              <td>Nula / Imperfecta</td>
+              <td class="mid">Eficaz (con crowding out)</td>
+              <td class="mid">Relativamente eficaz (temporal)</td>
+            </tr>
+            <tr class="active-row">
+              <td class="regimen">Tipo de cambio flexible</td>
+              <td>Perfecta</td>
+              <td class="bad">TOTALMENTE INEFICAZ (Y=0)</td>
+              <td class="good">MÁXIMA EFICACIA (Y↑↑)</td>
+            </tr>
+            <tr>
+              <td class="regimen">Tipo de cambio flexible</td>
+              <td>Nula / Imperfecta</td>
+              <td class="mid">Eficaz</td>
+              <td class="mid">Eficaz</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box" style="border-left-color:#0d8043;">
+          <h3 style="color:#0d8043;">Aplicación a la coyuntura colombiana</h3>
+          <p>Colombia opera bajo <strong>flotación cambiaria</strong> y <strong>alta movilidad de capitales</strong> (fila resaltada de la matriz). En este régimen, la <strong>política monetaria es la herramienta más potente</strong> para afectar la demanda agregada.</p>
+          <p style="margin-top:10px;"><strong>Transmisión monetaria:</strong> cuando el Banco de la República altera la tasa de intervención, el impacto principal sobre la demanda agregada ocurre a través del <strong>tipo de cambio</strong> y las <strong>exportaciones netas</strong>.</p>
+          <p style="margin-top:10px;"><strong>Dominancia fiscal:</strong> si el Gobierno realiza una expansión fiscal sin respaldo, la apreciación del peso resultante desplaza al sector exportador privado (<em>crowding out</em> internacional).</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 7</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; Los tres pilares (IS, LM, BP)</button>
+      <button data-go="2">03 &nbsp; Movilidad de capitales</button>
+      <button data-go="3">04 &nbsp; Tipo de cambio fijo</button>
+      <button data-go="4">05 &nbsp; Tipo de cambio flexible</button>
+      <button data-go="5">06 &nbsp; Trilema de Mundell</button>
+      <button data-go="6">07 &nbsp; Síntesis ejecutiva</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
