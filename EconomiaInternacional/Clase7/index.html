@@ -339,11 +339,9 @@
         <div class="two-col two-col-top" style="gap:clamp(22px,3vw,45px);">
           <div style="display:flex; flex-direction:column; gap:10px;">
 
-            <!-- Gráfico 1: Cruz Keynesiana -->
-            <!-- viewBox 600x420 · Eje X: 80..520 · Eje Y: 40..420 -->
-            <!-- Y₀ = 230, Y₁ = 350 -->
+            <!-- Gráfico 1: Cruz Keynesiana · viewBox 600×470 -->
             <div style="width:100%;">
-              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" aria-label="Cruz Keynesiana con choque cambiario" style="width:100%; height:auto; display:block;">
+              <svg viewBox="0 0 600 470" preserveAspectRatio="xMidYMid meet" aria-label="Cruz Keynesiana con choque cambiario" style="width:100%; height:auto; display:block;">
                 <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#061383">1. Cruz Keynesiana: Choque Cambiario (E₁ &gt; E₀)</text>
 
                 <!-- Leyenda compacta -->
@@ -356,17 +354,17 @@
                   <text x="32" y="36" font-size="10" fill="#132c50">D(E₁) con E₁ &gt; E₀</text>
                 </g>
 
-                <!-- Ejes -->
+                <!-- Ejes · X: 80..520 · Y: 40..420 -->
                 <line class="axis" x1="80" y1="420" x2="520" y2="420" />
                 <line class="axis" x1="80" y1="420" x2="80" y2="40" />
 
-                <text x="300" y="450" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción (Y)</text>
+                <text x="300" y="455" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción (Y)</text>
                 <text x="28" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50" transform="rotate(-90 28 235)">Demanda (D)</text>
 
                 <!-- Diagonal 45° REAL: caja útil 380×380 -->
                 <line class="line45" x1="80" y1="420" x2="460" y2="40" />
 
-                <!-- D₀ y D₁ con pendiente 0.7 -->
+                <!-- D₀ y D₁ -->
                 <line class="line-d0" x1="80" y1="375" x2="460" y2="109" />
                 <line class="line-d1" x1="80" y1="339" x2="460" y2="73" />
 
@@ -386,22 +384,22 @@
               </svg>
             </div>
 
-            <!-- Gráfico 2: Curva DD · MISMO viewBox, MISMOS ejes, MISMAS posiciones Y₀ e Y₁ -->
+            <!-- Gráfico 2: Curva DD · viewBox 600×470 · MISMA alineación -->
             <div style="width:100%;">
-              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" aria-label="Curva DD positiva" style="width:100%; height:auto; display:block;">
+              <svg viewBox="0 0 600 470" preserveAspectRatio="xMidYMid meet" aria-label="Curva DD positiva" style="width:100%; height:auto; display:block;">
                 <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#061383">2. Derivación de la Curva DD (Equilibrio Mercado de Bienes)</text>
 
                 <!-- Leyenda -->
                 <g transform="translate(390, 34)">
-                  <line x1="0" y1="0" x2="26" y2="0" stroke="#2e7d32" stroke-width="3"/>
-                  <text x="32" y="4" font-size="10" fill="#132c50">Curva DD</text>
+                  <line x1="0" y1="0" x2="15" y2="0" stroke="#2e7d32" stroke-width="3"/>
+                  <text x="16" y="4" font-size="10" fill="#132c50">Curva DD</text>
                 </g>
 
-                <!-- Ejes (idénticos al gráfico 1) -->
+                <!-- Ejes idénticos al gráfico 1 -->
                 <line class="axis" x1="80" y1="420" x2="520" y2="420" />
                 <line class="axis" x1="80" y1="420" x2="80" y2="40" />
 
-                <text x="300" y="450" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción / Renta (Y)</text>
+                <text x="300" y="455" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción / Renta (Y)</text>
                 <text x="28" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50" transform="rotate(-90 28 235)">Tipo de Cambio (E)</text>
 
                 <!-- Curva DD · pasa por (230, 240) y (350, 130) -->
@@ -413,15 +411,15 @@
                 <circle class="point-orange" cx="350" cy="130" r="6" />
                 <text x="362" y="124" font-size="12" font-weight="700" fill="#e65100">E₁</text>
 
-                <!-- Guías verticales · Y₀ = 230, Y₁ = 350 (alineadas con el gráfico 1) -->
+                <!-- Guías verticales · misma X que el gráfico 1 -->
                 <line class="guide" x1="230" y1="240" x2="230" y2="420" />
                 <line class="guide" x1="350" y1="130" x2="350" y2="420" />
 
-                <!-- Guías horizontales a los valores E₀ y E₁ -->
+                <!-- Guías horizontales -->
                 <line class="guide" x1="80" y1="240" x2="230" y2="240" />
                 <line class="guide" x1="80" y1="130" x2="350" y2="130" />
 
-                <!-- Etiquetas Y₀, Y₁ (misma posición X que en el gráfico 1) -->
+                <!-- Etiquetas Y₀, Y₁ en la misma posición X -->
                 <text x="230" y="438" text-anchor="middle" font-size="11" font-style="italic" fill="#1a237e">Y₀</text>
                 <text x="350" y="438" text-anchor="middle" font-size="11" font-style="italic" fill="#e65100">Y₁</text>
 
@@ -442,7 +440,7 @@
             </div>
 
             <div class="key-point" style="margin-top:14px;">
-              <p><strong>Lectura vertical:</strong> las guías punteadas caen en la misma posición en ambos gráficos. El Y₀ de la Cruz Keynesiana (arriba) corresponde al Y₀ de la Curva DD (abajo).</p>
+              <p><strong>Lectura vertical:</strong> las guías punteadas caen en la misma posición X en ambos gráficos. El Y₀ de la Cruz Keynesiana (arriba) corresponde al Y₀ de la Curva DD (abajo).</p>
             </div>
           </div>
         </div>
