@@ -337,13 +337,16 @@
         </div>
 
         <div class="two-col two-col-top" style="gap:clamp(22px,3vw,45px);">
-          <div style="display:flex; flex-direction:column; gap:14px;">
-            <!-- Gráfico 1: Cruz Keynesiana con choque cambiario (diagonal a 45° real) -->
-            <div class="diagram-container" style="max-height:30vh; aspect-ratio:1.9;">
-              <svg viewBox="0 0 600 420" aria-label="Cruz Keynesiana con choque cambiario">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+
+            <!-- Gráfico 1: Cruz Keynesiana -->
+            <!-- viewBox 600x420 · Eje X: 80..520 · Eje Y: 40..420 -->
+            <!-- Y₀ = 230, Y₁ = 350 -->
+            <div style="width:100%;">
+              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" aria-label="Cruz Keynesiana con choque cambiario" style="width:100%; height:auto; display:block;">
                 <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#061383">1. Cruz Keynesiana: Choque Cambiario (E₁ &gt; E₀)</text>
 
-                <!-- Leyenda compacta arriba-derecha -->
+                <!-- Leyenda compacta -->
                 <g transform="translate(370, 32)">
                   <line x1="0" y1="0" x2="26" y2="0" stroke="#7a7a7a" stroke-width="2" stroke-dasharray="6 4"/>
                   <text x="32" y="4" font-size="10" fill="#132c50">Y = D</text>
@@ -353,31 +356,27 @@
                   <text x="32" y="36" font-size="10" fill="#132c50">D(E₁) con E₁ &gt; E₀</text>
                 </g>
 
-                <!-- Ejes con caja cuadrada (380×380) para que la diagonal se vea a 45° real -->
+                <!-- Ejes -->
                 <line class="axis" x1="80" y1="420" x2="520" y2="420" />
                 <line class="axis" x1="80" y1="420" x2="80" y2="40" />
 
                 <text x="300" y="450" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción (Y)</text>
                 <text x="28" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50" transform="rotate(-90 28 235)">Demanda (D)</text>
 
-                <!-- Diagonal 45° REAL: Δx = Δy = 380 -->
+                <!-- Diagonal 45° REAL: caja útil 380×380 -->
                 <line class="line45" x1="80" y1="420" x2="460" y2="40" />
 
-                <!-- D₀: pendiente visual ~0.7, pasa por E₀ = (230, 270) -->
+                <!-- D₀ y D₁ con pendiente 0.7 -->
                 <line class="line-d0" x1="80" y1="375" x2="460" y2="109" />
-
-                <!-- D₁: misma pendiente, desplazada arriba, pasa por E₁ = (350, 150) -->
                 <line class="line-d1" x1="80" y1="339" x2="460" y2="73" />
 
-                <!-- Punto E₀ sobre la diagonal -->
+                <!-- Puntos E₀ y E₁ sobre la diagonal -->
                 <circle class="point-blue" cx="230" cy="270" r="6" />
                 <text x="240" y="264" font-size="12" font-weight="700" fill="#1a237e">E₀</text>
-
-                <!-- Punto E₁ sobre la diagonal -->
                 <circle class="point-orange" cx="350" cy="150" r="6" />
                 <text x="360" y="144" font-size="12" font-weight="700" fill="#e65100">E₁</text>
 
-                <!-- Guías punteadas -->
+                <!-- Guías verticales · Y₀ = 230, Y₁ = 350 -->
                 <line class="guide" x1="230" y1="270" x2="230" y2="420" />
                 <line class="guide" x1="350" y1="150" x2="350" y2="420" />
 
@@ -387,43 +386,48 @@
               </svg>
             </div>
 
-            <!-- Gráfico 2: Curva DD positiva -->
-            <div class="diagram-container" style="max-height:30vh; aspect-ratio:1.9;">
-              <svg viewBox="0 0 600 320" aria-label="Curva DD positiva">
+            <!-- Gráfico 2: Curva DD · MISMO viewBox, MISMOS ejes, MISMAS posiciones Y₀ e Y₁ -->
+            <div style="width:100%;">
+              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" aria-label="Curva DD positiva" style="width:100%; height:auto; display:block;">
                 <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#061383">2. Derivación de la Curva DD (Equilibrio Mercado de Bienes)</text>
 
                 <!-- Leyenda -->
-                <g transform="translate(380, 34)">
+                <g transform="translate(390, 34)">
                   <line x1="0" y1="0" x2="26" y2="0" stroke="#2e7d32" stroke-width="3"/>
-                  <text x="32" y="4" font-size="10" fill="#132c50">Curva DD (IS en Y-E)</text>
+                  <text x="32" y="4" font-size="10" fill="#132c50">Curva DD</text>
                 </g>
 
-                <!-- Ejes -->
-                <line class="axis" x1="80" y1="280" x2="560" y2="280" />
-                <line class="axis" x1="80" y1="280" x2="80" y2="60" />
+                <!-- Ejes (idénticos al gráfico 1) -->
+                <line class="axis" x1="80" y1="420" x2="520" y2="420" />
+                <line class="axis" x1="80" y1="420" x2="80" y2="40" />
 
-                <text x="320" y="308" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción / Renta (Y)</text>
-                <text x="25" y="175" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50" transform="rotate(-90 25 175)">Tipo de Cambio Nominal (E)</text>
+                <text x="300" y="450" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50">Producción / Renta (Y)</text>
+                <text x="28" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#132c50" transform="rotate(-90 28 235)">Tipo de Cambio (E)</text>
 
-                <!-- Curva DD (positiva) -->
-                <line class="curve-dd" x1="180" y1="270" x2="520" y2="80" />
+                <!-- Curva DD · pasa por (230, 240) y (350, 130) -->
+                <line class="curve-dd" x1="140" y1="323" x2="460" y2="29" />
 
-                <!-- Puntos E₀ y E₁ sobre DD -->
-                <circle class="point-blue" cx="300" cy="203" r="6" />
-                <text x="285" y="197" font-size="12" font-weight="700" fill="#1a237e">E₀</text>
-                <circle class="point-orange" cx="450" cy="120" r="6" />
-                <text x="460" y="113" font-size="12" font-weight="700" fill="#e65100">E₁</text>
+                <!-- Puntos sobre DD -->
+                <circle class="point-blue" cx="230" cy="240" r="6" />
+                <text x="218" y="234" font-size="12" font-weight="700" fill="#1a237e" text-anchor="end">E₀</text>
+                <circle class="point-orange" cx="350" cy="130" r="6" />
+                <text x="362" y="124" font-size="12" font-weight="700" fill="#e65100">E₁</text>
 
-                <!-- Guías -->
-                <line class="guide" x1="300" y1="203" x2="300" y2="280" />
-                <line class="guide" x1="80" y1="203" x2="300" y2="203" />
-                <line class="guide" x1="450" y1="120" x2="450" y2="280" />
-                <line class="guide" x1="80" y1="120" x2="450" y2="120" />
+                <!-- Guías verticales · Y₀ = 230, Y₁ = 350 (alineadas con el gráfico 1) -->
+                <line class="guide" x1="230" y1="240" x2="230" y2="420" />
+                <line class="guide" x1="350" y1="130" x2="350" y2="420" />
 
-                <text x="300" y="298" text-anchor="middle" font-size="11" font-style="italic" fill="#1a237e">Y₀</text>
-                <text x="450" y="298" text-anchor="middle" font-size="11" font-style="italic" fill="#e65100">Y₁</text>
-                <text x="72" y="207" text-anchor="end" font-size="11" font-style="italic" fill="#1a237e">E₀</text>
-                <text x="72" y="124" text-anchor="end" font-size="11" font-style="italic" fill="#e65100">E₁</text>
+                <!-- Guías horizontales a los valores E₀ y E₁ -->
+                <line class="guide" x1="80" y1="240" x2="230" y2="240" />
+                <line class="guide" x1="80" y1="130" x2="350" y2="130" />
+
+                <!-- Etiquetas Y₀, Y₁ (misma posición X que en el gráfico 1) -->
+                <text x="230" y="438" text-anchor="middle" font-size="11" font-style="italic" fill="#1a237e">Y₀</text>
+                <text x="350" y="438" text-anchor="middle" font-size="11" font-style="italic" fill="#e65100">Y₁</text>
+
+                <!-- Etiquetas E₀, E₁ en el eje Y -->
+                <text x="72" y="244" text-anchor="end" font-size="11" font-style="italic" fill="#1a237e">E₀</text>
+                <text x="72" y="134" text-anchor="end" font-size="11" font-style="italic" fill="#e65100">E₁</text>
               </svg>
             </div>
           </div>
@@ -435,6 +439,10 @@
               <p style="margin-top:10px;"><strong>Pendiente positiva:</strong> una depreciación (E↑) abarata las exportaciones y encarece las importaciones, elevando la demanda D y forzando a Y a expandirse.</p>
               <p style="margin-top:10px;"><strong>Equivalencia con IS:</strong> en el plano (Y, i), IS tiene pendiente negativa porque una menor tasa i estimula la inversión I y eleva Y.</p>
               <p style="margin-top:10px;"><strong>Desplazamientos:</strong> G↑, T↓ o I↑ desplazan toda la curva DD a la derecha.</p>
+            </div>
+
+            <div class="key-point" style="margin-top:14px;">
+              <p><strong>Lectura vertical:</strong> las guías punteadas caen en la misma posición en ambos gráficos. El Y₀ de la Cruz Keynesiana (arriba) corresponde al Y₀ de la Curva DD (abajo).</p>
             </div>
           </div>
         </div>
