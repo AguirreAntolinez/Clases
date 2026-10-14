@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 9: Bloques Económicos e Integración Regional</title>
+  <style>
+    :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#071070; font-family:Aptos, Arial, sans-serif; color:var(--ink); }
+    body { overflow:hidden; }
+    button { font:inherit; }
+    .deck { height:100vh; min-height:600px; position:relative; }
+    .slide { position:absolute; inset:0; display:none; background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat; padding:clamp(35px,5vw,90px) clamp(30px,7vw,130px) clamp(45px,7vh,85px); overflow:auto; }
+    .slide.active { display:flex; animation:enter .42s ease both; }
+    .slide.cover { background:#061383 url('../../assets/institutional-dark.png') center/cover no-repeat; color:#fff; align-items:center; justify-content:center; }
+    @keyframes enter { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+    h1,h2,h3,p { margin:0; }
+    h1,h2 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+    h1 { font-size:clamp(38px,5.4vw,82px); line-height:.94; max-width:920px; }
+    h2 { font-size:clamp(28px,3.8vw,58px); line-height:1; }
+    .accent { color:#00b9ca; }
+    .cover-content { width:min(100%,1050px); padding-top:12vh; }
+    .cover h1 span { display:block; }
+    .cover .course { font-size:clamp(19px,1.8vw,30px); margin:28px 0 48px; color:#8de7ed; }
+    .cover .professor { display:flex; align-items:center; gap:14px; font-size:clamp(15px,1.3vw,21px); }
+    .cover .professor::before { content:''; display:block; width:48px; height:4px; background:var(--cyan); }
+    .content { width:min(100%,1200px); margin:auto; flex:1; display:flex; flex-direction:column; }
+    .slide-title { margin-bottom:clamp(18px,3vh,36px); max-width:1000px; }
+    .subtitle { font-size:clamp(15px,1.4vw,22px); color:#527092; margin-top:10px; }
+
+    /* ---------- Tarjetas de las 6 etapas ---------- */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: clamp(8px,1.2vw,16px);
+      flex: 1;
+      align-items: stretch;
+    }
+    .stage {
+      background: rgba(255,255,255,.72);
+      border-radius: 14px;
+      border: 2px solid #cbd9e4;
+      padding: clamp(12px,1.5vw,22px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 12px rgba(6,19,131,.06);
+    }
+    .stage:hover { transform: translateY(-6px); box-shadow: 0 10px 22px rgba(6,19,131,.14); }
+    .stage h3 {
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-weight: 700;
+      color: var(--blue);
+      font-size: clamp(14px,1.35vw,20px);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .stage p {
+      color: #496a89;
+      font-size: clamp(11px,1vw,14px);
+      line-height: 1.35;
+    }
+    .stage .example {
+      display: block;
+      margin-top: auto;
+      padding-top: 10px;
+      font-size: clamp(11px,1vw,13px);
+      color: #00a9bc;
+      font-weight: 700;
+      border-top: 1px dashed #cbd9e4;
+    }
+    .stage.turquoise {
+      border-color: #00b9ca;
+      background: rgba(21,205,218,.12);
+    }
+    .stage.turquoise h3 { color: #007a8a; }
+
+    /* ---------- Info boxes / cards ---------- */
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+    .card { background:rgba(255,255,255,.75); padding:clamp(16px,2vw,32px); border-radius:12px; border-left:6px solid var(--cyan); box-shadow:0 6px 18px rgba(6,19,131,.08); transition:transform .2s; }
+    .card:hover { transform:translateY(-6px); background:#fff; }
+    .card h3 { font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; color:var(--blue); font-size:clamp(17px,1.7vw,26px); line-height:1.15; }
+    .card p { color:#496a89; font-size:clamp(14px,1.2vw,18px); margin-top:8px; line-height:1.45; }
+    .card .example { display:block; margin-top:12px; color:#00a9bc; font-weight:600; font-size:0.9em; }
+
+    .info-box { background:rgba(255,255,255,.78); padding:clamp(16px,2vw,32px); border-radius:12px; border-left:6px solid var(--cyan); }
+    .info-box h3 { color:var(--blue); font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; font-size:clamp(17px,1.7vw,26px); margin-bottom:10px; }
+    .info-box p { color:#355c82; font-size:clamp(14px,1.2vw,18px); line-height:1.5; }
+    .info-box ul { color:#355c82; font-size:clamp(14px,1.2vw,18px); line-height:1.55; padding-left:0; margin-top:10px; list-style:none; }
+    .info-box ul li { margin-bottom:8px; padding-left:20px; position:relative; }
+    .info-box ul li::before { content:'•'; color:var(--cyan); position:absolute; left:0; font-weight:700; font-size:1.3em; line-height:1; }
+
+    .key-point {
+      background: rgba(21,205,218,.12);
+      border-radius: 10px;
+      padding: clamp(12px,1.8vh,20px) clamp(14px,1.8vw,24px);
+      margin: clamp(10px,1.5vh,16px) 0;
+      color: #285783;
+      font-size: clamp(14px,1.25vw,18px);
+      line-height: 1.5;
+    }
+    .key-point strong { color: var(--blue); }
+
+    /* Trade creation / diversion */
+    .wellbeing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(16px,2.4vw,36px);
+      flex: 1;
+      align-items: stretch;
+    }
+    .wellbeing-card {
+      background: rgba(255,255,255,.78);
+      border-radius: 14px;
+      padding: clamp(18px,2.4vw,36px);
+      border-left: 6px solid;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 18px rgba(6,19,131,.08);
+    }
+    .wellbeing-card.positive { border-left-color: #0d8043; }
+    .wellbeing-card.ambiguous { border-left-color: #b8860b; }
+    .wellbeing-card h3 {
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px,1.9vw,28px);
+      line-height: 1.15;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .wellbeing-card.positive h3 { color: #0d8043; }
+    .wellbeing-card.ambiguous h3 { color: #b8860b; }
+    .wellbeing-card .symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6em;
+      height: 1.6em;
+      border-radius: 50%;
+      background: currentColor;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8em;
+    }
+    .wellbeing-card p { color:#355c82; font-size:clamp(14px,1.25vw,18px); line-height:1.5; margin-bottom:10px; }
+    .wellbeing-card p strong { color: var(--blue); }
+    .wellbeing-card ul { list-style: none; padding:0; margin:0; color:#355c82; font-size:clamp(13px,1.15vw,17px); line-height:1.55; }
+    .wellbeing-card ul li { margin-bottom:6px; padding-left:20px; position:relative; }
+    .wellbeing-card ul li::before { content:'•'; color: var(--cyan); position:absolute; left:0; font-weight:700; font-size:1.3em; line-height:1; }
+
+    /* ---------- Matriz / tabla ---------- */
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(12px,1.05vw,16px);
+      background: rgba(255,255,255,.85);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(6,19,131,.08);
+    }
+    .matrix thead th {
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 12px;
+      font-weight: 700;
+      text-align: left;
+      font-size: clamp(12px,1.05vw,16px);
+      line-height: 1.3;
+    }
+    .matrix thead th:first-child { width: 22%; }
+    .matrix tbody td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #dde4ec;
+      color: #285783;
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    .matrix tbody tr:last-child td { border-bottom: 0; }
+    .matrix tbody tr:nth-child(odd) { background: rgba(255,255,255,.4); }
+    .matrix .bloque { font-weight: 700; color: var(--blue); }
+    .matrix .tipo { color: #00a9bc; font-weight: 600; }
+    .matrix .miembros { font-size: 0.92em; color: #496a89; }
+
+    /* Cuatro operativos (reglas de origen) */
+    .ops-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: clamp(14px,2vw,26px);
+      flex: 1;
+      align-items: stretch;
+    }
+    .op-card {
+      background: rgba(255,255,255,.78);
+      border-radius: 14px;
+      padding: clamp(18px,2vw,32px);
+      border-top: 6px solid var(--cyan);
+      box-shadow: 0 6px 18px rgba(6,19,131,.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .op-card h3 {
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-weight: 700;
+      color: var(--blue);
+      font-size: clamp(17px,1.7vw,25px);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .op-card p { color:#355c82; font-size:clamp(14px,1.2vw,18px); line-height:1.5; margin-bottom:8px; }
+    .op-card ul { list-style:none; padding:0; margin:0; color:#355c82; font-size:clamp(13px,1.15vw,17px); line-height:1.5; }
+    .op-card ul li { margin-bottom:8px; padding-left:20px; position:relative; }
+    .op-card ul li::before { content:'✓'; color: var(--cyan); position:absolute; left:0; font-weight:700; }
+
+    /* Cards numeradas para matriz de decisiones */
+    .decision-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap: clamp(14px,2vw,26px);
+      flex: 1;
+      align-items: stretch;
+    }
+    .decision {
+      background: rgba(255,255,255,.78);
+      border-radius: 14px;
+      padding: clamp(18px,2vw,32px);
+      border-left: 6px solid var(--cyan);
+      box-shadow: 0 6px 18px rgba(6,19,131,.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .decision .num {
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: clamp(34px,3.5vw,52px);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .decision h3 {
+      font-family: 'Aptos Display', Aptos, sans-serif;
+      font-weight: 700;
+      color: var(--blue);
+      font-size: clamp(16px,1.6vw,23px);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .decision p { color:#355c82; font-size:clamp(13px,1.2vw,17px); line-height:1.5; }
+
+    .controls { position:fixed; z-index:5; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; padding:8px 12px; background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25); border-radius:8px; color:#fff; }
+    body[data-slide="3"] .controls,
+    body[data-slide="4"] .controls,
+    body[data-slide="5"] .controls,
+    body[data-slide="6"] .controls,
+    body[data-slide="7"] .controls { top:12px; bottom:auto; }
+    .control { width:42px; height:38px; border:0; background:transparent; color:#fff; cursor:pointer; font-size:25px; border-radius:4px; }
+    .control:hover,.control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+    .counter { min-width:50px; text-align:center; font-size:15px; }
+    .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.25); }
+    .progress b { display:block; height:100%; width:14.28%; background:var(--cyan); transition:width .3s ease; }
+    .tooltip { position:relative; }
+    .tooltip::after { content:attr(aria-label); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#061383; color:#fff; font-size:12px; padding:5px 7px; border-radius:3px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+    .tooltip:hover::after,.tooltip:focus-visible::after { opacity:1; }
+    .overview-panel { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:30px; background:rgba(2,13,75,.78); }
+    .overview-panel.open { display:grid; }
+    .overview-list { width:min(760px,100%); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:18px; background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+    .overview-list button { min-height:65px; border:1px solid #cbd9e4; border-left:5px solid var(--cyan); background:#f7fafc; color:var(--blue); text-align:left; padding:12px 16px; font:700 15px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+    .overview-list button:hover,.overview-list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+    @media (max-width:900px) {
+      body { overflow:auto; }
+      .deck { min-height:700px; }
+      .slide { padding:42px 18px 78px; }
+      .stages-grid { grid-template-columns:repeat(2,1fr); }
+      .wellbeing { grid-template-columns:1fr; }
+      .ops-grid { grid-template-columns:1fr; }
+      .overview-list { grid-template-columns:1fr; }
+    }
+    @media (max-width:600px) {
+      .stages-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Clase 9: Bloques Económicos e Integración Regional">
+
+    <!-- ========== Diapositiva 1: Portada ========== -->
+    <section class="slide cover active" data-slide="1" aria-label="Diapositiva 1">
+      <div class="cover-content">
+        <h1><span>Clase 9:</span><span class="accent">Bloques Económicos</span><span>e Integración Regional</span></h1>
+        <p class="course">Economía Internacional</p>
+        <p class="professor">Mg. William Alexander Aguirre Antolínez</p>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 2: Etapas de la integración ========== -->
+    <section class="slide" data-slide="2" aria-label="Diapositiva 2">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Etapas de la integración económica</h2>
+          <p class="subtitle">Del área preferencial a la integración total</p>
+        </div>
+
+        <div class="stages-grid">
+          <article class="stage">
+            <h3>1. Área Preferencial</h3>
+            <p>Reducción parcial de aranceles entre miembros.</p>
+            <span class="example">Ej: Acuerdos ALADI de alcance parcial</span>
+          </article>
+          <article class="stage">
+            <h3>2. Zona de Libre Comercio</h3>
+            <p>Desmonte total de aranceles internos; aranceles propios vs. 3ros.</p>
+            <span class="example">Ej: TMEC / USMCA, CAN</span>
+          </article>
+          <article class="stage">
+            <h3>3. Unión Aduanera</h3>
+            <p>Arancel Exterior Común (AEC) unificado hacia el resto del mundo.</p>
+            <span class="example">Ej: MERCOSUR, SACU</span>
+          </article>
+          <article class="stage">
+            <h3>4. Mercado Común</h3>
+            <p>Libre circulación de bienes, servicios, capitales y personas (factores).</p>
+            <span class="example">Ej: CEE (pre-Maastricht)</span>
+          </article>
+          <article class="stage turquoise">
+            <h3>5. Unión Económica</h3>
+            <p>Moneda única y política monetaria/fiscal supranacional.</p>
+            <span class="example">Ej: Eurozona (UE)</span>
+          </article>
+          <article class="stage turquoise">
+            <h3>6. Integración Total</h3>
+            <p>Unificación de políticas económicas, fiscales y gubernamentales.</p>
+            <span class="example">Ej: Entidad supranacional plena</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 3: Análisis de bienestar ========== -->
+    <section class="slide" data-slide="3" aria-label="Diapositiva 3">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Análisis de bienestar</h2>
+          <p class="subtitle">Los dos efectos de un bloque comercial sobre el bienestar</p>
+        </div>
+
+        <div class="wellbeing">
+          <div class="wellbeing-card positive">
+            <h3>
+              <span class="symbol">▲</span>
+              Creación de comercio
+            </h3>
+            <p><strong>Trade creation.</strong> Ocurre cuando la producción doméstica ineficiente y de alto costo se sustituye por importaciones de menor costo provenientes de un país socio del bloque.</p>
+            <p style="margin-top:10px;"><strong>Impacto en bienestar: POSITIVO (+)</strong></p>
+            <ul>
+              <li>Los consumidores acceden a precios más bajos.</li>
+              <li>Se eliminan distorsiones de producción ineficiente.</li>
+              <li>Incremento del excedente del consumidor supera la pérdida de recaudo.</li>
+            </ul>
+          </div>
+
+          <div class="wellbeing-card ambiguous">
+            <h3>
+              <span class="symbol">▼</span>
+              Desviación de comercio
+            </h3>
+            <p><strong>Trade diversion.</strong> Ocurre cuando importaciones eficientes del resto del mundo (más baratas antes de aranceles) son sustituidas por importaciones de un socio regional menos eficiente, debido al arancel cero del acuerdo.</p>
+            <p style="margin-top:10px;"><strong>Impacto en bienestar: AMBIGUO / NEGATIVO (−)</strong></p>
+            <ul>
+              <li>Pérdida de ingresos arancelarios para el Estado.</li>
+              <li>Se compra a un productor globalmente menos eficiente que el proveedor externo marginal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 4: Radiografía de bloques ========== -->
+    <section class="slide" data-slide="4" aria-label="Diapositiva 4">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Radiografía de los principales bloques</h2>
+          <p class="subtitle">Tipo, miembros y características diagnósticas</p>
+        </div>
+
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Bloque económico</th>
+              <th>Tipo de integración</th>
+              <th>Miembros / población clave</th>
+              <th>Características diagnósticas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bloque">Unión Europea (UE)</td>
+              <td class="tipo">Unión Económica y Monetaria</td>
+              <td class="miembros">27 países · &gt;450 M hab.</td>
+              <td>Mercado único con moneda común (Euro), libre movilidad de factores y normativa supranacional.</td>
+            </tr>
+            <tr>
+              <td class="bloque">TMEC / USMCA</td>
+              <td class="tipo">Zona de Libre Comercio</td>
+              <td class="miembros">EE.UU., México, Canadá · &gt;500 M hab.</td>
+              <td>Reglas de origen estrictas en sector automotriz, protección a propiedad intelectual y trabajo.</td>
+            </tr>
+            <tr>
+              <td class="bloque">RCEP (Asia-Pacífico)</td>
+              <td class="tipo">Zona de Libre Comercio Mega-Regional</td>
+              <td class="miembros">15 países (China, Japón, ASEAN, Aus) · 30% PIB global</td>
+              <td>El mayor acuerdo comercial del mundo; armonización de reglas de origen en cadenas de valor asiáticas.</td>
+            </tr>
+            <tr>
+              <td class="bloque">MERCOSUR</td>
+              <td class="tipo">Unión Aduanera Imperfecta</td>
+              <td class="miembros">Brasil, Arg., Par., Uru. (Bolivia en proc.)</td>
+              <td>Arancel Exterior Común con excepciones; fuerte proteccionismo industrial y tensiones internas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 5: Colombia ========== -->
+    <section class="slide" data-slide="5" aria-label="Diapositiva 5">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Inserción internacional de Colombia</h2>
+          <p class="subtitle">Comunidad Andina y TLCs bilaterales</p>
+        </div>
+
+        <div class="two-col" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,3vw,50px); flex:1; align-items:stretch;">
+          <div class="info-box" style="border-left-color:#2e7d32;">
+            <h3 style="color:#2e7d32;">Comunidad Andina (CAN)</h3>
+            <p><strong>Miembros:</strong> Colombia, Ecuador, Perú y Bolivia.</p>
+            <p style="margin-top:10px;"><strong>Nivel de integración:</strong> Zona de libre comercio consolidada con régimen de arancel externo y libre movilidad de personas (Estatuto Migratorio Andino).</p>
+            <p style="margin-top:14px;"><strong>Importancia estratégica:</strong></p>
+            <ul>
+              <li>Principal destino de exportaciones de valor agregado (manufacturas, agroindustria y químicos).</li>
+              <li>Mercado natural para pymes colombianas.</li>
+            </ul>
+          </div>
+
+          <div class="info-box" style="border-left-color:#00a9bc;">
+            <h3 style="color:#007a8a;">Alianza del Pacífico y TLCs bilaterales</h3>
+            <p><strong>Alianza del Pacífico</strong> (Chile, Colombia, México, Perú):</p>
+            <ul>
+              <li>Integración profunda: libre circulación de bienes, servicios, capitales y personas.</li>
+              <li>Enfoque hacia la cuenca del Pacífico y acumulación de origen.</li>
+            </ul>
+            <p style="margin-top:14px;"><strong>Red de TLCs bilaterales:</strong></p>
+            <ul>
+              <li>Acuerdos clave con EE.UU., Unión Europea, Canadá y Corea del Sur.</li>
+              <li>Desmonte arancelario para oferta exportadora tradicional y no tradicional.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 6: Reglas de origen y triangulación ========== -->
+    <section class="slide" data-slide="6" aria-label="Diapositiva 6">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Reglas de origen y triangulación</h2>
+          <p class="subtitle">Aspectos técnicos operativos de los acuerdos comerciales</p>
+        </div>
+
+        <div class="ops-grid">
+          <article class="op-card">
+            <h3>1. Riesgo de triangulación</h3>
+            <p>A diferencia de una Unión Aduanera, las Zonas de Libre Comercio mantienen aranceles externos propios. Para evitar que importaciones de terceros entren por el país con menor arancel, se exigen <strong>Certificados de Origen</strong>.</p>
+          </article>
+          <article class="op-card">
+            <h3>2. Criterios de calificación</h3>
+            <ul>
+              <li><strong>Salto de partida arancelaria</strong> (cambio de clasificación).</li>
+              <li><strong>Valor de Contenido Regional (VCR)</strong> — % de insumos locales.</li>
+              <li><strong>Procesos de transformación específica</strong> o criterio de minimis.</li>
+            </ul>
+          </article>
+          <article class="op-card">
+            <h3>3. Acumulación de origen</h3>
+            <p>Permite considerar insumos originarios de países socios del acuerdo como si fueran propios, impulsando las <strong>Cadenas Regionales de Valor (CRV)</strong> en bloques como la Alianza del Pacífico.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Diapositiva 7: Matriz de decisiones de negocio ========== -->
+    <section class="slide" data-slide="7" aria-label="Diapositiva 7">
+      <div class="content">
+        <div class="slide-title">
+          <h2>Matriz de decisiones de negocio</h2>
+          <p class="subtitle">Implicaciones estratégicas para el profesional en negocios internacionales</p>
+        </div>
+
+        <div class="decision-list">
+          <article class="decision">
+            <span class="num">01</span>
+            <h3>Aprovechamiento de preferencias arancelarias</h3>
+            <p>Monitorear cronogramas de desgravación para reducir costos de entrada en mercados destino e insumos primarios.</p>
+          </article>
+          <article class="decision">
+            <span class="num">02</span>
+            <h3>Reconfiguración de cadenas de suministro (Nearshoring)</h3>
+            <p>Relocalizar producción en países socios con acuerdos preferenciales para mitigar riesgos geopolíticos y reducir fletes.</p>
+          </article>
+          <article class="decision">
+            <span class="num">03</span>
+            <h3>Cumplimiento de barreras no arancelarias</h3>
+            <p>Aprovechar la armonización de normas técnicas, sanitarias y de facilitación del comercio en bloques como la CAN y la Alianza del Pacífico.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="controls" aria-label="Controles de presentación">
+    <button class="control tooltip" id="previous" aria-label="Diapositiva anterior">&#8249;</button>
+    <span class="counter"><span id="current">1</span> / 7</span>
+    <button class="control tooltip" id="overview" aria-label="Vista general">&#9638;</button>
+    <button class="control tooltip" id="next" aria-label="Siguiente diapositiva">&#8250;</button>
+  </nav>
+
+  <section class="overview-panel" id="overview-panel" aria-label="Vista general de diapositivas">
+    <div class="overview-list">
+      <button data-go="0">01 &nbsp; Portada</button>
+      <button data-go="1">02 &nbsp; Etapas de la integración</button>
+      <button data-go="2">03 &nbsp; Análisis de bienestar</button>
+      <button data-go="3">04 &nbsp; Radiografía de bloques</button>
+      <button data-go="4">05 &nbsp; Colombia: CAN y Alianza del Pacífico</button>
+      <button data-go="5">06 &nbsp; Reglas de origen y triangulación</button>
+      <button data-go="6">07 &nbsp; Matriz de decisiones de negocio</button>
+    </div>
+  </section>
+
+  <div class="progress" aria-hidden="true"><b id="progress"></b></div>
+
+  <script>
+    (function() {
+      const slides = [...document.querySelectorAll('.slide')];
+      let index = 0;
+      document.body.dataset.slide = '1';
+
+      const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        document.body.dataset.slide = index + 1;
+        document.getElementById('current').textContent = index + 1;
+        document.getElementById('progress').style.width = `${((index + 1) / slides.length) * 100}%`;
+      };
+
+      document.getElementById('previous').addEventListener('click', () => show(index - 1));
+      document.getElementById('next').addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+        if (e.key === 'Home') { e.preventDefault(); show(0); }
+        if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      });
+
+      const overviewPanel = document.getElementById('overview-panel');
+      document.getElementById('overview').addEventListener('click', () => overviewPanel.classList.add('open'));
+      overviewPanel.addEventListener('click', e => {
+        const dest = e.target.closest('[data-go]');
+        if (dest) { show(Number(dest.dataset.go)); overviewPanel.classList.remove('open'); }
+        else if (e.target === overviewPanel) overviewPanel.classList.remove('open');
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
