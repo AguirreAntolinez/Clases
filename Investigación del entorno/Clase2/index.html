@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sociedad, población y ambiente — Análisis del Entorno Socio-Económico</title>
+<style>
+  :root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5;
+          --teal:#0b8ca1; --coral:#e0724c; --line:#cbd9e4; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; min-height:100%; background:#071070; color:var(--ink);
+               font-family:Aptos, Arial, sans-serif; }
+  body { overflow:hidden; }
+  button { font:inherit; color:inherit; }
+  h1,h2,h3,h4,p,ul,ol,figure { margin:0; }
+  h1,h2,h3 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+
+  /* ---------------- estructura ---------------- */
+  .deck { height:100vh; min-height:620px; position:relative; }
+  .slide { position:absolute; inset:0; display:none; overflow:auto;
+           background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat;
+           padding:clamp(44px,6vw,104px) clamp(32px,7vw,118px) clamp(62px,9.5vh,108px); }
+  .slide.active { display:flex; flex-direction:column; animation:enter .42s ease both; }
+  @keyframes enter { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:translateX(0); } }
+  .body { width:min(100%,1120px); margin:auto; display:flex; flex-direction:column;
+          gap:clamp(18px,2.6vh,34px); }
+
+  /* ---------------- tipografía ---------------- */
+  .eyebrow { font-size:clamp(11px,1vw,13px); letter-spacing:.18em; text-transform:uppercase;
+             color:#0b8ca1; font-weight:700; display:flex; align-items:center; gap:11px; }
+  .eyebrow::before { content:''; width:30px; height:3px; background:var(--cyan); flex:0 0 auto; }
+  h2.title { font-size:clamp(26px,3.5vw,50px); line-height:1.03; color:var(--blue); max-width:920px; }
+  .sub { font-size:clamp(15px,1.45vw,21px); color:#527092; max-width:820px; line-height:1.35; }
+  strong { color:var(--blue); }
+  .lead { font-size:clamp(16px,1.55vw,23px); color:#2f5580; line-height:1.4; max-width:860px; }
+
+  /* ---------------- piezas ---------------- */
+  .grid { display:grid; gap:clamp(10px,1.3vw,18px); }
+  .g2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .g3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .g4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+
+  .card { background:#fff; border:1px solid var(--line); border-left:4px solid var(--cyan);
+          padding:clamp(13px,1.5vw,22px); box-shadow:0 6px 18px rgba(17,50,82,.06); }
+  .card h3 { font-size:clamp(14px,1.35vw,19px); color:var(--blue); line-height:1.2; }
+  .card p { font-size:clamp(12px,1.12vw,15px); color:#4d6c88; line-height:1.4; margin-top:7px; }
+  .card .num { display:inline-grid; place-items:center; width:26px; height:26px; border-radius:50%;
+               background:var(--blue); color:#fff; font:700 13px 'Aptos Display',Aptos,sans-serif;
+               margin-bottom:9px; }
+  .card .src { display:block; margin-top:8px; font-size:clamp(10px,.95vw,12px); color:#7d97ad; font-style:italic; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:9px; }
+  .tag { font-size:clamp(11px,1.05vw,14px); font-weight:700; padding:7px 14px; border-radius:4px;
+         background:#fff; border:1px solid var(--line); color:#3a5f84; }
+  .tag.yes { border-color:#bfe6ec; background:#eef9fb; color:#0a6d7d; }
+  .tag.no { border-color:#f2cdbf; background:#fdf1ec; color:#a8401f; cursor:pointer; }
+  .tag.no:hover, .tag.no:focus-visible { background:#fbe0d6; outline:none; }
+
+  .reveal { display:none; }
+  .reveal.on { display:block; animation:enter .35s ease both; }
+
+  /* flujo */
+  .flow { display:flex; align-items:stretch; gap:8px; flex-wrap:wrap; }
+  .flow .step { flex:1 1 140px; background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan);
+                padding:14px 15px; }
+  .flow .step b { display:block; font:700 clamp(13px,1.3vw,17px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .flow .step span { display:block; font-size:clamp(11px,1.02vw,14px); color:#5b7791; margin-top:5px; line-height:1.35; }
+  .flow .arrow { align-self:center; color:#9fb4c9; font-size:20px; flex:0 0 auto; }
+
+  /* pirámides */
+  .pyr { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,18px); }
+  .pyr .item { background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan);
+               padding:clamp(12px,1.4vw,18px); text-align:center; }
+  .pyr svg { width:clamp(58px,6.6vw,92px); height:auto; margin:0 auto 9px; display:block; }
+  .pyr b { display:block; font:700 clamp(12px,1.2vw,16px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .pyr p { font-size:clamp(11px,1.04vw,13.5px); color:#4d6c88; line-height:1.4; margin-top:6px; text-align:left; }
+
+  /* tabla */
+  .attrs { width:100%; border-collapse:collapse; background:#fff; font-size:clamp(11.5px,1.08vw,14.5px); }
+  .attrs th { text-align:left; padding:10px 14px; background:#f2f7f9; color:#0b6b7c; font-size:clamp(10px,.95vw,12px);
+              letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid var(--line); }
+  .attrs td { padding:10px 14px; border-bottom:1px solid var(--line); color:#3f6183; }
+  .attrs td:first-child { font-weight:700; color:var(--blue); }
+
+  /* pestañas */
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs button { background:#fff; border:1px solid var(--line); padding:8px 14px; cursor:pointer;
+                 font-size:clamp(10.5px,1.02vw,13.5px); font-weight:700; color:#3a5f84; transition:.16s; }
+  .tabs button:hover { border-color:var(--cyan); }
+  .tabs button[aria-selected="true"] { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .pane { display:none; }
+  .pane.on { display:block; animation:enter .3s ease both; }
+
+  .detail { background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan);
+            padding:clamp(14px,1.7vw,24px); min-height:clamp(140px,18vh,185px); }
+  .detail dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 26px; margin:0; }
+  .detail dt { font-size:clamp(10px,.95vw,12px); letter-spacing:.09em; text-transform:uppercase;
+               color:#0b8ca1; font-weight:700; }
+  .detail dd { margin:3px 0 0; font-size:clamp(12px,1.1vw,15px); color:#3f6183; line-height:1.42; }
+
+  /* antes / después */
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:clamp(12px,1.6vw,22px); }
+  .cmp { padding:clamp(13px,1.6vw,22px); background:#fff; border:1px solid var(--line); }
+  .cmp .hd { font-size:clamp(10px,.95vw,12px); letter-spacing:.11em; text-transform:uppercase;
+             font-weight:700; margin-bottom:9px; }
+  .cmp.a { border-top:4px solid var(--teal); } .cmp.a .hd { color:#0a6d7d; }
+  .cmp.b { border-top:4px solid var(--coral); } .cmp.b .hd { color:#a8401f; }
+  .cmp p { font-size:clamp(12.5px,1.18vw,16px); line-height:1.45; color:#3f6183; }
+  .cmp .why { font-size:clamp(11px,1.02vw,13px); color:#7d97ad; margin-top:9px; font-style:italic; }
+
+  /* matriz 2x2 */
+  .matrix { display:grid; grid-template-columns:96px 1fr 1fr; grid-template-rows:auto 1fr 1fr;
+            gap:6px; max-width:680px; }
+  .matrix .ax { font-size:clamp(10px,.95vw,12px); font-weight:700; letter-spacing:.06em;
+                text-transform:uppercase; color:#7d97ad; display:flex; align-items:center; }
+  .matrix .ax.c { justify-content:center; }
+  .matrix .cell { background:#fff; border:1px solid var(--line); border-left:4px solid var(--line);
+                  padding:13px 15px; }
+  .matrix .cell b { display:block; font:700 clamp(12px,1.15vw,15px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .matrix .cell span { display:block; font-size:clamp(10.5px,1vw,13px); color:#5b7791; margin-top:4px; line-height:1.35; }
+  .matrix .cell.hi { border-left-color:var(--coral); background:#fdf4f0; }
+  .matrix .cell.lo { border-left-color:#b8cbd8; }
+
+  .steps { display:grid; gap:2px; }
+  .step-row { display:grid; grid-template-columns:44px 1fr; gap:14px; align-items:start;
+              background:#fff; border:1px solid var(--line); padding:11px 16px 11px 12px; }
+  .step-row b { font:700 clamp(14px,1.4vw,19px) 'Aptos Display',Aptos,sans-serif; color:var(--cyan); text-align:center; }
+  .step-row div strong { display:block; font:700 clamp(12.5px,1.2vw,16px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .step-row div span { display:block; font-size:clamp(11px,1.04vw,14px); color:#4d6c88; line-height:1.4; margin-top:2px; }
+
+  .note { background:#f4f9fb; border-left:4px solid var(--cyan); padding:13px 18px;
+          font-size:clamp(12px,1.12vw,15.5px); color:#2f5a6b; line-height:1.45; }
+  .note b { color:#0a6d7d; }
+
+  /* portada */
+  .slide.cover { background:#061383; color:#fff; align-items:center; justify-content:flex-end;
+                 padding:0 0 clamp(44px,9vh,96px); }
+  .slide.cover::before { content:''; position:absolute; inset:0;
+                         background:url('../../assets/institutional-dark.png') center/cover no-repeat; }
+  .slide.cover .cover-in { position:relative; z-index:2; width:min(100%,1050px);
+                           padding:0 clamp(26px,6vw,90px); }
+  .cover .kick { font-size:clamp(11px,1.05vw,13px); letter-spacing:.2em; text-transform:uppercase;
+                 color:#8de7ed; font-weight:700; display:flex; align-items:center; gap:12px; }
+  .cover .kick::before { content:''; width:34px; height:3px; background:var(--cyan); }
+  .cover h1 { font-size:clamp(38px,5.6vw,82px); line-height:.95; margin-top:20px; max-width:820px;
+              font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; }
+  .cover h1 span { display:block; }
+  .cover h1 .accent { color:#00b9ca; }
+  .cover .course { font-size:clamp(16px,1.75vw,28px); margin:26px 0 0; color:#8de7ed; line-height:1.25; max-width:640px; }
+  .cover .prof { display:flex; align-items:center; gap:13px; font-size:clamp(13px,1.25vw,19px);
+                 color:#c8d8f2; margin-top:clamp(26px,4vh,52px); }
+  .cover .prof::before { content:''; width:44px; height:4px; background:var(--cyan); flex:0 0 auto; }
+
+  /* cierre */
+  .closing { align-items:center; }
+  .closing .body { justify-content:center; }
+  .closing h2 { font-size:clamp(34px,5.2vw,74px); line-height:1; color:var(--blue); max-width:900px; }
+  .closing h2 span { color:#00a9bc; }
+  .closing .lead { margin-top:clamp(18px,3vh,34px); font-size:clamp(18px,2vw,32px); color:#345c82; }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:clamp(14px,2vw,28px); margin-top:clamp(22px,4vh,48px); }
+  .pair div { border-top:4px solid var(--cyan); padding-top:12px; }
+  .pair b { display:block; font:700 clamp(14px,1.5vw,20px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .pair span { display:block; font-size:clamp(12px,1.15vw,16px); color:#4d6c88; margin-top:4px; line-height:1.4; }
+
+  /* ---------------- controles ---------------- */
+  .controls { position:fixed; z-index:5; bottom:20px; left:50%; transform:translateX(-50%);
+              display:flex; align-items:center; gap:10px; padding:7px 11px;
+              background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25);
+              border-radius:8px; color:#fff; }
+  .control { width:40px; height:36px; border:0; background:transparent; color:#fff; cursor:pointer;
+             font-size:23px; border-radius:4px; line-height:1; }
+  .control:hover, .control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+  .counter { min-width:52px; text-align:center; font-size:14px; font-variant-numeric:tabular-nums; }
+  .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.28); }
+  .progress b { display:block; height:100%; width:0; background:var(--cyan); transition:width .3s ease; }
+
+  .overview { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:28px;
+              background:rgba(2,13,75,.8); }
+  .overview.open { display:grid; }
+  .overview .list { width:min(900px,100%); max-height:84vh; overflow:auto; display:grid;
+                    grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; padding:16px;
+                    background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+  .overview .list button { min-height:52px; border:1px solid var(--line); border-left:4px solid var(--cyan);
+                           background:#f7fafc; color:var(--blue); text-align:left; padding:9px 14px;
+                           font:700 13px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+  .overview .list button:hover, .overview .list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+
+  @media (max-width:900px) {
+    body { overflow:auto; }
+    .deck { min-height:700px; }
+    .g2, .g3, .g4, .compare, .pair, .pyr, .detail dl { grid-template-columns:1fr; }
+    .matrix { grid-template-columns:70px 1fr 1fr; }
+    .overview .list { grid-template-columns:1fr; }
+  }
+  @media print {
+    body { overflow:visible; }
+    .deck { height:auto; }
+    .slide { display:block !important; position:relative; page-break-after:always; min-height:100vh; }
+    .controls, .progress, .overview { display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<main class="deck" aria-label="Sociedad, población y ambiente">
+
+  <!-- 1 · PORTADA -->
+  <section class="slide cover active" data-slide="1">
+    <div class="cover-in">
+      <p class="kick">Análisis del entorno socio-económico</p>
+      <h1><span>Sociedad,</span><span class="accent">población</span><span>y ambiente</span></h1>
+      <p class="course">Práctica e Investigación en Análisis del Entorno Socio-Económico</p>
+      <p class="prof">Profesor Mg. William Alexander Aguirre Antolínez</p>
+    </div>
+  </section>
+
+  <!-- 2 · APERTURA -->
+  <section class="slide" data-slide="2">
+    <div class="body">
+      <p class="eyebrow">Apertura</p>
+      <h2 class="title">El cliente de 2035 ya nació</h2>
+      <p class="lead">No hay que adivinar cómo será: hay que mirar cómo está cambiando la población que ya existe. La gente no cambia de un día para otro, pero cuando cambia, no vuelve.</p>
+      <div class="tags">
+        <span class="tag yes">Cuántos son</span>
+        <span class="tag yes">Cómo viven</span>
+        <button class="tag no" id="open-q" aria-expanded="false">Qué aceptan</button>
+      </div>
+      <div class="reveal" id="answer">
+        <div class="note">
+          Tres fuerzas que se mueven despacio y por eso son estratégicas: <b>la demografía</b> dice cuántos y cómo se agrupan; <b>la cultura</b> dice qué valoran y qué aceptan; <b>el ambiente</b> dice hasta dónde el territorio lo permite. Ninguna se revierte en un trimestre.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · TRES FUERZAS -->
+  <section class="slide" data-slide="3">
+    <div class="body">
+      <p class="eyebrow">Marco</p>
+      <h2 class="title">Tres fuerzas, una sola lectura</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Demografía</h3>
+          <p>Cuántos somos, de qué edades, dónde vivimos y cómo se componen los hogares. Define el <strong>tamaño y la mezcla</strong> de la demanda.</p>
+        </div>
+        <div class="card">
+          <h3>Cultura</h3>
+          <p>Qué se valora, qué se acepta y cómo se hace las cosas. Define <strong>qué se compra y por qué</strong>, más allá del precio.</p>
+        </div>
+        <div class="card">
+          <h3>Ambiente</h3>
+          <p>Los límites físicos del territorio y las reglas que los protegen. Define <strong>qué se puede producir y a qué costo</strong>.</p>
+        </div>
+      </div>
+      <p class="note">Las tres son <b>estructurales</b>: se mueven lento, duran décadas y no se corrigen con una campaña. Por eso se analizan antes que las fuerzas coyunturales.</p>
+    </div>
+  </section>
+
+  <!-- 4 · QUÉ SE MIDE EN DEMOGRAFÍA -->
+  <section class="slide" data-slide="4">
+    <div class="body">
+      <p class="eyebrow">Demografía</p>
+      <h2 class="title">Qué se mide cuando se mira la población</h2>
+      <div class="grid g4">
+        <div class="card"><span class="num">1</span><h3>Tamaño</h3><p>Cuántas personas hay en el mercado relevante. Es el dato más usado y el menos informativo por sí solo.</p></div>
+        <div class="card"><span class="num">2</span><h3>Estructura</h3><p>Cómo se reparten por edad y sexo. Explica qué se consume, no solo cuánto.</p></div>
+        <div class="card"><span class="num">3</span><h3>Distribución</h3><p>Dónde están: ciudad, región, densidad. Define la logística y el punto de venta.</p></div>
+        <div class="card"><span class="num">4</span><h3>Dinámica</h3><p>Nacimientos, muertes y migración. Es lo que anticipa el tamaño de mañana.</p></div>
+      </div>
+      <p class="note"><b>Y una quinta que casi nadie mira:</b> la composición del hogar. El consumo se decide por hogar, no por persona, y los hogares están cambiando más rápido que la población.</p>
+    </div>
+  </section>
+
+  <!-- 5 · PIRÁMIDE -->
+  <section class="slide" data-slide="5">
+    <div class="body">
+      <p class="eyebrow">Demografía</p>
+      <h2 class="title">La forma de la pirámide dice más que el total</h2>
+      <p class="sub">La misma cantidad de habitantes produce mercados completamente distintos según cómo se distribuya por edades.</p>
+      <div class="pyr">
+        <div class="item">
+          <svg viewBox="0 0 100 110" aria-hidden="true"><polygon points="50,6 94,100 6,100" fill="#15cdda" fill-opacity=".22" stroke="#0b8ca1" stroke-width="2.5"/></svg>
+          <b>Base ancha</b>
+          <p>Población joven y creciente. Manda el volumen: educación, primer empleo, vivienda nueva, consumo masivo.</p>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 100 110" aria-hidden="true"><path d="M50 6 C 70 20, 86 54, 90 100 L 10 100 C 14 54, 30 20, 50 6 Z" fill="#15cdda" fill-opacity=".22" stroke="#0b8ca1" stroke-width="2.5"/></svg>
+          <b>Campana</b>
+          <p>Población estable. Manda la reposición: calidad, servicio, ahorro, mantenimiento, marcas consolidadas.</p>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 100 110" aria-hidden="true"><path d="M18 12 L82 12 C 78 40, 70 66, 62 100 L 38 100 C 30 66, 22 40, 18 12 Z" fill="#15cdda" fill-opacity=".22" stroke="#0b8ca1" stroke-width="2.5"/></svg>
+          <b>Urna</b>
+          <p>Población que envejece. Manda el cuidado: salud, adaptación de vivienda, servicios de proximidad, pensiones.</p>
+        </div>
+      </div>
+      <p class="note"><b>Cómo leerla:</b> primero la forma, después los números. Una base que se angosta anuncia menos volumen futuro; una cúspide que se ensancha anuncia otro tipo de gasto.</p>
+    </div>
+  </section>
+
+  <!-- 6 · TRANSICIÓN -->
+  <section class="slide" data-slide="6">
+    <div class="body">
+      <p class="eyebrow">Demografía</p>
+      <h2 class="title">La transición demográfica y su ventana</h2>
+      <div class="flow">
+        <div class="step"><b>1 · Inicial</b><span>Natalidad y mortalidad altas. Población joven, crecimiento lento.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>2 · Expansión</b><span>Cae la mortalidad, sigue la natalidad. Crecimiento rápido y base ancha.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>3 · Bono</b><span>Cae la natalidad. La población en edad de trabajar supera a la dependiente.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>4 · Envejecimiento</b><span>Crecimiento lento o negativo. Presión en salud, cuidado y pensiones.</span></div>
+      </div>
+      <div class="compare">
+        <div class="cmp a">
+          <p class="hd">El bono demográfico</p>
+          <p>Es una <strong>ventana</strong>, no un estado. Dura mientras la población en edad de trabajar crece más rápido que la dependiente.</p>
+          <p class="why">Aprovecharla depende de empleo y productividad, no de la demografía.</p>
+        </div>
+        <div class="cmp b">
+          <p class="hd">El error frecuente</p>
+          <p>Leer el bono como una ventaja permanente y planear capacidad para una demanda que va a dejar de crecer.</p>
+          <p class="why">La etapa 4 llega siempre, y llega antes de lo que la empresa espera.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · EL HOGAR -->
+  <section class="slide" data-slide="7">
+    <div class="body">
+      <p class="eyebrow">Demografía</p>
+      <h2 class="title">El dato que más se pasa por alto: el hogar</h2>
+      <p class="sub">La población puede crecer poco y, aun así, el número de hogares crecer bastante. Y el consumo se decide por hogar.</p>
+      <div class="compare">
+        <div class="cmp a">
+          <p class="hd">Lo que suele mirarse</p>
+          <p>«Hay X millones de habitantes, y crecen al 1 %.» Un dato cierto que no dice nada sobre cuántas unidades de compra existen.</p>
+        </div>
+        <div class="cmp b">
+          <p class="hd">Lo que mueve el mercado</p>
+          <p>«Hay cada vez más hogares, y cada uno tiene menos personas.» Más neveras, más planes de datos, más seguros, más mascotas: la misma población comprando en más unidades.</p>
+        </div>
+      </div>
+      <div class="grid g3">
+        <div class="card"><h3>Porciones y empaques</h3><p>Hogares de una o dos personas compran menos volumen por ocasión y más frecuencia.</p></div>
+        <div class="card"><h3>Vivienda y servicios</h3><p>Más hogares exigen más unidades habitacionales aunque la población no crezca.</p></div>
+        <div class="card"><h3>Servicios financieros</h3><p>Cambia la unidad de decisión: el titular, el beneficiario y el riesgo se separan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · COLOMBIA -->
+  <section class="slide" data-slide="8">
+    <div class="body">
+      <p class="eyebrow">Contexto</p>
+      <h2 class="title">Colombia: cinco fenómenos que conviene mirar</h2>
+      <div class="grid g2">
+        <div class="card"><h3>Envejecimiento acelerado</h3><p>La cúspide crece más rápido que la base. El gasto se desplaza hacia salud, cuidado y servicios de proximidad.</p><span class="src">Se mide en: censo y proyecciones del DANE.</span></div>
+        <div class="card"><h3>Hogares más pequeños</h3><p>Bajan las personas por hogar y suben los hogares unipersonales. Cambian el tamaño de la compra y la vivienda.</p><span class="src">Se mide en: censo y encuesta de hogares.</span></div>
+        <div class="card"><h3>Urbanización concentrada</h3><p>La demanda y el talento se agrupan en pocas ciudades. La geografía del mercado no es la del mapa.</p><span class="src">Se mide en: censo y estadísticas municipales.</span></div>
+        <div class="card"><h3>Migración</h3><p>Llegan y se van personas con hábitos distintos, en ambos sentidos. Aparecen segmentos que no estaban en el portafolio.</p><span class="src">Se mide en: registros migratorios y DANE.</span></div>
+        <div class="card"><h3>Retraso en la formación del hogar</h3><p>Primer hijo y emancipación más tarde. Se alarga la etapa de consumo individual y se acorta la familia joven.</p><span class="src">Se mide en: encuestas de demografía y salud, DANE.</span></div>
+        <div class="card" style="border-left-color:var(--teal)">
+          <h3>Cómo usarlas</h3><p>No son conclusiones: son hipótesis para el sector. Cada una debe traducirse en un efecto concreto sobre la demanda.</p><span class="src">Sin cifras de memoria: se consultan.</span></div>
+      </div>
+      <p class="note"><b>Aquí no hay cifras a propósito.</b> Los datos demográficos se actualizan cada año; lo que se enseña es a leerlos y a encontrarlos, no a memorizarlos.</p>
+    </div>
+  </section>
+
+  <!-- 9 · DE LA DEMOGRAFÍA AL MERCADO -->
+  <section class="slide" data-slide="9">
+    <div class="body">
+      <p class="eyebrow">Traducción</p>
+      <h2 class="title">De la demografía al mercado</h2>
+      <p class="sub">Un cambio de población no es un hallazgo hasta que se traduce en una decisión.</p>
+      <table class="attrs">
+        <thead>
+          <tr><th style="width:26%">Cambio</th><th style="width:37%">Efecto en la demanda</th><th style="width:37%">Decisión típica</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hogares más pequeños</td><td>Más unidades de compra, porciones menores, mayor frecuencia</td><td>Nuevos formatos, empaques rediseñados, canal de conveniencia</td></tr>
+          <tr><td>Población que envejece</td><td>Menos volumen joven, más gasto en salud y cuidado</td><td>Ajustar portafolio y mezcla de canales</td></tr>
+          <tr><td>Concentración urbana</td><td>Demanda y talento en pocas ciudades</td><td>Priorizar cobertura, logística y punto de venta</td></tr>
+          <tr><td>Migración</td><td>Segmentos con hábitos y precios distintos</td><td>Adecuar oferta, surtido y comunicación</td></tr>
+        </tbody>
+      </table>
+      <p class="note">La tercera columna es la que se evalúa. Una tabla de tendencias sin <b>decisión asociada</b> no es análisis del entorno: es una recopilación.</p>
+    </div>
+  </section>
+
+  <!-- 10 · SOCIOCULTURAL -->
+  <section class="slide" data-slide="10">
+    <div class="body">
+      <p class="eyebrow">Cultura</p>
+      <h2 class="title">Lo sociocultural: qué se mide</h2>
+      <div class="grid g4">
+        <div class="card"><span class="num">1</span><h3>Valores</h3><p>Qué se prefiere y qué se rechaza: estatus, familia, seguridad, autonomía, salud, apariencia.</p></div>
+        <div class="card"><span class="num">2</span><h3>Normas</h3><p>Qué se acepta y qué se censura. Marca lo que el mercado puede ofrecer sin sanción social.</p></div>
+        <div class="card"><span class="num">3</span><h3>Hábitos</h3><p>Cómo se hace lo cotidiano: horarios, compra, cocina, movilidad, ocio, pago.</p></div>
+        <div class="card"><span class="num">4</span><h3>Símbolos</h3><p>Qué comunica el consumo: marcas, lenguajes, pertenencia, identidad.</p></div>
+      </div>
+      <p class="note"><b>La cultura cambia despacio, y por eso pesa tanto.</b> Una moda dura una temporada; un cambio de hábito reordena el mercado durante décadas. El oficio es distinguir uno del otro.</p>
+    </div>
+  </section>
+
+  <!-- 11 · TENDENCIAS -->
+  <section class="slide" data-slide="11">
+    <div class="body">
+      <p class="eyebrow">Cultura</p>
+      <h2 class="title">Seis tendencias que están moviendo mercados</h2>
+      <div class="tabs" role="tablist" aria-label="Tendencias socioculturales">
+        <button role="tab" aria-selected="true" data-t="c">Conveniencia</button>
+        <button role="tab" aria-selected="false" data-t="s">Salud</button>
+        <button role="tab" aria-selected="false" data-t="e">Sostenibilidad</button>
+        <button role="tab" aria-selected="false" data-t="x">Experiencia</button>
+        <button role="tab" aria-selected="false" data-t="a">Autenticidad</button>
+        <button role="tab" aria-selected="false" data-t="d">Digitalización</button>
+      </div>
+      <div class="detail" aria-live="polite">
+        <dl>
+          <div><dt>Cómo se nota</dt><dd id="t-a">Entrega el mismo día, suscripciones, autoservicio, pagos sin fricción, ventanillas que desaparecen.</dd></div>
+          <div><dt>Qué mueve</dt><dd id="t-b">Disposición a pagar por ahorro de tiempo. El canal pesa más que la marca y el tiempo se vuelve parte del producto.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · EDAD VS GENERACIÓN -->
+  <section class="slide" data-slide="12">
+    <div class="body">
+      <p class="eyebrow">Cultura</p>
+      <h2 class="title">No confundir edad con generación</h2>
+      <p class="sub">Dos explicaciones distintas para el mismo comportamiento. Escoger la equivocada lleva a una estrategia equivocada.</p>
+      <div class="compare">
+        <div class="cmp a">
+          <p class="hd">Efecto de edad</p>
+          <p>Cambia porque la persona cambia: a los 25 se compra distinto que a los 50. El patrón se repite en cada generación.</p>
+          <p class="why">Si es edad, el mercado se mueve con la pirámide. Se atiende con producto y servicio.</p>
+        </div>
+        <div class="cmp b">
+          <p class="hd">Efecto de cohorte</p>
+          <p>Cambia porque el momento histórico dejó marca: crecer con internet, con una crisis o con una migración. No se repite.</p>
+          <p class="why">Si es cohorte, el mercado no vuelve atrás. Se atiende con lenguaje, canal y propuesta.</p>
+        </div>
+      </div>
+      <p class="note"><b>Prueba sencilla:</b> si el comportamiento se repite en la generación siguiente a la misma edad, es edad. Si no se repite, es cohorte —y entonces es estructural.</p>
+    </div>
+  </section>
+
+  <!-- 13 · SEÑALES -->
+  <section class="slide" data-slide="13">
+    <div class="body">
+      <p class="eyebrow">Cultura</p>
+      <h2 class="title">Cómo se detecta un cambio social real</h2>
+      <p class="sub">Una tendencia que solo aparece en informes todavía es una hipótesis. Estas son las señales de que ya se volvió estructura.</p>
+      <div class="steps">
+        <div class="step-row"><b>01</b><div><strong>Deja de ser noticia y se vuelve rutina</strong><span>Lo que antes se comentaba ahora se hace sin pensarlo. La normalización es la señal más fuerte.</span></div></div>
+        <div class="step-row"><b>02</b><div><strong>Cambia el precio relativo</strong><span>Lo que era un lujo se vuelve asequible, o al revés. El precio revela adopción mejor que una encuesta.</span></div></div>
+        <div class="step-row"><b>03</b><div><strong>Aparece la norma o el estándar</strong><span>Cuando la ley o el sector fijan la práctica, el cambio ya no depende de la preferencia del cliente.</span></div></div>
+        <div class="step-row"><b>04</b><div><strong>El capital se mueve</strong><span>Inversión, nuevas empresas y competidores entrando. El dinero confirma lo que el discurso anticipa.</span></div></div>
+      </div>
+      <p class="note">Si una tendencia no se ve en precios, en normas ni en inversión, todavía no es un hecho del entorno: es una conversación.</p>
+    </div>
+  </section>
+
+  <!-- 14 · AMBIENTAL -->
+  <section class="slide" data-slide="14">
+    <div class="body">
+      <p class="eyebrow">Ambiente</p>
+      <h2 class="title">Lo ambiental: qué se mide</h2>
+      <div class="grid g3">
+        <div class="card"><h3>Clima y eventos extremos</h3><p>Sequías, inundaciones, calor, variabilidad. Afectan operación, cosechas, transporte y activos.</p></div>
+        <div class="card"><h3>Agua</h3><p>Disponibilidad y calidad, permisos de captación y vertimiento. Suele ser el límite que aparece primero.</p></div>
+        <div class="card"><h3>Energía</h3><p>Fuente, precio y estabilidad. Determina la estructura de costo de buena parte de la industria.</p></div>
+        <div class="card"><h3>Materiales y residuos</h3><p>Empaques, reciclabilidad, disposición final, responsabilidad extendida del productor.</p></div>
+        <div class="card"><h3>Biodiversidad y suelo</h3><p>Uso del territorio, licenciamiento, compensaciones y conflicto por el uso del suelo.</p></div>
+        <div class="card" style="border-left-color:var(--teal)"><h3>La huella</h3><p>Carbono, agua y material por unidad producida: la métrica que permite comparar y negociar con clientes y reguladores.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 · DOS RIESGOS -->
+  <section class="slide" data-slide="15">
+    <div class="body">
+      <p class="eyebrow">Ambiente</p>
+      <h2 class="title">Dos riesgos que se confunden todo el tiempo</h2>
+      <div class="compare">
+        <div class="cmp b">
+          <p class="hd">Riesgo físico</p>
+          <p>Lo que el clima hace directamente: un evento extremo que paraliza, o un cambio gradual —menos agua, más calor— que encarece operar.</p>
+          <p class="why">Golpea activos, cadena de suministro y continuidad. Horizonte: incierto y creciente.</p>
+        </div>
+        <div class="cmp a">
+          <p class="hd">Riesgo de transición</p>
+          <p>Lo que la sociedad hace para responder: nueva regulación, tecnologías sustitutas, cambios de preferencia, exigencias de compradores.</p>
+          <p class="why">Golpea costos, acceso a mercados y financiación. Horizonte: cercano y verificable.</p>
+        </div>
+      </div>
+      <p class="note"><b>En el corto plazo pesa más el segundo</b>, y es el que más se subestima: la empresa rara vez pierde por un invierno difícil y con frecuencia pierde por una norma que no vio venir.</p>
+    </div>
+  </section>
+
+  <!-- 16 · PRESIÓN -->
+  <section class="slide" data-slide="16">
+    <div class="body">
+      <p class="eyebrow">Ambiente</p>
+      <h2 class="title">De dónde viene la presión ambiental</h2>
+      <div class="grid g4">
+        <div class="card"><h3>Regulación</h3><p>Licencias, límites de emisión y vertimiento, manejo de residuos, instrumentos económicos. En Colombia: autoridad nacional y autoridades regionales.</p></div>
+        <div class="card"><h3>Mercado</h3><p>Compradores y cadenas globales que exigen estándares a sus proveedores, incluso cuando la ley local no los exige.</p></div>
+        <div class="card"><h3>Costo</h3><p>Energía, agua, materiales y disposición de residuos. La presión llega por la factura antes que por la norma.</p></div>
+        <div class="card"><h3>Reputación</h3><p>La licencia social para operar: comunidades, clientes y financiadores que retiran apoyo.</p></div>
+      </div>
+      <p class="note"><b>Lo importante no es la norma aislada</b>, sino la dirección: si las cuatro presiones apuntan al mismo lado, el ajuste es estructural y no coyuntural.</p>
+    </div>
+  </section>
+
+  <!-- 17 · MATERIALIDAD -->
+  <section class="slide" data-slide="17">
+    <div class="body">
+      <p class="eyebrow">Filtro</p>
+      <h2 class="title">No todo lo que cambia importa</h2>
+      <p class="sub">De veinte tendencias, tres o cuatro mueven el resultado. El filtro es la parte del análisis que casi nadie hace.</p>
+      <div class="matrix">
+        <div class="ax"></div><div class="ax c">Probabilidad baja</div><div class="ax c">Probabilidad alta</div>
+
+        <div class="ax">Impacto alto</div>
+        <div class="cell lo"><b>Monitorear</b><span>Se sigue, no se actúa. Revisión periódica.</span></div>
+        <div class="cell hi"><b>Prioritario</b><span>Entra al diagnóstico y a la estrategia. Aquí va el esfuerzo.</span></div>
+
+        <div class="ax">Impacto bajo</div>
+        <div class="cell lo"><b>Descartar</b><span>Se documenta y se deja. No consume tiempo del equipo.</span></div>
+        <div class="cell lo"><b>Observar</b><span>Puede crecer. Se vigila sin invertir.</span></div>
+      </div>
+      <div class="grid g2" style="margin-top:2px">
+        <div class="card"><h3>Cuatro preguntas</h3><p>¿Cuánto del ingreso o del costo toca? ¿En qué horizonte? ¿Qué tan probable es? ¿Se puede verificar con una fuente?</p></div>
+        <div class="card" style="border-left-color:var(--teal)"><h3>La prueba final</h3><p>Si la tendencia no cambia ninguna decisión de la empresa, no es material. Y si no es material, no debería ocupar el informe.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 · CIERRE -->
+  <section class="slide closing" data-slide="18">
+    <div class="body">
+      <h2>La gente cambia <span>primero</span></h2>
+      <p class="lead">Y las cifras del mercado cambian después. Por eso estas tres fuerzas se leen antes que cualquier informe de ventas.</p>
+      <div class="pair">
+        <div><b>Se mueven despacio</b><span>Por eso se pueden anticipar: la población de los próximos veinte años ya está viva.</span></div>
+        <div><b>No se repiten</b><span>Por eso son estratégicas: cuando una cohorte cambia, el mercado no vuelve a su lugar.</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="controls" aria-label="Controles de la presentación">
+  <button class="control" id="prev" aria-label="Diapositiva anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / 18</span>
+  <button class="control" id="grid" aria-label="Vista general">▦</button>
+  <button class="control" id="next" aria-label="Siguiente diapositiva">›</button>
+</nav>
+<div class="progress" aria-hidden="true"><b id="bar"></b></div>
+
+<div class="overview" id="overview" aria-label="Vista general de diapositivas">
+  <div class="list" id="ovlist"></div>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var titles = [
+    'Portada', 'El cliente de 2035 ya nació', 'Tres fuerzas, una lectura', 'Demografía: qué se mide',
+    'La forma de la pirámide', 'Transición demográfica', 'El dato que se pasa por alto',
+    'Colombia: cinco fenómenos', 'De la demografía al mercado', 'Lo sociocultural: qué se mide',
+    'Seis tendencias', 'Edad no es generación', 'Cómo se detecta un cambio real',
+    'Lo ambiental: qué se mide', 'Dos riesgos distintos', 'De dónde viene la presión',
+    'El filtro de materialidad', 'Cierre'
+  ];
+  var i = 0;
+
+  function show(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
+    document.getElementById('cur').textContent = i + 1;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
+  document.getElementById('next').addEventListener('click', function () { show(i + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { show(i - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(slides.length - 1); }
+    else if (e.key === 'Escape') { document.getElementById('overview').classList.remove('open'); }
+  });
+
+  var ov = document.getElementById('overview');
+  var list = document.getElementById('ovlist');
+  titles.forEach(function (t, k) {
+    var b = document.createElement('button');
+    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + t;
+    b.addEventListener('click', function () { show(k); ov.classList.remove('open'); });
+    list.appendChild(b);
+  });
+  document.getElementById('grid').addEventListener('click', function () { ov.classList.add('open'); });
+  ov.addEventListener('click', function (e) { if (e.target === ov) ov.classList.remove('open'); });
+
+  var q = document.getElementById('open-q');
+  if (q) {
+    q.addEventListener('click', function () {
+      var a = document.getElementById('answer');
+      a.classList.toggle('on');
+      q.setAttribute('aria-expanded', a.classList.contains('on'));
+    });
+  }
+
+  var T = {
+    c: ['Entrega el mismo día, suscripciones, autoservicio, pagos sin fricción, ventanillas que desaparecen.',
+        'Disposición a pagar por ahorro de tiempo. El canal pesa más que la marca y el tiempo se vuelve parte del producto.'],
+    s: ['Etiquetado, reducción de azúcar y ultraprocesados, actividad física, salud mental, envejecimiento activo.',
+        'Reformulación de producto, nuevos formatos, precios premium y un consumidor que lee la etiqueta.'],
+    e: ['Exigencia de empaque, trazabilidad, reparación, segunda mano, rechazo al desperdicio.',
+        'Costo de cumplimiento y, a la vez, acceso a canales y mercados que exigen estándares.'],
+    x: ['Gasto en viajes, gastronomía, eventos y deporte; el producto como excusa para la experiencia.',
+        'Mezcla de portafolio y margen: el servicio diferencia más que la ficha técnica.'],
+    a: ['Escepticismo ante la publicidad, peso de la recomendación, castigo a la incoherencia entre discurso y práctica.',
+        'El costo de la reputación sube y la prueba social se vuelve activo.'],
+    d: ['Compra por aplicación, atención automatizada, reseñas, comparación instantánea de precios.',
+        'Acceso al mercado sin tienda física, nuevas barreras y competidores que antes no existían.']
+  };
+  var tt = Array.prototype.slice.call(document.querySelectorAll('.tabs button'));
+  tt.forEach(function (b) {
+    b.addEventListener('click', function () {
+      tt.forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+      b.setAttribute('aria-selected', 'true');
+      var d = T[b.dataset.t];
+      document.getElementById('t-a').textContent = d[0];
+      document.getElementById('t-b').textContent = d[1];
+    });
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>
