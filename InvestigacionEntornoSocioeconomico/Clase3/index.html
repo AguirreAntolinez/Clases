@@ -182,6 +182,7 @@
                            background:#f7fafc; color:var(--blue); text-align:left; padding:9px 14px;
                            font:700 13px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
   .overview .list button:hover, .overview .list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+  .overview .list button[aria-current="true"] { background:#e6f8fa; border-left-color:var(--blue); }
 
   @media (max-width:900px) {
     body { overflow:auto; }
@@ -196,6 +197,74 @@
     .slide { display:block !important; position:relative; page-break-after:always; min-height:100vh; }
     .controls, .progress, .overview { display:none !important; }
   }
+  /* =====================================================================
+     SUPERFICIES EDITORIALES  ·  variante sin plantilla
+     Las tarjetas dejan de ser cajas blancas con sombra y barra de color:
+     pasan a ser columnas de texto separadas por un filete fino, apoyadas
+     sobre el fondo institucional. La paleta no cambia.
+     ===================================================================== */
+
+  .card,
+  .flow .step,
+  .cmp,
+  .step-row,
+  .margin-side {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #b7ccdb;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .card        { padding: clamp(11px,1.35vw,18px) 0 0; }
+  .flow .step  { padding: clamp(10px,1.2vw,15px) 0 0; }
+  .step-row    { padding: clamp(9px,1.1vw,14px) 0; }
+  .cmp         { padding: clamp(13px,1.6vw,21px) 0 0; }
+  .margin-side { padding: clamp(10px,1.2vw,15px) 0 0; }
+
+  .cmp.a { border-top: 2px solid var(--teal); }
+  .cmp.b { border-top: 2px solid var(--coral); }
+
+  /* el número deja de ser una ficha circular y pasa a ser una cifra */
+  .card .num {
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--teal);
+    font: 700 clamp(15px,1.55vw,22px)/1 'Aptos Display', Aptos, sans-serif;
+    margin: 0 0 8px;
+  }
+
+  /* la nota pasa de caja tintada a acotación con filete */
+  .note {
+    background: transparent;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(4px,.6vw,8px) 0 clamp(4px,.6vw,8px) clamp(14px,1.8vw,22px);
+  }
+
+  /* el panel de detalle conserva su jerarquía, sin caja alrededor */
+  .detail {
+    background: transparent;
+    border: 0;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(10px,1.3vw,18px) 0 clamp(10px,1.3vw,18px) clamp(14px,1.8vw,24px);
+    min-height: clamp(130px,17vh,175px);
+  }
+
+  /* la tabla se lee como tabla y no como bloque */
+  .attrs    { background: transparent; }
+  .attrs th { background: transparent; border-bottom: 1px solid #b7ccdb; padding-left: 0; }
+  .attrs td { border-bottom: 1px solid #d3e0e9; padding-left: 0; }
+
+  /* sin el blanco detrás, los textos secundarios ganan un punto de contraste */
+  .card p,
+  .flow .step span,
+  .step-row div span,
+  .margin-side span { color: #43647e; }
+  .cmp .why           { color: #6d879c; }
+  .card .src          { color: #5f7d95; }
 </style>
 </head>
 <body>
@@ -206,7 +275,7 @@
   <section class="slide cover active" data-slide="1">
     <div class="cover-in">
       <p class="kick">Análisis del entorno socio-económico</p>
-      <h1><span>Tecnología,</span><span>costos</span><span class="accent">y demanda</span></h1>
+      <h1><span>Ambiente</span><span class="accent">económico y tecnológico</span></h1>
       <p class="course">Práctica e Investigación en Análisis del Entorno Socio-Económico</p>
       <p class="prof">Profesor Mg. William Alexander Aguirre Antolínez</p>
     </div>
@@ -335,7 +404,6 @@
     <div class="body">
       <p class="eyebrow">Tecnología</p>
       <h2 class="title">Quién adopta y cuándo</h2>
-      <p class="sub">La adopción no es un interruptor: se difunde por grupos, y el punto donde se acelera es el que decide si un negocio llega a tiempo.</p>
       <div class="flow">
         <div class="step"><b>Innovadores</b><span>Los primeros, pocos. Pagan por probar y toleran que falle.</span></div>
         <div class="arrow">›</div>
@@ -347,7 +415,6 @@
         <div class="arrow">›</div>
         <div class="step"><b>Rezagados</b><span>Los últimos. Ya no queda margen en atenderlos.</span></div>
       </div>
-      <p class="note"><b>El punto crítico está entre los tempranos y la mayoría temprana.</b> Muchas tecnologías se quedan ahí: convencen a los entusiastas y nunca cruzan al mercado masivo. Invertir sin saber si se cruzó es apostar al grupo equivocado.</p>
     </div>
   </section>
 
@@ -356,7 +423,6 @@
     <div class="body">
       <p class="eyebrow">Tecnología</p>
       <h2 class="title">Por qué el líder no reacciona a tiempo</h2>
-      <p class="sub">No es ceguera: es una decisión racional que sale mal.</p>
       <div class="steps">
         <div class="step-row"><b>01</b><div><strong>El nuevo entra por abajo</strong><span>Ofrece algo peor en lo que el cliente principal valora, pero más barato o más simple, y atiende a quien hoy no compra.</span></div></div>
         <div class="step-row"><b>02</b><div><strong>Al líder no le conviene</strong><span>Ese segmento tiene márgenes pequeños. Atenderlo le restaría foco y rentabilidad en el negocio bueno.</span></div></div>
@@ -381,7 +447,7 @@
         <div class="cmp a">
           <p class="hd">Lo que hay detrás</p>
           <p>«Vamos a responder en horas lo que hoy toma días», «vamos a venderle a quien no puede llegar a una tienda», «vamos a bajar el costo de atender un pedido pequeño».</p>
-          <p class="why">Es una decisión de resultado. Ahí está la ventaja.</p>
+          <p class="why">Es una decisión de resultado.</p>
         </div>
       </div>
       <div class="grid g3">
@@ -449,8 +515,7 @@
         <div class="card"><span class="num">2</span><h3>Por el precio</h3><p>Se traslada al cliente. Funciona mientras la demanda aguante; si no, se pierde volumen.</p></div>
         <div class="card"><span class="num">3</span><h3>Por el bolsillo</h3><p>El cliente compra menos o baja de categoría. Cambia la mezcla aunque el volumen se sostenga.</p></div>
       </div>
-      <p class="note"><b>Lo que la hace estructural son las expectativas.</b> Cuando todos esperan que los precios sigan subiendo, se indexan salarios y contratos, y la inflación se vuelve su propia causa. Por eso el banco central actúa sobre las expectativas y no solo sobre el índice.</p>
-    </div>
+     </div>
   </section>
 
   <!-- 13 · TASAS Y TRM -->
@@ -472,8 +537,7 @@
           <p class="why">La misma variable es amenaza o ventaja según la estructura de costo.</p>
         </div>
       </div>
-      <p class="note"><b>El error frecuente:</b> leer la tasa o la divisa como «el entorno está difícil». No dicen eso: dicen <b>a quién le cuesta más y a quién le cuesta menos</b>. Eso solo se sabe mirando la estructura de costos de la empresa.</p>
-    </div>
+      </div>
   </section>
 
   <!-- 14 · CICLO -->
@@ -490,8 +554,7 @@
         <div class="arrow">›</div>
         <div class="step"><b>Recuperación</b><span>Vuelve la demanda. Quien conservó capacidad y caja gana participación.</span></div>
       </div>
-      <p class="note"><b>Las decisiones se toman tarde.</b> La inversión en capacidad se decide en el auge y llega en la recesión; el recorte se decide en la recesión y llega en la recuperación. El análisis del entorno sirve, sobre todo, para <b>no llegar un ciclo tarde</b>.</p>
-    </div>
+     </div>
   </section>
 
   <!-- 15 · PALANCAS -->
@@ -503,12 +566,12 @@
         <div class="cmp a">
           <p class="hd">Política monetaria</p>
           <p>La maneja el banco central. Su herramienta principal es la tasa de interés y su objetivo es la inflación.</p>
-          <p class="why">Actúa sobre el costo del dinero. Es la que más rápido se siente.</p>
+          <p class="why">Actúa sobre el costo del dinero.</p>
         </div>
         <div class="cmp b">
           <p class="hd">Política fiscal</p>
           <p>La maneja el gobierno. Sus herramientas son el gasto público y los impuestos.</p>
-          <p class="why">Actúa sobre el ingreso disponible y sobre la demanda agregada. Se siente más despacio.</p>
+          <p class="why">Actúa sobre el ingreso disponible y sobre la demanda agregada.</p>
         </div>
       </div>
       <div class="grid g3">
@@ -523,8 +586,7 @@
   <section class="slide" data-slide="16">
     <div class="body">
       <p class="eyebrow">Economía</p>
-      <h2 class="title">El mismo dato no afecta a todos igual</h2>
-      <p class="sub">La elasticidad es el filtro que convierte una cifra nacional en un efecto concreto sobre la empresa.</p>
+      <h2 class="title">La misma cifra no afecta a todos igual</h2>
       <div class="compare">
         <div class="cmp a">
           <p class="hd">Demanda poco sensible</p>
@@ -575,7 +637,7 @@
 
 <nav class="controls" aria-label="Controles de la presentación">
   <button class="control" id="prev" aria-label="Diapositiva anterior">‹</button>
-  <span class="counter"><span id="cur">1</span> / 18</span>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">1</span></span>
   <button class="control" id="grid" aria-label="Vista general">▦</button>
   <button class="control" id="next" aria-label="Siguiente diapositiva">›</button>
 </nav>
@@ -588,21 +650,31 @@
 <script>
 (function () {
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var titles = [
-    'Portada', 'La mejor tecnología no salva un mal negocio', 'Dos fuerzas, un solo margen',
-    'Tecnología: qué se mira', 'La curva S', 'Ciclo de vida tecnológico', 'Quién adopta y cuándo',
-    'Por qué el líder no reacciona', 'La tecnología no es la estrategia', 'Las ocho variables',
-    'Cómo llega cada variable', 'La inflación por tres caminos', 'Tasa y tipo de cambio',
-    'El ciclo económico', 'Quién mueve las palancas', 'La elasticidad',
-    'Cuando las dos empujan juntas', 'Cierre'
-  ];
   var i = 0;
+
+  /* El menu se arma a partir de las diapositivas que existan, en su orden real.
+     Asi no se desincroniza cuando se reordenan, se recortan o se agregan. */
+  function labelOf(s) {
+    if (s.classList.contains('cover')) { return 'Portada'; }
+    var h = s.querySelector('h2') || s.querySelector('h1');
+    var txt = '';
+    if (h) {
+      Array.prototype.forEach.call(h.childNodes, function (c) { txt += ' ' + (c.textContent || ''); });
+      txt = txt.replace(/\s+/g, ' ').trim().replace(/[:\u2014\-\s]+$/, '');
+    }
+    var eb = s.querySelector('.eyebrow');
+    var pre = eb ? eb.textContent.replace(/\s+/g, ' ').trim() : '';
+    return (pre ? pre + ' \u00b7 ' : '') + (txt || 'Diapositiva');
+  }
 
   function show(n) {
     i = (n + slides.length) % slides.length;
     slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
     document.getElementById('cur').textContent = i + 1;
     document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    Array.prototype.forEach.call(document.getElementById('ovlist').children, function (b, k) {
+      b.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
   }
 
   document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
@@ -618,9 +690,10 @@
 
   var ov = document.getElementById('overview');
   var list = document.getElementById('ovlist');
-  titles.forEach(function (t, k) {
+  document.getElementById('tot').textContent = slides.length;
+  slides.forEach(function (s, k) {
     var b = document.createElement('button');
-    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + t;
+    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + labelOf(s);
     b.addEventListener('click', function () { show(k); ov.classList.remove('open'); });
     list.appendChild(b);
   });
