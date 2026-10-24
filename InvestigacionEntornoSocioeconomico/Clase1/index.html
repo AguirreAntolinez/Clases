@@ -211,6 +211,7 @@
                            background:#f7fafc; color:var(--blue); text-align:left; padding:9px 14px;
                            font:700 13px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
   .overview .list button:hover, .overview .list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+  .overview .list button[aria-current="true"] { background:#e6f8fa; border-left-color:var(--blue); }
 
   @media (max-width:900px) {
     body { overflow:auto; }
@@ -225,6 +226,71 @@
     .slide { display:block !important; position:relative; page-break-after:always; min-height:100vh; }
     .controls, .progress, .overview { display:none !important; }
   }
+
+  /* =====================================================================
+     SUPERFICIES EDITORIALES  ·  variante sin plantilla
+     Las tarjetas dejan de ser cajas blancas con sombra y barra de color:
+     pasan a ser columnas de texto separadas por un filete fino, apoyadas
+     sobre el fondo institucional. La paleta no cambia.
+     ===================================================================== */
+
+  .card,
+  .flow .step,
+  .cmp,
+  .step-row {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #b7ccdb;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .card      { padding: clamp(11px,1.35vw,18px) 0 0; }
+  .flow .step{ padding: clamp(10px,1.2vw,15px) 0 0; }
+  .step-row  { padding: clamp(9px,1.1vw,14px) 0; }
+
+  .cmp       { padding: clamp(13px,1.6vw,21px) 0 0; }
+  .cmp.bad   { border-top: 2px solid var(--coral); }
+  .cmp.good  { border-top: 2px solid var(--teal); }
+
+  /* el número deja de ser una ficha circular y pasa a ser una cifra */
+  .card .num {
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--teal);
+    font: 700 clamp(15px,1.55vw,22px)/1 'Aptos Display', Aptos, sans-serif;
+    margin: 0 0 8px;
+  }
+
+  /* la nota pasa de caja tintada a acotación con filete */
+  .note {
+    background: transparent;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(4px,.6vw,8px) 0 clamp(4px,.6vw,8px) clamp(14px,1.8vw,22px);
+  }
+
+  /* el panel de detalle conserva su jerarquía, sin caja alrededor */
+  .detail {
+    background: transparent;
+    border: 0;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(10px,1.3vw,18px) 0 clamp(10px,1.3vw,18px) clamp(14px,1.8vw,24px);
+    min-height: clamp(150px,20vh,200px);
+  }
+
+  /* la tabla se lee como tabla y no como bloque */
+  .attrs      { background: transparent; }
+  .attrs th   { background: transparent; border-bottom: 1px solid #b7ccdb; padding-left: 0; }
+  .attrs td   { border-bottom: 1px solid #d3e0e9; padding-left: 0; }
+
+  /* sin el blanco detrás, los textos secundarios ganan un punto de contraste */
+  .card p,
+  .flow .step span,
+  .step-row div span { color: #43647e; }
+  .cmp .why          { color: #6d879c; }
 </style>
 </head>
 <body>
@@ -245,8 +311,8 @@
   <section class="slide" data-slide="2">
     <div class="body">
       <p class="eyebrow">Apertura</p>
-      <h2 class="title">Todo estaba bien… o eso parecía</h2>
-      <p class="lead">Hay un patrón que se repite en las empresas que pierden terreno: tomaron buenas decisiones mirando hacia adentro.</p>
+      <h2 class="title">La importancia de estudiar el entorno</h2>
+      <p class="lead">Hay una tendencia en las organizaciones a tomar decisiones mirando únicamente hacia adentro.</p>
       <div class="tags">
         <span class="tag yes">Producto ✓</span>
         <span class="tag yes">Equipo ✓</span>
@@ -295,8 +361,7 @@
   <!-- 4 · DEL DATO A LA DECISIÓN -->
   <section class="slide" data-slide="4">
     <div class="body">
-      <p class="eyebrow">Lógica</p>
-      <h2 class="title">El entorno no es contexto: es insumo para decidir</h2>
+      <h2 class="title">El entorno es el insumo para decidir</h2>
       <div class="flow">
         <div class="step"><b>Fuerzas externas</b><span>Lo que cambia por fuera de la empresa.</span></div>
         <div class="arrow">›</div>
@@ -319,23 +384,92 @@
     </div>
   </section>
 
-  <!-- 5 · CUATRO PREGUNTAS -->
+  
+  <!-- 5 · PROCESO -->
   <section class="slide" data-slide="5">
     <div class="body">
       <p class="eyebrow">Método</p>
-      <h2 class="title">Las cuatro preguntas que ordenan el análisis</h2>
+      <h2 class="title">Investigar el entorno: cinco pasos</h2>
+      <div class="steps">
+        <div class="step-row"><b>01</b><div><strong>Delimitar el objeto</strong><span>Qué empresa, qué sector, qué periodo y qué decisión se quiere informar.</span></div></div>
+        <div class="step-row"><b>02</b><div><strong>Formular las preguntas</strong><span>Qué se necesita saber. Sin pregunta previa, la búsqueda se vuelve una colección de datos.</span></div></div>
+        <div class="step-row"><b>03</b><div><strong>Rastrear las fuentes</strong><span>Primero las oficiales, después los gremios, luego la academia y la prensa. Cada una aporta un nivel distinto de certeza.</span></div></div>
+        <div class="step-row"><b>04</b><div><strong>Someter a criterio</strong><span>Fecha, método, cobertura y posible conflicto de interés. Un dato sin estas cuatro verificaciones no es evidencia.</span></div></div>
+        <div class="step-row"><b>05</b><div><strong>Convertir en hallazgos</strong><span>Hecho, fuente e implicación en una sola frase. Ese es el producto final del trabajo, no la carpeta de datos.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · CUATRO PREGUNTAS -->
+  <section class="slide" data-slide="6">
+    <div class="body">
+      <p class="eyebrow">Método</p>
+      <h2 class="title">Responder estas cuatro preguntas</h2>
       <div class="grid g4">
         <div class="card"><span class="num">1</span><h3>¿Qué está pasando?</h3><p>Describir con datos, no con impresiones. Fecha, magnitud, alcance.</p></div>
         <div class="card"><span class="num">2</span><h3>¿Por qué está pasando?</h3><p>Encontrar la causa, no solo el síntoma. Una causa explica varios datos a la vez.</p></div>
         <div class="card"><span class="num">3</span><h3>¿A quién afecta y cuánto?</h3><p>Materialidad: qué parte del ingreso, del costo o del riesgo queda comprometida.</p></div>
         <div class="card"><span class="num">4</span><h3>¿Qué decisión habilita?</h3><p>Qué haría distinto la empresa si supiera esto. Si la respuesta es «nada», el dato sobra.</p></div>
       </div>
-      <p class="note">Un análisis que se detiene en la primera pregunta es un resumen de prensa. La cuarta es la que lo vuelve análisis.</p>
-    </div>
+      </div>
   </section>
 
-  <!-- 6 · HERRAMIENTAS -->
-  <section class="slide" data-slide="6">
+
+  <!-- 7 · FUENTES -->
+  <section class="slide" data-slide="7">
+    <div class="body">
+      <p class="eyebrow">Método</p>
+      <h2 class="title">De dónde sale la evidencia</h2>
+      <div class="grid g2">
+        <div class="card"><h3>Fuentes primarias</h3><p>Entrevistas, observación, encuestas propias, visitas a puntos de venta. Caras en tiempo, pero nadie más las tiene.</p></div>
+        <div class="card"><h3>Fuentes oficiales</h3><p>DANE, Banco de la República, DNP, Supersociedades, DIAN, SIC, ministerios y cámaras de comercio. Datos con metodología publicada.</p></div>
+        <div class="card"><h3>Gremios y centros de investigación</h3><p>Asociaciones sectoriales, centros de pensamiento y consultoras. Conocen el sector, pero tienen intereses que conviene declarar.</p></div>
+        <div class="card"><h3>Academia y organismos multilaterales</h3><p>Universidades, OCDE, Banco Mundial, FMI, CEPAL. Útiles para comparar países y para marcos conceptuales.</p></div>
+      </div>
+      </div>
+  </section>
+
+  <!-- 8 · CALIDAD -->
+  <section class="slide" data-slide="8">
+    <div class="body">
+      <p class="eyebrow">Método</p>
+      <h2 class="title">Cuándo un dato sirve</h2>
+      <div class="grid g4">
+        <div class="card"><span class="num">1</span><h3>¿Quién lo dice?</h3><p>Una entidad con método publicado vale más que una diapositiva sin autor.</p></div>
+        <div class="card"><span class="num">2</span><h3>¿De cuándo es?</h3><p>Un dato de hace cinco años describe otro país. La fecha hace parte del dato.</p></div>
+        <div class="card"><span class="num">3</span><h3>¿Con qué método?</h3><p>Muestra, cobertura y definición. Sin eso no se puede comparar con nada.</p></div>
+        <div class="card"><span class="num">4</span><h3>¿Es comparable?</h3><p>Misma unidad, mismo periodo, mismo territorio. Comparar peras con manzanas es el error más común.</p></div>
+      </div>
+      </div>
+  </section>
+
+  <!-- 9 · DATO A HALLAZGO -->
+  <section class="slide" data-slide="9">
+    <div class="body">
+      <p class="eyebrow">Producto</p>
+      <h2 class="title">Hay que convertir cifras y datos en hallazgos</h2>
+      <div class="formula">
+        <b>Hallazgo</b>
+        <span>=</span>
+        <code>Hecho</code> <span>+</span> <code>Fuente</code> <span>+</span> <code>Implicación</code>
+      </div>
+      <div class="compare">
+        <div class="cmp bad">
+          <p class="hd">Antes · descripción</p>
+          <p>«La inflación está alta y eso afecta al sector.»</p>
+          <p class="why">No dice cuánto, no dice a quién, no dice qué hacer. Sirve para cualquier empresa de cualquier país.</p>
+        </div>
+        <div class="cmp good">
+          <p class="hd">Después · hallazgo</p>
+          <p>«El costo de la materia prima creció por encima del precio de venta en el último año, lo que comprimió el margen bruto del canal moderno y obliga a decidir entre trasladar el precio o ceder participación.»</p>
+          <p class="why">Tiene magnitud relativa, tiene afectado y tiene una decisión al final. Se puede discutir.</p>
+        </div>
+      </div>
+      </div>
+  </section>
+
+  <!-- 10 · HERRAMIENTAS -->
+  <section class="slide" data-slide="10">
     <div class="body">
       <p class="eyebrow">Instrumentos</p>
       <h2 class="title">Las herramientas y para qué sirve cada una</h2>
@@ -347,12 +481,11 @@
         <div class="card"><h3>Matriz EFE</h3><p>Sintetiza el diagnóstico externo en un solo indicador ponderado.</p></div>
         <div class="card"><h3>DAFO</h3><p>Convierte el diagnóstico en opciones: cruza lo externo con lo interno.</p></div>
       </div>
-      <p class="note"><b>Ninguna herramienta decide.</b> Ordenan la evidencia para que la decisión sea defendible frente a un jefe, un banco o un socio.</p>
-    </div>
+     </div>
   </section>
 
-  <!-- 7 · PESTEL -->
-  <section class="slide" data-slide="7">
+  <!-- 11 · PESTEL -->
+  <section class="slide" data-slide="11">
     <div class="body">
       <p class="eyebrow">Herramienta 01</p>
       <h2 class="title">PESTEL: seis frentes que no se pueden ignorar</h2>
@@ -374,12 +507,12 @@
     </div>
   </section>
 
-  <!-- 8 · SISTEMA -->
-  <section class="slide" data-slide="8">
+  <!-- 12 · SISTEMA -->
+  <section class="slide" data-slide="12">
     <div class="body">
-      <p class="eyebrow">Advertencia</p>
-      <h2 class="title">El entorno no es una lista: es un sistema</h2>
-      <p class="sub">Las fuerzas no actúan solas. Un buen análisis encuentra las cadenas de causa y efecto; uno malo llena columnas.</p>
+      <p class="eyebrow"></p>
+      <h2 class="title">El entorno es un sistema no una simple lista: </h2>
+      <p class="sub">Un buen análisis encuentra las relaciones de causa y efecto en lugar de solamente llenar columnas.</p>
       <div class="grid" style="gap:8px">
         <div class="flow">
           <div class="step"><b>Inflación</b><span>Suben los insumos</span></div>
@@ -405,16 +538,15 @@
           <div class="step"><b>Barrera de entrada</b><span>Salen o no entran competidores</span></div>
         </div>
       </div>
-      <p class="note"><b>Regla práctica:</b> si una fuerza no se conecta con ninguna otra ni con un número, todavía no es un hallazgo: es un titular.</p>
+      <p class="note"><b>Regla práctica:</b> si una fuerza no se conecta con ninguna otra ni con un número no es relevante para el análisis.</p>
     </div>
   </section>
 
-  <!-- 9 · ESTRUCTURA DEL MERCADO -->
-  <section class="slide" data-slide="9">
+  <!-- 13 · ESTRUCTURA DEL MERCADO -->
+  <section class="slide" data-slide="13">
     <div class="body">
       <p class="eyebrow">Base económica</p>
-      <h2 class="title">Estructura del mercado: de qué depende el margen</h2>
-      <p class="sub">Antes de analizar a los rivales hay que saber en qué tipo de mercado se compite. La estructura fija el techo de rentabilidad posible.</p>
+      <h2 class="title">Estructura del mercado</h2>
       <div class="tabs" role="tablist" aria-label="Tipos de estructura de mercado">
         <button role="tab" aria-selected="true" data-m="pc">Competencia perfecta</button>
         <button role="tab" aria-selected="false" data-m="mc">Competencia monopolística</button>
@@ -463,8 +595,8 @@
     </div>
   </section>
 
-  <!-- 10 · MEDICIÓN -->
-  <section class="slide" data-slide="10">
+  <!-- 14 · MEDICIÓN -->
+  <section class="slide" data-slide="14">
     <div class="body">
       <p class="eyebrow">Base económica</p>
       <h2 class="title">Cómo se mide la estructura</h2>
@@ -495,8 +627,8 @@
     </div>
   </section>
 
-  <!-- 11 · MERCADO RELEVANTE -->
-  <section class="slide" data-slide="11">
+  <!-- 15 · MERCADO RELEVANTE -->
+  <section class="slide" data-slide="15">
     <div class="body">
       <p class="eyebrow">Base económica</p>
       <h2 class="title">¿Cuál es el mercado relevante?</h2>
@@ -507,139 +639,16 @@
         <div class="card"><h3>La oferta</h3><p>¿Quién podría servir ese mercado mañana con lo que ya tiene? Un competidor potencial no aparece en las cifras de ventas.</p></div>
       </div>
       <p class="note"><b>Sobre el código CIIU:</b> es un buen punto de partida para buscar datos, pero no define el mercado. Dos empresas del mismo código pueden competir en mercados distintos, y dos códigos distintos pueden competir por el mismo cliente.</p>
-      <p class="note" style="border-left-color:#136a8a;background:#eef5f9"><b>Prueba de coherencia:</b> si al listar los competidores aparecen solo empresas del mismo código CIIU, probablemente el límite se trazó desde la estadística y no desde el cliente.</p>
-    </div>
+      </div>
   </section>
 
-  <!-- 12 · PROCESO -->
-  <section class="slide" data-slide="12">
-    <div class="body">
-      <p class="eyebrow">Método</p>
-      <h2 class="title">Investigar el entorno: cinco pasos</h2>
-      <div class="steps">
-        <div class="step-row"><b>01</b><div><strong>Delimitar el objeto</strong><span>Qué empresa, qué sector, qué periodo y qué decisión se quiere informar.</span></div></div>
-        <div class="step-row"><b>02</b><div><strong>Formular las preguntas</strong><span>Qué se necesita saber. Sin pregunta previa, la búsqueda se vuelve una colección de datos.</span></div></div>
-        <div class="step-row"><b>03</b><div><strong>Rastrear las fuentes</strong><span>Primero las oficiales, después los gremios, luego la academia y la prensa. Cada una aporta un nivel distinto de certeza.</span></div></div>
-        <div class="step-row"><b>04</b><div><strong>Someter a criterio</strong><span>Fecha, método, cobertura y posible conflicto de interés. Un dato sin estas cuatro verificaciones no es evidencia.</span></div></div>
-        <div class="step-row"><b>05</b><div><strong>Convertir en hallazgos</strong><span>Hecho, fuente e implicación en una sola frase. Ese es el producto final del trabajo, no la carpeta de datos.</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13 · FUENTES -->
-  <section class="slide" data-slide="13">
-    <div class="body">
-      <p class="eyebrow">Método</p>
-      <h2 class="title">De dónde sale la evidencia</h2>
-      <div class="grid g2">
-        <div class="card"><h3>Fuentes primarias</h3><p>Entrevistas, observación, encuestas propias, visitas a puntos de venta. Caras en tiempo, pero nadie más las tiene.</p></div>
-        <div class="card"><h3>Fuentes oficiales</h3><p>DANE, Banco de la República, DNP, Supersociedades, DIAN, SIC, ministerios y cámaras de comercio. Datos con metodología publicada.</p></div>
-        <div class="card"><h3>Gremios y centros de investigación</h3><p>Asociaciones sectoriales, centros de pensamiento y consultoras. Conocen el sector, pero tienen intereses que conviene declarar.</p></div>
-        <div class="card"><h3>Academia y organismos multilaterales</h3><p>Universidades, OCDE, Banco Mundial, FMI, CEPAL. Útiles para comparar países y para marcos conceptuales.</p></div>
-      </div>
-      <p class="note"><b>Orden de uso:</b> se empieza por lo oficial y se termina por lo que solo se consigue hablando con alguien. Lo contrario produce conclusiones elegantes y sin sustento.</p>
-    </div>
-  </section>
-
-  <!-- 14 · CALIDAD -->
-  <section class="slide" data-slide="14">
-    <div class="body">
-      <p class="eyebrow">Método</p>
-      <h2 class="title">Cuándo un dato sirve</h2>
-      <div class="grid g4">
-        <div class="card"><span class="num">1</span><h3>¿Quién lo dice?</h3><p>Una entidad con método publicado vale más que una diapositiva sin autor.</p></div>
-        <div class="card"><span class="num">2</span><h3>¿De cuándo es?</h3><p>Un dato de hace cinco años describe otro país. La fecha hace parte del dato.</p></div>
-        <div class="card"><span class="num">3</span><h3>¿Con qué método?</h3><p>Muestra, cobertura y definición. Sin eso no se puede comparar con nada.</p></div>
-        <div class="card"><span class="num">4</span><h3>¿Es comparable?</h3><p>Misma unidad, mismo periodo, mismo territorio. Comparar peras con manzanas es el error más común.</p></div>
-      </div>
-      <p class="note" style="border-left-color:#e0724c;background:#fdf1ec;color:#7d4a35"><b>La regla del dato huérfano:</b> si no se puede decir de dónde salió, no es un dato: es una opinión con formato de dato. Y una opinión no resiste la pregunta de un jefe, un banco o un socio.</p>
-    </div>
-  </section>
-
-  <!-- 15 · DATO A HALLAZGO -->
-  <section class="slide" data-slide="15">
-    <div class="body">
-      <p class="eyebrow">Producto</p>
-      <h2 class="title">De dato a hallazgo</h2>
-      <div class="formula">
-        <b>Hallazgo</b>
-        <span>=</span>
-        <code>Hecho</code> <span>+</span> <code>Fuente</code> <span>+</span> <code>Implicación</code>
-      </div>
-      <div class="compare">
-        <div class="cmp bad">
-          <p class="hd">Antes · descripción</p>
-          <p>«La inflación está alta y eso afecta al sector.»</p>
-          <p class="why">No dice cuánto, no dice a quién, no dice qué hacer. Sirve para cualquier empresa de cualquier país.</p>
-        </div>
-        <div class="cmp good">
-          <p class="hd">Después · hallazgo</p>
-          <p>«El costo de la materia prima creció por encima del precio de venta en el último año, lo que comprimió el margen bruto del canal moderno y obliga a decidir entre trasladar el precio o ceder participación.»</p>
-          <p class="why">Tiene magnitud relativa, tiene afectado y tiene una decisión al final. Se puede discutir.</p>
-        </div>
-      </div>
-      <p class="note">La implicación no es una recomendación: es la consecuencia. La recomendación viene después, cuando se cruza con lo que la empresa puede hacer.</p>
-    </div>
-  </section>
-
-  <!-- 16 · EJEMPLO -->
-  <section class="slide" data-slide="16">
-    <div class="body">
-      <p class="eyebrow">Ejemplo didáctico · cifras ficticias</p>
-      <h2 class="title">Una ficha de entorno, en la práctica</h2>
-      <p class="sub">Empresa mediana de alimentos procesados que vende al canal moderno en tres ciudades.</p>
-      <div class="grid g3">
-        <div class="card">
-          <h3>Económico</h3>
-          <p>El costo de la energía creció 18 % en doce meses, frente a un alza de 9 % en el precio promedio de la categoría.</p>
-          <p style="margin-top:8px;color:#0b8ca1"><strong>Implicación:</strong> el margen se comprime; la decisión es eficiencia energética o reprecio selectivo.</p>
-        </div>
-        <div class="card">
-          <h3>Social</h3>
-          <p>Los hogares de una persona crecen más rápido que los de cuatro, y compran porciones más pequeñas.</p>
-          <p style="margin-top:8px;color:#0b8ca1"><strong>Implicación:</strong> el formato actual sobredimensiona el empaque; hay riesgo de perder rotación.</p>
-        </div>
-        <div class="card">
-          <h3>Legal</h3>
-          <p>Entra en vigencia un nuevo requisito de etiquetado que exige reformular el empaque de tres referencias.</p>
-          <p style="margin-top:8px;color:#0b8ca1"><strong>Implicación:</strong> costo no recurrente y riesgo de desabastecimiento si no se planifica.</p>
-        </div>
-      </div>
-      <p class="note"><b>Observe la estructura:</b> cada hallazgo tiene un hecho con magnitud, un sujeto afectado y una consecuencia. Ninguno empieza con «el entorno es cambiante».</p>
-    </div>
-  </section>
-
-  <!-- 17 · CIERRE -->
-  <section class="slide" data-slide="17">
-    <div class="body">
-      <p class="eyebrow">Para llevar</p>
-      <h2 class="title">Tres ideas y una pregunta abierta</h2>
-      <div class="grid g3">
-        <div class="card"><h3>El entorno se investiga</h3><p>No se opina ni se resume. Se busca, se verifica y se cita.</p></div>
-        <div class="card"><h3>Las fuerzas se encadenan</h3><p>Lo que importa no es la lista de cambios, sino la relación entre ellos.</p></div>
-        <div class="card"><h3>La estructura fija el techo</h3><p>Ninguna estrategia rinde más de lo que la estructura del mercado permite.</p></div>
-      </div>
-      <p class="lead" style="margin-top:8px">Y la pregunta que queda abierta: <strong>¿quién es el cliente que viene?</strong> Porque el entorno cambia primero en la gente, y solo después en las cifras.</p>
-    </div>
-  </section>
-
-  <!-- 18 · FINAL -->
-  <section class="slide closing" data-slide="18">
-    <div class="body">
-      <h2>El entorno no se adivina: <span>se investiga</span></h2>
-      <p class="lead">Dos formas de mirar, una sola conclusión posible.</p>
-      <div class="pair">
-        <div><b>Fuentes secundarias</b><span>Dicen qué pasó. Son rápidas, comparables y casi siempre están un paso atrás.</span></div>
-        <div><b>Fuentes primarias</b><span>Dicen qué está pasando. Son lentas, incompletas y casi siempre son la ventaja.</span></div>
-      </div>
-    </div>
-  </section>
+  
 
 </main>
 
 <nav class="controls" aria-label="Controles de la presentación">
   <button class="control" id="prev" aria-label="Diapositiva anterior">‹</button>
-  <span class="counter"><span id="cur">1</span> / 18</span>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">1</span></span>
   <button class="control" id="grid" aria-label="Vista general">▦</button>
   <button class="control" id="next" aria-label="Siguiente diapositiva">›</button>
 </nav>
@@ -652,20 +661,32 @@
 <script>
 (function () {
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var titles = [
-    'Portada', 'Apertura · Todo estaba bien', '¿Qué es el entorno?', 'Del dato a la decisión',
-    'Las cuatro preguntas', 'Las herramientas', 'PESTEL', 'El entorno como sistema',
-    'Estructura del mercado', 'Cómo se mide', 'Mercado relevante', 'Investigar: cinco pasos',
-    'Fuentes de evidencia', 'Cuándo un dato sirve', 'De dato a hallazgo', 'Ficha de entorno',
-    'Para llevar', 'Cierre'
-  ];
   var i = 0;
+
+  /* El menú se arma a partir de las diapositivas que existan, en su orden real.
+     Así no se desincroniza cuando se reordenan, se recortan o se agregan. */
+  function labelOf(s) {
+    if (s.classList.contains('cover')) { return 'Portada'; }
+    var h = s.querySelector('h2') || s.querySelector('h1');
+    var txt = '';
+    if (h) {
+      Array.prototype.forEach.call(h.childNodes, function (c) { txt += ' ' + (c.textContent || ''); });
+      txt = txt.replace(/\s+/g, ' ').trim().replace(/[:\u2014\-\s]+$/, '');
+    }
+    var eb = s.querySelector('.eyebrow');
+    var pre = eb ? eb.textContent.replace(/\s+/g, ' ').trim() : '';
+    return (pre ? pre + ' · ' : '') + (txt || 'Diapositiva');
+  }
 
   function show(n) {
     i = (n + slides.length) % slides.length;
     slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
     document.getElementById('cur').textContent = i + 1;
     document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    var items = document.getElementById('ovlist').children;
+    Array.prototype.forEach.call(items, function (b, k) {
+      b.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
   }
 
   document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
@@ -682,9 +703,10 @@
   /* vista general */
   var ov = document.getElementById('overview');
   var list = document.getElementById('ovlist');
-  titles.forEach(function (t, k) {
+  document.getElementById('tot').textContent = slides.length;
+  slides.forEach(function (s, k) {
     var b = document.createElement('button');
-    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + t;
+    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + labelOf(s);
     b.addEventListener('click', function () { show(k); ov.classList.remove('open'); });
     list.appendChild(b);
   });
