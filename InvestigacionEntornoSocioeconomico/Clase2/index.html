@@ -18,7 +18,7 @@
   /* ---------------- estructura ---------------- */
   .deck { height:100vh; min-height:620px; position:relative; }
   .slide { position:absolute; inset:0; display:none; overflow:auto;
-           background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat;
+           background:var(--paper) url('./assets/institutional-light.png') center/cover no-repeat;
            padding:clamp(44px,6vw,104px) clamp(32px,7vw,118px) clamp(62px,9.5vh,108px); }
   .slide.active { display:flex; flex-direction:column; animation:enter .42s ease both; }
   @keyframes enter { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:translateX(0); } }
@@ -136,7 +136,7 @@
   .slide.cover { background:#061383; color:#fff; align-items:center; justify-content:flex-end;
                  padding:0 0 clamp(44px,9vh,96px); }
   .slide.cover::before { content:''; position:absolute; inset:0;
-                         background:url('../../assets/institutional-dark.png') center/cover no-repeat; }
+                         background:url('./assets/institutional-dark.png') center/cover no-repeat; }
   .slide.cover .cover-in { position:relative; z-index:2; width:min(100%,1050px);
                            padding:0 clamp(26px,6vw,90px); }
   .cover .kick { font-size:clamp(11px,1.05vw,13px); letter-spacing:.2em; text-transform:uppercase;
@@ -184,6 +184,7 @@
                            background:#f7fafc; color:var(--blue); text-align:left; padding:9px 14px;
                            font:700 13px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
   .overview .list button:hover, .overview .list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+  .overview .list button[aria-current="true"] { background:#e6f8fa; border-left-color:var(--blue); }
 
   @media (max-width:900px) {
     body { overflow:auto; }
@@ -198,6 +199,78 @@
     .slide { display:block !important; position:relative; page-break-after:always; min-height:100vh; }
     .controls, .progress, .overview { display:none !important; }
   }
+  /* =====================================================================
+     SUPERFICIES EDITORIALES  ·  variante sin plantilla
+     Las tarjetas dejan de ser cajas blancas con sombra y barra de color:
+     pasan a ser columnas de texto separadas por un filete fino, apoyadas
+     sobre el fondo institucional. La paleta no cambia.
+     ===================================================================== */
+
+  .card,
+  .flow .step,
+  .cmp,
+  .step-row,
+  .pyr .item {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #b7ccdb;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .card       { padding: clamp(11px,1.35vw,18px) 0 0; }
+  .flow .step { padding: clamp(10px,1.2vw,15px) 0 0; }
+  .step-row   { padding: clamp(9px,1.1vw,14px) 0; }
+  .cmp        { padding: clamp(13px,1.6vw,21px) 0 0; }
+  .pyr .item  { padding: clamp(11px,1.3vw,17px) 0 0; }
+
+  .cmp.a { border-top: 2px solid var(--teal); }
+  .cmp.b { border-top: 2px solid var(--coral); }
+
+  /* el número deja de ser una ficha circular y pasa a ser una cifra */
+  .card .num {
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--teal);
+    font: 700 clamp(15px,1.55vw,22px)/1 'Aptos Display', Aptos, sans-serif;
+    margin: 0 0 8px;
+  }
+
+  /* la nota pasa de caja tintada a acotación con filete */
+  .note {
+    background: transparent;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(4px,.6vw,8px) 0 clamp(4px,.6vw,8px) clamp(14px,1.8vw,22px);
+  }
+
+  /* el panel de detalle conserva su jerarquía, sin caja alrededor */
+  .detail {
+    background: transparent;
+    border: 0;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(10px,1.3vw,18px) 0 clamp(10px,1.3vw,18px) clamp(14px,1.8vw,24px);
+    min-height: clamp(140px,18vh,185px);
+  }
+
+  /* la tabla se lee como tabla y no como bloque */
+  .attrs    { background: transparent; }
+  .attrs th { background: transparent; border-bottom: 1px solid #b7ccdb; padding-left: 0; }
+  .attrs td { border-bottom: 1px solid #d3e0e9; padding-left: 0; }
+
+  /* la matriz conserva sus líneas y su color, pero pierde el relleno */
+  .matrix .cell    { background: transparent; border-left-width: 3px; }
+  .matrix .cell.hi { background: rgba(224,114,76,.08); }
+
+  /* sin el blanco detrás, los textos secundarios ganan un punto de contraste */
+  .card p,
+  .flow .step span,
+  .step-row div span,
+  .pyr p         { color: #43647e; }
+  .cmp .why      { color: #6d879c; }
+  .card .src     { color: #5f7d95; }
 </style>
 </head>
 <body>
@@ -219,7 +292,7 @@
     <div class="body">
       <p class="eyebrow">Apertura</p>
       <h2 class="title">El cliente de 2035 ya nació</h2>
-      <p class="lead">No hay que adivinar cómo será: hay que mirar cómo está cambiando la población que ya existe. La gente no cambia de un día para otro, pero cuando cambia, no vuelve.</p>
+      <p class="lead">No hay que adivinar cómo será: hay que mirar cómo está cambiando la población que ya existe. La gente no cambia de un día para otro sino que lo hace mediante procesos históricos largos.</p>
       <div class="tags">
         <span class="tag yes">Cuántos son</span>
         <span class="tag yes">Cómo viven</span>
@@ -237,11 +310,11 @@
   <section class="slide" data-slide="3">
     <div class="body">
       <p class="eyebrow">Marco</p>
-      <h2 class="title">Tres fuerzas, una sola lectura</h2>
+      <h2 class="title">Tres dimensiones estructurales</h2>
       <div class="grid g3">
         <div class="card">
           <h3>Demografía</h3>
-          <p>Cuántos somos, de qué edades, dónde vivimos y cómo se componen los hogares. Define el <strong>tamaño y la mezcla</strong> de la demanda.</p>
+          <p>Cuántos somos, de qué edades, dónde vivimos y cómo se componen los hogares. Define el <strong>tamaño</strong> de la demanda.</p>
         </div>
         <div class="card">
           <h3>Cultura</h3>
@@ -331,7 +404,7 @@
   <section class="slide" data-slide="7">
     <div class="body">
       <p class="eyebrow">Demografía</p>
-      <h2 class="title">El dato que más se pasa por alto: el hogar</h2>
+      <h2 class="title">La importancia del hogar como unidad de análisis</h2>
       <p class="sub">La población puede crecer poco y, aun así, el número de hogares crecer bastante. Y el consumo se decide por hogar.</p>
       <div class="compare">
         <div class="cmp a">
@@ -373,7 +446,7 @@
   <section class="slide" data-slide="9">
     <div class="body">
       <p class="eyebrow">Traducción</p>
-      <h2 class="title">De la demografía al mercado</h2>
+      <h2 class="title">¿Cómo se refleja un cambio demográfico en el mercado?</h2>
       <p class="sub">Un cambio de población no es un hallazgo hasta que se traduce en una decisión.</p>
       <table class="attrs">
         <thead>
@@ -386,8 +459,7 @@
           <tr><td>Migración</td><td>Segmentos con hábitos y precios distintos</td><td>Adecuar oferta, surtido y comunicación</td></tr>
         </tbody>
       </table>
-      <p class="note">La tercera columna es la que se evalúa. Una tabla de tendencias sin <b>decisión asociada</b> no es análisis del entorno: es una recopilación.</p>
-    </div>
+      </div>
   </section>
 
   <!-- 10 · SOCIOCULTURAL -->
@@ -409,7 +481,7 @@
   <section class="slide" data-slide="11">
     <div class="body">
       <p class="eyebrow">Cultura</p>
-      <h2 class="title">Seis tendencias que están moviendo mercados</h2>
+      <h2 class="title">Tendencias que pueden estar moviendo mercados</h2>
       <div class="tabs" role="tablist" aria-label="Tendencias socioculturales">
         <button role="tab" aria-selected="true" data-t="c">Conveniencia</button>
         <button role="tab" aria-selected="false" data-t="s">Salud</button>
@@ -445,7 +517,7 @@
           <p class="why">Si es cohorte, el mercado no vuelve atrás. Se atiende con lenguaje, canal y propuesta.</p>
         </div>
       </div>
-      <p class="note"><b>Prueba sencilla:</b> si el comportamiento se repite en la generación siguiente a la misma edad, es edad. Si no se repite, es cohorte —y entonces es estructural.</p>
+      <p class="note"><b>Prueba sencilla:</b> si el comportamiento se repite en la generación siguiente a la misma edad, es efecto edad. Si no se repite, es efecto cohorte.</p>
     </div>
   </section>
 
@@ -461,7 +533,6 @@
         <div class="step-row"><b>03</b><div><strong>Aparece la norma o el estándar</strong><span>Cuando la ley o el sector fijan la práctica, el cambio ya no depende de la preferencia del cliente.</span></div></div>
         <div class="step-row"><b>04</b><div><strong>El capital se mueve</strong><span>Inversión, nuevas empresas y competidores entrando. El dinero confirma lo que el discurso anticipa.</span></div></div>
       </div>
-      <p class="note">Si una tendencia no se ve en precios, en normas ni en inversión, todavía no es un hecho del entorno: es una conversación.</p>
     </div>
   </section>
 
@@ -485,7 +556,7 @@
   <section class="slide" data-slide="15">
     <div class="body">
       <p class="eyebrow">Ambiente</p>
-      <h2 class="title">Dos riesgos que se confunden todo el tiempo</h2>
+      <h2 class="title">Dos riesgos ambientales</h2>
       <div class="compare">
         <div class="cmp b">
           <p class="hd">Riesgo físico</p>
@@ -513,8 +584,7 @@
         <div class="card"><h3>Costo</h3><p>Energía, agua, materiales y disposición de residuos. La presión llega por la factura antes que por la norma.</p></div>
         <div class="card"><h3>Reputación</h3><p>La licencia social para operar: comunidades, clientes y financiadores que retiran apoyo.</p></div>
       </div>
-      <p class="note"><b>Lo importante no es la norma aislada</b>, sino la dirección: si las cuatro presiones apuntan al mismo lado, el ajuste es estructural y no coyuntural.</p>
-    </div>
+      </div>
   </section>
 
   <!-- 17 · MATERIALIDAD -->
@@ -534,11 +604,6 @@
         <div class="cell lo"><b>Descartar</b><span>Se documenta y se deja. No consume tiempo del equipo.</span></div>
         <div class="cell lo"><b>Observar</b><span>Puede crecer. Se vigila sin invertir.</span></div>
       </div>
-      <div class="grid g2" style="margin-top:2px">
-        <div class="card"><h3>Cuatro preguntas</h3><p>¿Cuánto del ingreso o del costo toca? ¿En qué horizonte? ¿Qué tan probable es? ¿Se puede verificar con una fuente?</p></div>
-        <div class="card" style="border-left-color:var(--teal)"><h3>La prueba final</h3><p>Si la tendencia no cambia ninguna decisión de la empresa, no es material. Y si no es material, no debería ocupar el informe.</p></div>
-      </div>
-    </div>
   </section>
 
   <!-- 18 · CIERRE -->
@@ -557,7 +622,7 @@
 
 <nav class="controls" aria-label="Controles de la presentación">
   <button class="control" id="prev" aria-label="Diapositiva anterior">‹</button>
-  <span class="counter"><span id="cur">1</span> / 18</span>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">1</span></span>
   <button class="control" id="grid" aria-label="Vista general">▦</button>
   <button class="control" id="next" aria-label="Siguiente diapositiva">›</button>
 </nav>
@@ -570,21 +635,31 @@
 <script>
 (function () {
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-  var titles = [
-    'Portada', 'El cliente de 2035 ya nació', 'Tres fuerzas, una lectura', 'Demografía: qué se mide',
-    'La forma de la pirámide', 'Transición demográfica', 'El dato que se pasa por alto',
-    'Colombia: cinco fenómenos', 'De la demografía al mercado', 'Lo sociocultural: qué se mide',
-    'Seis tendencias', 'Edad no es generación', 'Cómo se detecta un cambio real',
-    'Lo ambiental: qué se mide', 'Dos riesgos distintos', 'De dónde viene la presión',
-    'El filtro de materialidad', 'Cierre'
-  ];
   var i = 0;
+
+  /* El menu se arma a partir de las diapositivas que existan, en su orden real.
+     Asi no se desincroniza cuando se reordenan, se recortan o se agregan. */
+  function labelOf(s) {
+    if (s.classList.contains('cover')) { return 'Portada'; }
+    var h = s.querySelector('h2') || s.querySelector('h1');
+    var txt = '';
+    if (h) {
+      Array.prototype.forEach.call(h.childNodes, function (c) { txt += ' ' + (c.textContent || ''); });
+      txt = txt.replace(/\s+/g, ' ').trim().replace(/[:\u2014\-\s]+$/, '');
+    }
+    var eb = s.querySelector('.eyebrow');
+    var pre = eb ? eb.textContent.replace(/\s+/g, ' ').trim() : '';
+    return (pre ? pre + ' \u00b7 ' : '') + (txt || 'Diapositiva');
+  }
 
   function show(n) {
     i = (n + slides.length) % slides.length;
     slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
     document.getElementById('cur').textContent = i + 1;
     document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    Array.prototype.forEach.call(document.getElementById('ovlist').children, function (b, k) {
+      b.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
   }
 
   document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
@@ -600,9 +675,10 @@
 
   var ov = document.getElementById('overview');
   var list = document.getElementById('ovlist');
-  titles.forEach(function (t, k) {
+  document.getElementById('tot').textContent = slides.length;
+  slides.forEach(function (s, k) {
     var b = document.createElement('button');
-    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + t;
+    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + labelOf(s);
     b.addEventListener('click', function () { show(k); ov.classList.remove('open'); });
     list.appendChild(b);
   });
