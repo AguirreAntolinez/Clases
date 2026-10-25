@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análisis al interior del sector — Análisis del Entorno Socio-Económico</title>
+<style>
+/* =====================================================================
+   HOJA DE ESTILOS CANÓNICA · Presentaciones de sesión (ESUMER)
+   ---------------------------------------------------------------------
+   Copiar íntegra dentro del bloque de estilos del index.html.
+   No editar valores: la identidad visual del curso depende de ellos.
+   Paleta: azul 061383 · cian 15cdda · papel edf2f5 · tinta 132c50
+   Tipografía: Aptos / Aptos Display (respaldo Arial)
+   Fondo: ./assets/institutional-light.png (contenido)
+          ./assets/institutional-dark.png (portada)
+   Las rutas de assets son relativas: la presentación vive en SesionNN/.
+   ===================================================================== */
+
+:root { --blue:#061383; --ink:#132c50; --cyan:#15cdda; --muted:#7790b1; --paper:#edf2f5;
+          --teal:#0b8ca1; --coral:#e0724c; --line:#cbd9e4; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; min-height:100%; background:#071070; color:var(--ink);
+               font-family:Aptos, Arial, sans-serif; }
+  body { overflow:hidden; }
+  button { font:inherit; color:inherit; }
+  h1,h2,h3,h4,p,ul,ol,figure { margin:0; }
+  h1,h2,h3 { font-family:'Aptos Display', Aptos, Arial, sans-serif; font-weight:700; letter-spacing:0; }
+
+  .deck { height:100vh; min-height:620px; position:relative; }
+  .slide { position:absolute; inset:0; display:none; overflow:auto;
+           background:var(--paper) url('../../assets/institutional-light.png') center/cover no-repeat;
+           padding:clamp(44px,6vw,104px) clamp(32px,7vw,118px) clamp(62px,9.5vh,108px); }
+  .slide.active { display:flex; flex-direction:column; animation:enter .42s ease both; }
+  @keyframes enter { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:translateX(0); } }
+  .body { width:min(100%,1120px); margin:auto; display:flex; flex-direction:column;
+          gap:clamp(18px,2.6vh,34px); }
+
+  .eyebrow { font-size:clamp(11px,1vw,13px); letter-spacing:.18em; text-transform:uppercase;
+             color:#0b8ca1; font-weight:700; display:flex; align-items:center; gap:11px; }
+  .eyebrow::before { content:''; width:30px; height:3px; background:var(--cyan); flex:0 0 auto; }
+  h2.title { font-size:clamp(26px,3.5vw,50px); line-height:1.03; color:var(--blue); max-width:920px; }
+  .sub { font-size:clamp(15px,1.45vw,21px); color:#527092; max-width:840px; line-height:1.35; }
+  strong { color:var(--blue); }
+  .lead { font-size:clamp(16px,1.55vw,23px); color:#2f5580; line-height:1.4; max-width:860px; }
+
+  .grid { display:grid; gap:clamp(10px,1.3vw,18px); }
+  .g2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .g3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .g4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .split { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+           gap:clamp(18px,3vw,44px); align-items:center; }
+
+  .card { background:#fff; border:1px solid var(--line); border-left:4px solid var(--cyan);
+          padding:clamp(13px,1.5vw,22px); box-shadow:0 6px 18px rgba(17,50,82,.06); }
+  .card h3 { font-size:clamp(14px,1.35vw,19px); color:var(--blue); line-height:1.2; }
+  .card p { font-size:clamp(12px,1.12vw,15px); color:#4d6c88; line-height:1.4; margin-top:7px; }
+  .card .num { display:inline-grid; place-items:center; width:26px; height:26px; border-radius:50%;
+               background:var(--blue); color:#fff; font:700 13px 'Aptos Display',Aptos,sans-serif;
+               margin-bottom:9px; }
+  .card .src { display:block; margin-top:8px; font-size:clamp(10px,.95vw,12px); color:#7d97ad; font-style:italic; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:9px; }
+  .tag { font-size:clamp(11px,1.05vw,14px); font-weight:700; padding:7px 14px; border-radius:4px;
+         background:#fff; border:1px solid var(--line); color:#3a5f84; }
+  .tag.yes { border-color:#bfe6ec; background:#eef9fb; color:#0a6d7d; }
+  .tag.no { border-color:#f2cdbf; background:#fdf1ec; color:#a8401f; cursor:pointer; }
+  .tag.no:hover, .tag.no:focus-visible { background:#fbe0d6; outline:none; }
+
+  .reveal { display:none; }
+  .reveal.on { display:block; animation:enter .35s ease both; }
+
+  .flow { display:flex; align-items:stretch; gap:8px; flex-wrap:wrap; }
+  .flow .step { flex:1 1 140px; background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan);
+                padding:14px 15px; }
+  .flow .step b { display:block; font:700 clamp(13px,1.3vw,17px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .flow .step span { display:block; font-size:clamp(11px,1.02vw,14px); color:#5b7791; margin-top:5px; line-height:1.35; }
+  .flow .arrow { align-self:center; color:#9fb4c9; font-size:20px; flex:0 0 auto; }
+
+  /* balance margen */
+  .margin-box { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; }
+  .margin-side { background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan); padding:14px 16px; }
+  .margin-side b { display:block; font:700 clamp(13px,1.25vw,17px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .margin-side span { display:block; font-size:clamp(11px,1.04vw,14px); color:#5b7791; margin-top:5px; line-height:1.4; }
+  .margin-core { background:var(--blue); color:#fff; padding:16px 22px; text-align:center; }
+  .margin-core b { display:block; font:700 clamp(14px,1.4vw,19px) 'Aptos Display',Aptos,sans-serif; }
+  .margin-core span { display:block; font-size:clamp(10.5px,1vw,13px); color:#a9dbe2; margin-top:4px; }
+
+  /* curva S */
+  .chart { width:100%; height:auto; overflow:visible; }
+  .chart .axis { stroke:#8ea9bd; stroke-width:1.6; }
+  .chart .lbl { font:600 12px Aptos, Arial, sans-serif; fill:#5b7791; }
+  .chart .lbl.sm { font-size:11px; fill:#8199ad; }
+  .chart .s1 { fill:none; stroke:#0b8ca1; stroke-width:3.2; }
+  .chart .s2 { fill:none; stroke:#e0724c; stroke-width:2.6; stroke-dasharray:7 6; }
+  .chart .zone { fill:#15cdda; opacity:.10; }
+
+  /* selectores de variables */
+  .vars { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  .vars button { background:#fff; border:1px solid var(--line); border-bottom:3px solid var(--line);
+                 padding:10px 12px; cursor:pointer; font-size:clamp(11px,1.05vw,14px); font-weight:700;
+                 color:#3a5f84; text-align:left; transition:.16s ease; }
+  .vars button:hover { border-bottom-color:var(--cyan); transform:translateY(-2px); }
+  .vars button[aria-selected="true"] { background:var(--blue); border-color:var(--blue); color:#fff; }
+
+  .detail { background:#fff; border:1px solid var(--line); border-top:4px solid var(--cyan);
+            padding:clamp(14px,1.7vw,24px); min-height:clamp(130px,17vh,175px); }
+  .detail dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 26px; margin:0; }
+  .detail dt { font-size:clamp(10px,.95vw,12px); letter-spacing:.09em; text-transform:uppercase;
+               color:#0b8ca1; font-weight:700; }
+  .detail dd { margin:3px 0 0; font-size:clamp(12px,1.1vw,15px); color:#3f6183; line-height:1.42; }
+
+  .attrs { width:100%; border-collapse:collapse; background:#fff; font-size:clamp(11.5px,1.08vw,14.5px); }
+  .attrs th { text-align:left; padding:10px 14px; background:#f2f7f9; color:#0b6b7c; font-size:clamp(10px,.95vw,12px);
+              letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid var(--line); }
+  .attrs td { padding:10px 14px; border-bottom:1px solid var(--line); color:#3f6183; }
+  .attrs td:first-child { font-weight:700; color:var(--blue); }
+
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs button { background:#fff; border:1px solid var(--line); padding:8px 14px; cursor:pointer;
+                 font-size:clamp(10.5px,1.02vw,13.5px); font-weight:700; color:#3a5f84; transition:.16s; }
+  .tabs button:hover { border-color:var(--cyan); }
+  .tabs button[aria-selected="true"] { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .pane { display:none; }
+  .pane.on { display:block; animation:enter .3s ease both; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:clamp(12px,1.6vw,22px); }
+  .cmp { padding:clamp(13px,1.6vw,22px); background:#fff; border:1px solid var(--line); }
+  .cmp .hd { font-size:clamp(10px,.95vw,12px); letter-spacing:.11em; text-transform:uppercase;
+             font-weight:700; margin-bottom:9px; }
+  .cmp.a { border-top:4px solid var(--teal); } .cmp.a .hd { color:#0a6d7d; }
+  .cmp.b { border-top:4px solid var(--coral); } .cmp.b .hd { color:#a8401f; }
+  .cmp p { font-size:clamp(12.5px,1.18vw,16px); line-height:1.45; color:#3f6183; }
+  .cmp p + p { margin-top:9px; }
+  .cmp .why { font-size:clamp(11px,1.02vw,13px); color:#7d97ad; font-style:italic; }
+
+  .steps { display:grid; gap:2px; }
+  .step-row { display:grid; grid-template-columns:44px 1fr; gap:14px; align-items:start;
+              background:#fff; border:1px solid var(--line); padding:11px 16px 11px 12px; }
+  .step-row b { font:700 clamp(14px,1.4vw,19px) 'Aptos Display',Aptos,sans-serif; color:var(--cyan); text-align:center; }
+  .step-row div strong { display:block; font:700 clamp(12.5px,1.2vw,16px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .step-row div span { display:block; font-size:clamp(11px,1.04vw,14px); color:#4d6c88; line-height:1.4; margin-top:2px; }
+
+  .note { background:#f4f9fb; border-left:4px solid var(--cyan); padding:13px 18px;
+          font-size:clamp(12px,1.12vw,15.5px); color:#2f5a6b; line-height:1.45; }
+  .note b { color:#0a6d7d; }
+
+  .slide.cover { background:#061383; color:#fff; align-items:center; justify-content:flex-end;
+                 padding:0 0 clamp(44px,9vh,96px); }
+  .slide.cover::before { content:''; position:absolute; inset:0;
+                         background:url('../../assets/institutional-dark.png') center/cover no-repeat; }
+  .slide.cover .cover-in { position:relative; z-index:2; width:min(100%,1050px);
+                           padding:0 clamp(26px,6vw,90px); }
+  .cover .kick { font-size:clamp(11px,1.05vw,13px); letter-spacing:.2em; text-transform:uppercase;
+                 color:#8de7ed; font-weight:700; display:flex; align-items:center; gap:12px; }
+  .cover .kick::before { content:''; width:34px; height:3px; background:var(--cyan); }
+  .cover h1 { font-size:clamp(38px,5.6vw,82px); line-height:.95; margin-top:20px; max-width:820px;
+              font-family:'Aptos Display',Aptos,sans-serif; font-weight:700; }
+  .cover h1 span { display:block; }
+  .cover h1 .accent { color:#00b9ca; }
+  .cover .course { font-size:clamp(16px,1.75vw,28px); margin:26px 0 0; color:#8de7ed; line-height:1.25; max-width:640px; }
+  .cover .prof { display:flex; align-items:center; gap:13px; font-size:clamp(13px,1.25vw,19px);
+                 color:#c8d8f2; margin-top:clamp(26px,4vh,52px); }
+  .cover .prof::before { content:''; width:44px; height:4px; background:var(--cyan); flex:0 0 auto; }
+
+  .closing { align-items:center; }
+  .closing .body { justify-content:center; }
+  .closing h2 { font-size:clamp(34px,5.2vw,74px); line-height:1; color:var(--blue); max-width:900px; }
+  .closing h2 span { color:#00a9bc; }
+  .closing .lead { margin-top:clamp(18px,3vh,34px); font-size:clamp(18px,2vw,32px); color:#345c82; }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:clamp(14px,2vw,28px); margin-top:clamp(22px,4vh,48px); }
+  .pair div { border-top:4px solid var(--cyan); padding-top:12px; }
+  .pair b { display:block; font:700 clamp(14px,1.5vw,20px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+  .pair span { display:block; font-size:clamp(12px,1.15vw,16px); color:#4d6c88; margin-top:4px; line-height:1.4; }
+
+  .controls { position:fixed; z-index:5; bottom:20px; left:50%; transform:translateX(-50%);
+              display:flex; align-items:center; gap:10px; padding:7px 11px;
+              background:rgba(5,19,105,.92); border:1px solid rgba(255,255,255,.25);
+              border-radius:8px; color:#fff; }
+  .control { width:40px; height:36px; border:0; background:transparent; color:#fff; cursor:pointer;
+             font-size:23px; border-radius:4px; line-height:1; }
+  .control:hover, .control:focus-visible { background:rgba(21,205,218,.3); outline:2px solid var(--cyan); }
+  .counter { min-width:52px; text-align:center; font-size:14px; font-variant-numeric:tabular-nums; }
+  .progress { position:fixed; z-index:4; bottom:0; left:0; height:5px; width:100%; background:rgba(255,255,255,.28); }
+  .progress b { display:block; height:100%; width:0; background:var(--cyan); transition:width .3s ease; }
+
+  .overview { position:fixed; inset:0; z-index:6; display:none; place-items:center; padding:28px;
+              background:rgba(2,13,75,.8); }
+  .overview.open { display:grid; }
+  .overview .list { width:min(900px,100%); max-height:84vh; overflow:auto; display:grid;
+                    grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; padding:16px;
+                    background:#fff; border-radius:8px; box-shadow:0 18px 60px rgba(0,0,0,.35); }
+  .overview .list button { min-height:52px; border:1px solid var(--line); border-left:4px solid var(--cyan);
+                           background:#f7fafc; color:var(--blue); text-align:left; padding:9px 14px;
+                           font:700 13px 'Aptos Display',Aptos,sans-serif; cursor:pointer; }
+  .overview .list button:hover, .overview .list button:focus-visible { background:#e6f8fa; outline:2px solid var(--cyan); }
+  .overview .list button[aria-current="true"] { background:#e6f8fa; border-left-color:var(--blue); }
+
+  @media (max-width:900px) {
+    body { overflow:auto; }
+    .deck { min-height:700px; }
+    .g2, .g3, .g4, .compare, .pair, .split, .detail dl, .vars, .margin-box { grid-template-columns:1fr; }
+    .margin-core { order:-1; }
+    .overview .list { grid-template-columns:1fr; }
+  }
+  @media print {
+    body { overflow:visible; }
+    .deck { height:auto; }
+    .slide { display:block !important; position:relative; page-break-after:always; min-height:100vh; }
+    .controls, .progress, .overview { display:none !important; }
+  }
+  /* =====================================================================
+     SUPERFICIES EDITORIALES  ·  variante sin plantilla
+     Las tarjetas dejan de ser cajas blancas con sombra y barra de color:
+     pasan a ser columnas de texto separadas por un filete fino, apoyadas
+     sobre el fondo institucional. La paleta no cambia.
+     ===================================================================== */
+
+  .card,
+  .flow .step,
+  .cmp,
+  .step-row,
+  .margin-side {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid #b7ccdb;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .card        { padding: clamp(11px,1.35vw,18px) 0 0; }
+  .flow .step  { padding: clamp(10px,1.2vw,15px) 0 0; }
+  .step-row    { padding: clamp(9px,1.1vw,14px) 0; }
+  .cmp         { padding: clamp(13px,1.6vw,21px) 0 0; }
+  .margin-side { padding: clamp(10px,1.2vw,15px) 0 0; }
+
+  .cmp.a { border-top: 2px solid var(--teal); }
+  .cmp.b { border-top: 2px solid var(--coral); }
+
+  /* el número deja de ser una ficha circular y pasa a ser una cifra */
+  .card .num {
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--teal);
+    font: 700 clamp(15px,1.55vw,22px)/1 'Aptos Display', Aptos, sans-serif;
+    margin: 0 0 8px;
+  }
+
+  /* la nota pasa de caja tintada a acotación con filete */
+  .note {
+    background: transparent;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(4px,.6vw,8px) 0 clamp(4px,.6vw,8px) clamp(14px,1.8vw,22px);
+  }
+
+  /* el panel de detalle conserva su jerarquía, sin caja alrededor */
+  .detail {
+    background: transparent;
+    border: 0;
+    border-left: 3px solid var(--cyan);
+    padding: clamp(10px,1.3vw,18px) 0 clamp(10px,1.3vw,18px) clamp(14px,1.8vw,24px);
+    min-height: clamp(130px,17vh,175px);
+  }
+
+  /* la tabla se lee como tabla y no como bloque */
+  .attrs    { background: transparent; }
+  .attrs th { background: transparent; border-bottom: 1px solid #b7ccdb; padding-left: 0; }
+  .attrs td { border-bottom: 1px solid #d3e0e9; padding-left: 0; }
+
+  /* sin el blanco detrás, los textos secundarios ganan un punto de contraste */
+  .card p,
+  .flow .step span,
+  .step-row div span,
+  .margin-side span { color: #43647e; }
+  .cmp .why           { color: #6d879c; }
+  .card .src          { color: #5f7d95; }
+
+/* =====================================================================
+   COMPONENTES OPCIONALES
+   No se usan en todas las sesiones, pero están aquí para que ninguna
+   los reinvente. Siguen el mismo lenguaje: sin caja, sin sombra,
+   filete fino. Los controles (pestel, vars) sí conservan su superficie.
+   ===================================================================== */
+
+/* --- anillos concéntricos · niveles del entorno --- */
+.rings-wrap { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:clamp(20px,3vw,46px); align-items:center; }
+.rings { position:relative; width:100%; max-width:380px; aspect-ratio:1; margin-inline:auto; }
+.rings > div { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%; display:grid; place-items:center; text-align:center; }
+.r1 { width:100%; height:100%; border:2px dashed #7fd4e0; background:rgba(21,205,218,.07); }
+.r2 { width:67%; height:67%; border:2px solid #4c9fbb; }
+.r3 { width:36%; height:36%; background:var(--blue); color:#fff; font:700 clamp(11px,1.15vw,15px) 'Aptos Display',Aptos,sans-serif; }
+.r1 .lbl, .r2 .lbl { position:absolute; font:700 clamp(10px,.98vw,13px) 'Aptos Display',Aptos,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+.r1 .lbl { top:8%; color:#0b8ca1; }
+.r2 .lbl { top:11%; color:#2b6f88; }
+
+.legend { display:grid; gap:12px; }
+.legend .item { border-left:3px solid var(--cyan); padding-left:14px; }
+.legend .item b { display:block; font:700 clamp(14px,1.3vw,18px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+.legend .item span { display:block; font-size:clamp(12px,1.1vw,15px); color:#4a6a86; line-height:1.42; margin-top:3px; }
+.legend .item em { font-style:normal; color:#0b8ca1; font-weight:700; }
+
+/* --- tres pirámides · estructura de la población --- */
+.pyr { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,18px); }
+.pyr .item { border-top:1px solid #b7ccdb; padding:clamp(11px,1.3vw,17px) 0 0; text-align:center; }
+.pyr svg { width:clamp(58px,6.6vw,92px); height:auto; margin:0 auto 9px; display:block; }
+.pyr b { display:block; font:700 clamp(12px,1.2vw,16px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+.pyr p { font-size:clamp(11px,1.04vw,13.5px); color:#43647e; line-height:1.4; margin-top:6px; text-align:left; }
+
+/* --- matriz 2x2 · materialidad --- */
+.matrix { display:grid; grid-template-columns:96px 1fr 1fr; grid-template-rows:auto 1fr 1fr; gap:6px; max-width:680px; }
+.matrix .ax { font-size:clamp(10px,.95vw,12px); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#7d97ad; display:flex; align-items:center; }
+.matrix .ax.c { justify-content:center; }
+.matrix .cell { border:1px solid #c9d9e4; border-left:3px solid #c9d9e4; padding:13px 15px; }
+.matrix .cell b { display:block; font:700 clamp(12px,1.15vw,15px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+.matrix .cell span { display:block; font-size:clamp(10.5px,1vw,13px); color:#5b7791; margin-top:4px; line-height:1.35; }
+.matrix .cell.hi { border-left-color:var(--coral); background:rgba(224,114,76,.08); }
+.matrix .cell.lo { border-left-color:#b8cbd8; }
+
+/* --- dos fuerzas y su resultado · bloque central relleno --- */
+.margin-box { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; }
+.margin-side { border-top:1px solid #b7ccdb; padding:clamp(10px,1.2vw,15px) 0 0; }
+.margin-side b { display:block; font:700 clamp(13px,1.25vw,17px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); }
+.margin-side span { display:block; font-size:clamp(11px,1.04vw,14px); color:#43647e; margin-top:5px; line-height:1.4; }
+.margin-core { background:var(--blue); color:#fff; padding:16px 22px; text-align:center; }
+.margin-core b { display:block; font:700 clamp(14px,1.4vw,19px) 'Aptos Display',Aptos,sans-serif; }
+.margin-core span { display:block; font-size:clamp(10.5px,1vw,13px); color:#a9dbe2; margin-top:4px; }
+
+/* --- fórmula · hecho + fuente + implicación --- */
+.formula { background:var(--blue); color:#fff; padding:clamp(12px,1.5vw,20px) clamp(16px,2vw,26px); display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.formula b { font:700 clamp(13px,1.35vw,18px) 'Aptos Display',Aptos,sans-serif; }
+.formula span { font-size:clamp(11px,1.05vw,14px); color:#a9dbe2; }
+.formula code { background:rgba(21,205,218,.18); padding:3px 9px; border-radius:3px; font-family:Consolas,monospace; font-size:.95em; color:#b9f0f5; }
+
+/* --- barras horizontales · participación --- */
+.bars { display:grid; gap:7px; }
+.bar { display:grid; grid-template-columns:64px 1fr 54px; align-items:center; gap:10px; font-size:clamp(11px,1.05vw,14px); color:#46688a; }
+.bar .fill { height:15px; background:linear-gradient(90deg,#15cdda,#0b8ca1); border-radius:2px; }
+.bar b { text-align:right; font-variant-numeric:tabular-nums; color:var(--blue); }
+
+/* --- PESTEL · seis dimensiones con panel de detalle --- */
+.pestel { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }
+.pestel button { text-align:left; background:#fff; border:1px solid #c9d9e4; border-bottom:3px solid #c9d9e4; padding:9px 12px; cursor:pointer; display:flex; align-items:center; gap:11px; transition:.18s ease; }
+.pestel button:hover { border-bottom-color:var(--cyan); }
+.pestel button[aria-selected="true"] { background:var(--blue); border-color:var(--blue); }
+.pestel .lt { font:700 clamp(15px,1.6vw,21px) 'Aptos Display',Aptos,sans-serif; color:var(--blue); background:#eef4f8; width:34px; height:34px; display:grid; place-items:center; flex:0 0 auto; }
+.pestel .nm { font-size:clamp(11px,1.05vw,14px); font-weight:700; color:#3a5f84; line-height:1.15; }
+.pestel button[aria-selected="true"] .nm { color:#fff; }
+.pestel button[aria-selected="true"] .lt { color:var(--cyan); background:rgba(21,205,218,.16); }
+
+/* --- variables macro · ocho botones con panel de detalle --- */
+.vars { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.vars button { background:#fff; border:1px solid #c9d9e4; border-bottom:3px solid #c9d9e4; padding:10px 12px; cursor:pointer; font-size:clamp(11px,1.05vw,14px); font-weight:700; color:#3a5f84; text-align:left; transition:.16s ease; }
+.vars button:hover { border-bottom-color:var(--cyan); }
+.vars button[aria-selected="true"] { background:var(--blue); border-color:var(--blue); color:#fff; }
+</style>
+</head>
+<body>
+
+<main class="deck" aria-label="Análisis al interior del sector">
+
+  <!-- 1 · PORTADA -->
+  <section class="slide cover active" data-slide="1">
+    <div class="cover-in">
+      <p class="kick">Análisis del entorno socio-económico</p>
+      <h1><span>Análisis al interior</span><span class="accent">del sector</span></h1>
+      <p class="course">Práctica e Investigación en Análisis del Entorno Socio-Económico</p>
+      <p class="prof">Profesor Mg. William Alexander Aguirre Antolínez</p>
+    </div>
+  </section>
+
+  <!-- 2 · APERTURA -->
+  <section class="slide" data-slide="2">
+    <div class="body">
+      <p class="eyebrow">Apertura</p>
+      <h2 class="title">Misma gestión, resultados opuestos</h2>
+      <p class="lead">Dos empresas con la misma disciplina, el mismo esfuerzo y el mismo talento pueden terminar con márgenes muy distintos. Cuando eso pasa, la explicación casi nunca está dentro de la empresa: está en la estructura del sector donde compite.</p>
+      <div class="tags">
+        <span class="tag yes">Misma gestión ✓</span>
+        <span class="tag yes">Mismo esfuerzo ✓</span>
+        <button class="tag no" id="open-q" aria-expanded="false">¿Distinto sector?</button>
+      </div>
+      <div class="reveal" id="answer">
+        <div class="note">
+          La rentabilidad promedio de un sector no es la suma de lo que hacen sus empresas. Es el resultado de cómo está armado: cuántos son, qué tan fácil es entrar y dónde se queda el margen.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · MARCO -->
+  <section class="slide" data-slide="3">
+    <div class="body">
+      <p class="eyebrow">Marco</p>
+      <h2 class="title">Tres preguntas para mirar un sector por dentro</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3>¿Cómo está armado?</h3>
+          <p>Cuántas empresas hay, de qué tamaño, con qué barreras y con qué grado de integración. Es la <strong>estructura</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>¿En qué fase está?</h3>
+          <p>Si nace, crece, madura o declina. La fase define qué se compite y qué estrategia tiene sentido. Es la <strong>dinámica</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>¿Dónde se queda el valor?</h3>
+          <p>Qué eslabón de la cadena captura el margen. Estar en el sector correcto no basta si se está en el eslabón equivocado. Es la <strong>cadena</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · CICLO DE VIDA -->
+  <section class="slide" data-slide="4">
+    <div class="body">
+      <p class="eyebrow">Dinámica</p>
+      <h2 class="title">Todo sector tiene una fase, y la fase manda</h2>
+      <div class="flow">
+        <div class="step"><b>Introducción</b><span>Pocos rivales, demanda incipiente y márgenes inciertos. Se compite por existir.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>Crecimiento</b><span>Entran rivales y la demanda crece. Se compite por participación.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>Madurez</b><span>Demanda estable y rivales consolidados. Se compite por costo y por servicio.</span></div>
+        <div class="arrow">›</div>
+        <div class="step"><b>Declive</b><span>La demanda cae y sobra capacidad. Se compite por salir bien.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · TABLA DE FASES -->
+  <section class="slide" data-slide="5">
+    <div class="body">
+      <p class="eyebrow">Dinámica</p>
+      <h2 class="title">Qué cambia en cada fase</h2>
+      <table class="attrs">
+        <thead>
+          <tr><th style="width:18%">Fase</th><th style="width:24%">Demanda</th><th style="width:20%">Rivales</th><th style="width:38%">Qué se compite</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Introducción</td><td>Baja y creciente</td><td>Pocos</td><td>Por existir y por fijar el estándar</td></tr>
+          <tr><td>Crecimiento</td><td>Crece rápido</td><td>Aumentan</td><td>Por participación, aunque el margen se sacrifique</td></tr>
+          <tr><td>Madurez</td><td>Estable</td><td>Consolidados</td><td>Por costo y por servicio, con el precio como último recurso</td></tr>
+          <tr><td>Declive</td><td>Cae</td><td>Salen</td><td>Por salir sin destruir valor en el camino</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6 · ESCALA -->
+  <section class="slide" data-slide="6">
+    <div class="body">
+      <p class="eyebrow">Estructura</p>
+      <h2 class="title">La escala es una barrera</h2>
+      <div class="grid g4">
+        <div class="card"><h3>Economías de escala</h3><p>El costo unitario baja al aumentar el volumen. Quien no llega al volumen, no llega al costo.</p></div>
+        <div class="card"><h3>Economías de alcance</h3><p>Compartir costos entre productos o mercados. Vender más cosas con la misma estructura.</p></div>
+        <div class="card"><h3>Curva de experiencia</h3><p>El costo baja con la producción acumulada, no solo con el tamaño de la planta.</p></div>
+        <div class="card"><h3>Poder de compra</h3><p>El grande compra más barato.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · CAPACIDAD -->
+  <section class="slide" data-slide="7">
+    <div class="body">
+      <p class="eyebrow">Estructura</p>
+      <h2 class="title">Por qué hay guerras de precios que nadie quiere</h2>
+      <div class="grid g3">
+        <div class="card"><h3>La capacidad es indivisible</h3><p>Una planta es una planta. No se compra media planta para atender media demanda.</p></div>
+        <div class="card"><h3>Los costos fijos pesan</h3><p>Cuando el costo fijo es alto, cada unidad adicional cuesta poco. Llenar la planta se vuelve urgente.</p></div>
+        <div class="card"><h3>El producto se percibe igual</h3><p>Si el cliente no distingue, la única variable que queda es el precio.</p></div>
+      </div>
+      <p class="note">Con esas tres condiciones, bajar el precio es racional para cada uno y ruinoso para todos.</b></p>
+    </div>
+  </section>
+
+  <!-- 8 · INTEGRACIÓN -->
+  <section class="slide" data-slide="8">
+    <div class="body">
+      <p class="eyebrow">Estructura</p>
+      <h2 class="title">Integración</h2>
+      <div class="compare">
+        <div class="cmp good">
+          <p class="hd">Integrarse</p>
+          <p>Se controla el eslabón, se captura su margen y se asegura el suministro.</p>
+          <p class="why">A cambio: capital inmovilizado y menos flexibilidad para cambiar de rumbo.</p>
+        </div>
+        <div class="cmp bad">
+          <p class="hd">Comprar afuera</p>
+          <p>Más flexibilidad, menos capital comprometido y acceso a quien ya hace esa tarea mejor.</p>
+          <p class="why">A cambio: dependencia del proveedor y competir por el margen que él captura.</p>
+        </div>
+      </div>
+     </div>
+  </section>
+
+  <!-- 9 · CADENA PRIMARIA -->
+  <section class="slide" data-slide="9">
+    <div class="body">
+      <p class="eyebrow">Cadena</p>
+      <h2 class="title">La cadena de valor</h2>
+      <div class="flow">
+        <div class="step"><b>Logística interna</b><span>Recibir, almacenar y mover insumos.</span></div>
+        <div class="step"><b>Operaciones</b><span>Transformar el insumo en producto.</span></div>
+        <div class="step"><b>Logística externa</b><span>Almacenar y distribuir el producto terminado.</span></div>
+        <div class="step"><b>Marketing y ventas</b><span>Conseguir y sostener al cliente.</span></div>
+        <div class="step"><b>Servicio</b><span>Instalar, mantener y responder después de la venta.</span></div>
+      </div>
+      <p class="note">Cada actividad consume costo y produce valor.</p>
+    </div>
+  </section>
+
+  <!-- 10 · CADENA DE APOYO -->
+  <section class="slide" data-slide="10">
+    <div class="body">
+      <p class="eyebrow">Cadena</p>
+      <h2 class="title">Lo que sostiene la cadena</h2>
+      <p class="sub">Las actividades de apoyo no tocan el producto, pero deciden cuánto cuesta producirlo y qué tan rápido se puede cambiar.</p>
+      <div class="grid g4">
+        <div class="card"><h3>Abastecimiento</h3><p>Cómo se compra. Un buen acuerdo con proveedores vale más que un buen negociador de ventas.</p></div>
+        <div class="card"><h3>Desarrollo tecnológico</h3><p>Diseño de producto, procesos y sistemas. Es donde suele estar la diferencia que se puede sostener.</p></div>
+        <div class="card"><h3>Gestión de personas</h3><p>Contratar, formar y retener. Define la capacidad de ejecutar cualquier otra actividad.</p></div>
+        <div class="card"><h3>Infraestructura</h3><p>Dirección, planeación, finanzas y calidad. El soporte que hace posible todo lo demás.</p></div>
+      </div>
+      <p class="note">Las actividades de apoyo rara vez se ven en el producto final, pero <b>son las que explican por qué dos empresas con la misma operación tienen costos distintos.</b></p>
+    </div>
+  </section>
+
+  <!-- 11 · CINCO PREGUNTAS -->
+  <section class="slide" data-slide="11">
+    <div class="body">
+      <p class="eyebrow">Diagnóstico</p>
+      <h2 class="title">Del mapa al diagnóstico</h2>
+      <div class="steps">
+        <div class="step-row"><b>01</b><div><strong>¿Cuántas empresas hay y de qué tamaño?</strong><span>El punto de partida. Un sector fragmentado y uno concentrado se comportan distinto.</span></div></div>
+        <div class="step-row"><b>02</b><div><strong>¿Qué tan fácil es entrar y salir?</strong><span>Barreras de entrada y de salida. Las dos importan, y la de salida casi nunca se mira.</span></div></div>
+        <div class="step-row"><b>03</b><div><strong>¿El producto se percibe como distinto?</strong><span>Si el cliente no distingue, la competencia se traslada al precio.</span></div></div>
+        <div class="step-row"><b>04</b><div><strong>¿Quién tiene el poder de negociación?</strong><span>El proveedor, la empresa o el cliente. Se mide por concentración y por costo de cambio.</span></div></div>
+        <div class="step-row"><b>05</b><div><strong>¿Dónde está el margen dentro de la cadena?</strong><span>Ubicar el eslabón que captura. Ahí es donde conviene estar.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · PROTOCOLO -->
+  <section class="slide" data-slide="12">
+    <div class="body">
+      <p class="eyebrow">Filtro</p>
+      <h2 class="title">Cómo leer un sector</h2>
+      <div class="steps">
+        <div class="step-row"><b>01</b><div><strong>Delimitar</strong><span>Producto, geografía y sustitutos. Sin esto, todo lo demás se mide sobre un objeto mal definido.</span></div></div>
+        <div class="step-row"><b>02</b><div><strong>Contar</strong><span>Cuántos rivales hay y de qué tamaño. La lista de participantes ya dice mucho.</span></div></div>
+        <div class="step-row"><b>03</b><div><strong>Medir</strong><span>Concentración, barreras de entrada y de salida, y capacidad instalada.</span></div></div>
+        <div class="step-row"><b>04</b><div><strong>Desarmar la cadena</strong><span>Dónde se captura el margen y dónde solo se paga el costo.</span></div></div>
+        <div class="step-row"><b>05</b><div><strong>Ubicar la fase</strong><span>Qué se compite hoy y qué se va a competir cuando el sector cambie de etapa.</span></div></div>
+      </div>
+     </div>
+  </section>
+
+
+</main>
+
+<nav class="controls" aria-label="Controles de la presentación">
+  <button class="control" id="prev" aria-label="Diapositiva anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="tot">1</span></span>
+  <button class="control" id="grid" aria-label="Vista general">▦</button>
+  <button class="control" id="next" aria-label="Siguiente diapositiva">›</button>
+</nav>
+<div class="progress" aria-hidden="true"><b id="bar"></b></div>
+
+<div class="overview" id="overview" aria-label="Vista general de diapositivas">
+  <div class="list" id="ovlist"></div>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0;
+
+  
+  function labelOf(s) {
+    if (s.classList.contains('cover')) { return 'Portada'; }
+    var h = s.querySelector('h2') || s.querySelector('h1');
+    var txt = '';
+    if (h) {
+      Array.prototype.forEach.call(h.childNodes, function (c) { txt += ' ' + (c.textContent || ''); });
+      txt = txt.replace(/\s+/g, ' ').trim().replace(/[:\u2014\-\s]+$/, '');
+    }
+    var eb = s.querySelector('.eyebrow');
+    var pre = eb ? eb.textContent.replace(/\s+/g, ' ').trim() : '';
+    return (pre ? pre + ' \u00b7 ' : '') + (txt || 'Diapositiva');
+  }
+
+  function show(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
+    document.getElementById('cur').textContent = i + 1;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    Array.prototype.forEach.call(document.getElementById('ovlist').children, function (b, k) {
+      b.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
+  document.getElementById('next').addEventListener('click', function () { show(i + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { show(i - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(slides.length - 1); }
+    else if (e.key === 'Escape') { document.getElementById('overview').classList.remove('open'); }
+  });
+
+  var ov = document.getElementById('overview');
+  var list = document.getElementById('ovlist');
+  document.getElementById('tot').textContent = slides.length;
+  slides.forEach(function (s, k) {
+    var b = document.createElement('button');
+    b.textContent = (k + 1 < 10 ? '0' : '') + (k + 1) + '   ' + labelOf(s);
+    b.addEventListener('click', function () { show(k); ov.classList.remove('open'); });
+    list.appendChild(b);
+  });
+  document.getElementById('grid').addEventListener('click', function () { ov.classList.add('open'); });
+  ov.addEventListener('click', function (e) { if (e.target === ov) ov.classList.remove('open'); });
+
+  show(0);
+})();
+
+/* revelar el bloque de la apertura */
+var q = document.getElementById('open-q');
+if (q) {
+  q.addEventListener('click', function () {
+    var a = document.getElementById('answer');
+    a.classList.toggle('on');
+    q.setAttribute('aria-expanded', a.classList.contains('on'));
+  });
+}
+
+</script>
+</body>
+</html>
